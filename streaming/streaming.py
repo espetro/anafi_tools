@@ -73,7 +73,7 @@ class StreamProcessing:
         if random() > 0.75:
             cv2.imwrite(os.path.join(self.finald, "test_picture.png"), cv2frame)
 
-        cv2frame = self.processing_fun(cv2frame)
+        # cv2frame = self.processing_fun(cv2frame)
 
         # Use OpenCV to show this frame
         cv2.imshow("Olympe Anafi Streaming", cv2frame)

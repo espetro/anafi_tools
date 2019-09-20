@@ -2,6 +2,7 @@
 
 import cv2
 
+from time import sleep
 from scipy import ndimage
 from control.controller import AnafiController
 from streaming.streaming import StreamProcessing
@@ -39,14 +40,15 @@ if __name__ == "__main__":
     # Pass control onto the teleop
     # Stop streaming then land the drone
     cntrl.takeoff()
-    cntrl.drone.start_piloting()  # can use drone.piloting_pcmd(roll,pitch,yaw,gaz,tm)
-
-    cntrl.set_tilt(40)
+    # cntrl.drone.start_piloting()  # can use drone.piloting_pcmd(roll,pitch,yaw,gaz,tm)
     strm.start()
+    
     tjoy.enable()  # runs a loop until "Stop" button is pressed
+    # if landed again, stop (if teleop w/ the app)
+
     strm.stop()
     
-    cntrl.stop_piloting()
     cntrl.landing()
+    # cntrl.drone.stop_piloting()
     strm.store()
     strm.open_folder()

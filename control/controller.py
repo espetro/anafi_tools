@@ -4,7 +4,7 @@ import olympe
 from olympe.messages.ardrone3.Piloting import TakeOff, Landing
 from olympe.messages.ardrone3.Piloting import moveBy
 from olympe.messages.ardrone3.PilotingState import FlyingStateChanged
-from olympe.messages.ardrone3.PilotingSettings import MaxTilt
+from olympe.messages.ardrone3.PilotingSettings import MaxTilt, setAutonomousFlightMaxHorizontalSpeed, setAutonomousFlightMaxVerticalSpeed
 from olympe.messages.ardrone3.GPSSettingsState import GPSFixStateChanged
 
 class AnafiController:
@@ -29,10 +29,6 @@ class AnafiController:
         """"""
         self.drone.disconnection()
 
-    def set_tilt(self, tilt=40):
-        """"""
-        self.drone(MaxTilt(tilt)).wait().success()
-
     def takeoff(self):
         """"""
         print("Takeoff if necessary...")
@@ -48,6 +44,10 @@ class AnafiController:
                 )
             )
         ).wait()
+
+        self.drone(MaxTilt(40)).wait().success()
+        self.drone(setAutonomousFlightMaxVerticalSpeed(10)).wait().success()
+        self.drone(setAutonomousFlightMaxVerticalSpeed(10)).wait().success()
 
     def move(self, lr, fb, tlr, ud):
         """
