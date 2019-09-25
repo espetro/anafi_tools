@@ -93,9 +93,9 @@ class JoystickTeleop:
 
         # self.drone.piloting_pcmd(-int(front_back), int(left_right), int(up_down), int(turning), 5)
 
-        self.drone(moveBy(-front_back, left_right, up_down, turning,_timeout=1)) \
-            .wait() \
-            .success()
+        self.drone(moveBy(-front_back, left_right, up_down, turning,_timeout=1))
+            # .wait() \
+            # .success()
 
     def enable(self):
         self.joy.init()
