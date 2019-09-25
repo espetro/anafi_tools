@@ -4,6 +4,8 @@
 
 from __future__ import print_function
 from time import sleep
+from sim_objs.drone import DroneModel
+from sim_objs.pedestrian import PedestrianModel
 
 import os
 import sys
@@ -47,16 +49,48 @@ DEFAULT_CTRLADDR = "inet:127.0.0.1:9060"
 DEFAULT_DATAPORT = "5000"
 
 
+#============== DRONE AND PEDESTRIAN TOPICS ===============
+#==========================================================
+
+DRONE_TOPICS = [
+    "omniscient_bebop2.worldPosition.x",
+    "omniscient_bebop2.worldPosition.y",
+    "omniscient_bebop2.worldPosition.z",
+    "omniscient_anafi.worldPosition.x",
+    "omniscient_anafi.worldPosition.y",
+    "omniscient_anafi.worldPosition.z"
+]
+
+PED_TEMPL_TOPICS = [
+    "omniscient_pedestrian{}.worldPosition.x",
+    "omniscient_pedestrian{}.worldPosition.y",
+    "omniscient_pedestrian{}.worldPosition.z",
+]
+
+def get_ped_topics(n_peds):
+    """
+    Get the list of pedestrian topics
+    :param n_peds:
+    """
+    ls = []
+    for n in range(n_peds):
+        ls += [coord.format(n) for coord in PED_TEMPL_TOPICS]
+    return ls
+
+
 #============== TELEMETRY CONSUMER CLASS ==================
 #==========================================================
 
-class TelemetryConsumer(object):
-    def __init__(self, name, ctrlAddr, dataPort):
+class TelemetryConsumer:
+    def __init__(self, name, ctrlAddr, dataPort, n_peds):
         """
         :param name:
         :param ctrlAddr:
         :param dataPort:
+        :param n_peds:
         """
+
+        # Telemetryd-specific consumer options
         self.name = name
         self.ctrlAddr = ctrlAddr
         self.dataPort = dataPort
@@ -64,23 +98,50 @@ class TelemetryConsumer(object):
         self.dataCtx = pomp.Context(TelemetryConsumer._DataEventHandler(self))
         self.sections = {}
 
+        # Assign the available drone and pedestrian topics
+        self.DRONE_TOPICS = DRONE_TOPICS
+        self.PEDESTRIAN_TOPICS = get_ped_topics(n_peds)
+
+        self.drone_ref = DroneModel()
+        self.ped_ref = dict()
+        for n in range(n_peds):
+            self.ped_ref[n] = PedestrianModel()
+
         # Init console logging
         print("--------------------")
         print("Ts | SectionID | VarType | VarName | VarValue")
         print("--------------------")
 
-    def start(self):
-        """Starts the """
-        (family, addr) = pomp.parseAddr(self.ctrlAddr)
-        self.ctrlCtx.connect(family, addr)
+    def _onDroneSample(self, ts, tname, tid, val):
+        """
+        Run an action when data from the drone is received from a callback
+        :param ts: Timestamp
+        :param tname: Topic name
+        :param tid: Topic id (either X,Y,Z)
+        :param val: Data value (float64)
+        """
+        if tid == "x":
+            self.drone_ref.x = val
+        elif tid == "y":
+            self.drone_ref.y = val
+        elif tid == "z":
+            self.drone_ref.z = val
 
-        (family, addr) = pomp.parseAddr("inet:0.0.0.0:%u" % self.dataPort)
-        self.dataCtx.bind(family, addr)
-
-    def stop(self):
-        """Stops the """
-        self.ctrlCtx.stop()
-        self.dataCtx.stop()
+    def _onPedestrianSample(self, ts, pid, tname, tid, val):
+        """
+        Run an action when data from a pedestrian is received from a callback
+        :param ts: Timestamp
+        :param pid: Pedestrian id (from 0 to n)
+        :param tname: Topic name
+        :param tid: Topic id (either X,Y,Z)
+        :param val: Data value (float64)
+        """
+        if tid == "x":
+            self.ped_ref[pid].x = val
+        elif tid == "y":
+            self.ped_ref[pid].y = val
+        elif tid == "z":
+            self.ped_ref[pid].z = val        
 
     def recvSample(self, sectionId, timestamp, buf):
         """
@@ -102,24 +163,50 @@ class TelemetryConsumer(object):
                 break
             varBuf = buf[varOff:varOff+varLen]
 
+            # dtype = TlmbVarType.toString(varDesc.varType)
             quantity = TlmbSample.extractQuantity(varDesc, varBuf)
-            data = repr(quantity)
-            dtype = TlmbVarType.toString(varDesc.varType)
-            dname = varDesc.getFullName()
 
             # =========================================
             # DATA FROM TELEMETRY CAN BE PROCESSED HERE
             # =========================================
-            if "worldPosition" in dname:
-                print("{} {} {} {} {}".format(
-                    timestamp[0],
-                    sectionId,
-                    dtype,
-                    dname,
-                    data
-                ))
-            
+            # print("Drone Data: {} {} {} {} {}".format(ts, topic_id, dtype, dname, val))
+            dname = varDesc.getFullName()
+            coord = dname.split(".")[-1]
+            tname = dname[:-2]  # the whole name but '.x'
+            data = float(quantity)
+            ts = timestamp[1] // 1000
+
+            if dname in self.DRONE_TOPICS:
+                print("Drone:", ts, tname, coord, data)
+                self._onDroneSample(ts, tname, coord, data)
+            elif dname in self.PEDESTRIAN_TOPICS:
+                pid = dname.split(".")[0][-1]  # gets the pedestrian ID
+                print("Pedestrian", pid, ":", ts, tname, coord, data)
+                self._onPedestrianSample(ts, int(pid), tname, coord, data)
+            # =========================================
+
             varOff += varLen
+
+    def start(self):
+        """Starts the """
+        (family, addr) = pomp.parseAddr(self.ctrlAddr)
+        self.ctrlCtx.connect(family, addr)
+
+        (family, addr) = pomp.parseAddr("inet:0.0.0.0:%u" % self.dataPort)
+        self.dataCtx.bind(family, addr)
+
+    def stop(self):
+        """Stops the """
+        self.ctrlCtx.stop()
+        self.dataCtx.stop()
+
+    def get_drone(self):
+        """Get the drone reference"""
+        return self.drone_ref
+
+    def get_pedestrian(self, pid):
+        """Get the pedestrian reference by its pedestrian ID or None"""
+        return self.ped_ref.get(pid)
 
     class _CtrlEventHandler(pomp.EventHandler):
         def __init__(self, itf):
@@ -358,7 +445,7 @@ def setupLog(options):
         format="[%(levelname)s][%(asctime)s] %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
         stream=sys.stderr)
-        
+
     logging.addLevelName(logging.CRITICAL, "C")
     logging.addLevelName(logging.ERROR, "E")
     logging.addLevelName(logging.WARNING, "W")
@@ -384,12 +471,13 @@ if __name__ == "__main__":
     try:
         root = tk.Tk()
         app = App(master=root)
-        itf = TelemetryConsumer("tkgndctrl", ctrl_addr, data_port)
+        itf = TelemetryConsumer("tkgndctrl", ctrl_addr, data_port, 2)
 
         itf.start()
         app.mainloop()
         itf.stop()
     except KeyboardInterrupt:
+        root.quit()
         root.destroy()
     sys.exit(0)
 

@@ -2,10 +2,10 @@
 from numpy.linalg import norm as euclidean
 from numpy import array
 
-class PedestrianShape(object):
+class PedestrianModel(object):
 
-    def __init__(self, orig_pose=[0,0,0,0,0,0], rad=4, height=2.2):
-        self.pose = orig_pose
+    def __init__(self, pose_x=0.0, pose_y=0.0, pose_z=0.0, rad=4, height=2.2):
+        self.x, self.y, self.z = pose_x, pose_y, pose_z
         self.radius = float(rad)
         self.height = float(height)
 
