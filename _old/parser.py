@@ -1,7 +1,9 @@
 from __future__ import print_function
-from scanning.block import BlockShape
-from scanning.cylinder import CylinderShape
-from scanning.sphere import SphereShape
+
+from streaming.sim_objs.simple_wall import SimpleWallShape
+from streaming.sim_objs.top_door_rail import TopDoorRailShape
+from streaming.sim_objs.vbar import VerticalBarShape
+from streaming.sim_objs.tree_canopy import TreeCanopyShape
 
 import xml.etree.ElementTree as ET
 import pickle as pk
@@ -11,8 +13,8 @@ class WorldParser(object):
 
     def __init__(self, fpath):
         """"""
-        models = self._get_all_models(fpath)
-        self.objs = self._match_with_shapes(models)
+        self.models = self._get_all_models(fpath)
+        # self.objs = self._match_with_shapes(self.models)
         
     @staticmethod
     def _as_dict(model):

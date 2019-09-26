@@ -2,9 +2,14 @@
 from numpy.linalg import norm as euclidean
 from numpy import array
 
-class CylinderShape(object):
+class VerticalBarShape(object):
 
-    def __init__(self, pose, rad, height):
+    def __init__(self, oid, pose, rad="0.1", height="2.0"):
+        """
+        :param oid: Object ID
+        """
+        self.name = "vbar"
+        self.id = oid
         self.pose = pose
         self.radius = float(rad)
         self.height = float(height)

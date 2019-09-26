@@ -2,9 +2,11 @@
 from numpy.linalg import norm as euclidean
 from numpy import array
 
-class SphereShape(object):
+class TreeCanopyShape(object):
 
-    def __init__(self, pose, rad):
+    def __init__(self, oid, pose, rad="1.0"):
+        self.name = "canopy"
+        self.nid = oid
         self.pose = pose
         self.radius = float(rad)
 
