@@ -1,40 +1,92 @@
-#!/usr/bin/env python
-# Optitrack publishes data to ROS1 topics
-# This source code should be moved to a ROS2 workspace
+#!/usr/bin/env python3.5
+
+# === Instructions to bridge ROS1 topics to ROS2 topics ===
+# (Or playback with rosbag)
+# 1. Run roscore and the node or rosbag (with loop, -l)
+# 2. Run 'ros2 run ros1_bridge dynamic_bridge --bridge-all-1to2-topics'.
+#    a warning message will show up (dismatch between /clock and /Time).
+#    This warning only happens when playing a rosbag.
+# 3. Check 'ros2 topic list'
+
+# before running this script, source both ROS2 and Olympe
+# run "load_olympe" and once inside, "load_ros2"
 
 import rclpy
 import olympe
 
-from olympe.messages.Piloting import moveBy
-from numpy.linalg import norm as euclidean
-from numpy import array
+from geometry_msgs.msg import PoseStamped
+from rclpy.node import Node
 
-# Optitrack markers constants (subject, pedestrians and drone)
-MARKER_DRONE = 1
-MARKER_SUBJECT = 2
-MARKER_PEDS = [3,4]
+# PoseStamped is composed by:
+# msg.Header, msg.Pose(msg.Point(x,y,z)) 'position',
+# msg.Quaternion(x,y,z,w) 'orientation' 
 
-#============== Optitrack Reflective Markers ==============
-#==========================================================
+class OptiTrackPose(Node):
 
-class OptitrackMRB:
     def __init__(self):
+        """"""
+        super().__init__("listener")
+        self.pose_drone = self.create_subscription(
+            PoseStamped,
+            "vrpn_client_node/drone/pose",
+            self.drone_cb
+        )
+
+    def __str__(self):
         """"""
         pass
 
-    def distance_to(self, point):
+    @staticmethod
+    def _Point2list(point):
         """
-        Computes the euclidean distance given two points.
-        :param point: A tuple (x,y,z)
+        Transforms a ROS2 geometry_msgs.msg.Point in a Python list
+        :param point: A geometry_msgs.msg.Point object
+        :returns: a Python list
         """
-        return euclidean(array(self.pose), array(point))
+        return [point.x, point.y, point.z]
 
-#============== Bridge for ROS1-ROS2 ======================
-#==========================================================
+    @staticmethod
+    def _Quaternion2list(quat):
+        """
+        Transforms a ROS2 geometry_msgs.msg.Quaternion in a Python list
+        :param point: A geometry_msgs.msg.Quaternion object
+        :returns: a Python list
+        """
+        return [quat.x, quat.y, quat.z, quat.w]
 
-# See more at
-# https://github.com/ros2/ros1_bridge/blob/master/doc/index.rst
-ro
+    @staticmethod
+    def _Header2dict(header):
+        """
+        Transforms a ROS2 geometry_msgs.msg.Quaternion in a Python list
+        :param point: A geometry_msgs.msg.Quaternion object
+        :returns: a Python list
+        """
+        return {
+            "time_sec": header.stamp.sec,
+            "time_nano": header.stamp.nanosec,
+            "frame_id": header.frame_id
+        }
+
+    def drone_cb(self, msg):
+        """"""
+        inf = OptiTrackPose._Header2dict(msg.header)
+        pos = OptiTrackPose._Point2list(msg.pose.position)
+        ori = OptiTrackPose._Quaternion2list(msg.pose.orientation)
+        self.get_logger().info(
+            "-----\nI heard {}\n{}\n{}\n-----".format(
+                inf, pos, ori
+            )
+        )
+
 if __name__ == "__main__":
-    # If ran as a script
-    # rospy.init_node("optitrack_marker_consumer", anonymous=True)
+    # x = PoseStamped()
+    # print(x)
+    # print(dir(x))
+
+    rclpy.init(args=None)
+
+    node = OptiTrackPose()
+    rclpy.spin(node)
+
+    node.destroy_node()
+    rclpy.shutdown()
