@@ -3,12 +3,19 @@ from numpy.linalg import norm as euclidean
 from numpy import array
 
 class TreeCanopyShape(object):
+    model = "model://tree_canopy"
 
     def __init__(self, oid, pose, rad="1.0"):
-        self.name = "canopy"
-        self.nid = oid
+        self.oid = oid
         self.pose = pose
         self.radius = float(rad)
+
+    def __str__(self):
+        return "TreeCanopy object with ID {} at {} with radius: {}".format(
+            self.oid,
+            self.pose,
+            self.radius
+        )
 
     def distance_to(self, point):
         """

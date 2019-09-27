@@ -13,16 +13,26 @@ class CubeShape(object):
         :param dims: A tuple (dim_x, dim_y, dim_z), being the diameter of the box
                      in each axis
         """
-        self.nid = oid
+        self.name = "Cube"
+        self.oid = oid
         self.pose = pose
         self.orient = orient
         self.dims = [float(x) for x in dims]
         self.rads = [d / 2 for d in self.dims]
 
-    def _align_to_orig(self):
-        """
-        """
-        return self.pose
+    def __str__(self):
+        """Writes the object information"""
+        return "{} object with ID {} at {} with dims: {}".format(
+            self.name,
+            self.oid,
+            self.pose,
+            self.dims
+        )
+
+    @staticmethod
+    def _align_to_orig(pose):
+        """Aligns the object w.r.t. the universal system/origin"""
+        return pose
 
     @staticmethod
     def _euclidean(poseA, poseB):

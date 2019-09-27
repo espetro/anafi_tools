@@ -1,7 +1,9 @@
 
-from streaming.sim_objs.cube import CubeShape
+# from streaming.sim_objs.cube import CubeShape
+from cube import CubeShape
 
 class TopDoorRailShape(CubeShape):
+    model = "model://top_door_rail"
 
     def __init__(self, oid, pose, orient, dims=["0.25","2.0","0.1"]):
         """
@@ -12,7 +14,6 @@ class TopDoorRailShape(CubeShape):
                      it is _____
         """
         super(TopDoorRailShape, self).__init__(oid, pose, orient, dims)
-        self.name = "top_door_rail"
         
 
 # from streaming.sim_objs.top_door_rail import TopDoorRailShape

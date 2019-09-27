@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <sdf version='1.5'>
-  <model name='ground_red'>
+  <model name='ground_goal'>
     <link name='link'>
       <pose>0 0 0.0375 0 -0 0</pose>
       <inertial>
@@ -31,14 +31,14 @@
         <material>
           <script>
             <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Red</name>
+            <name>Gazebo/Green</name>
           </script>
           <shader type='pixel'>
             <normal_map>__default__</normal_map>
           </shader>
-          <ambient>1 0 0 1</ambient>
-          <diffuse>1 0 0 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
+          <ambient>0 1 0 1</ambient>
+          <diffuse>0 1 0 1</diffuse>
+          <specular>0 1 0 1</specular>
           <emissive>0 0 0 1</emissive>
         </material>
         <pose>0 0 -0.035 0 -0 0</pose>

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Optitrack publishes data to ROS1 topics
 # This source code should be moved to a ROS2 workspace
 

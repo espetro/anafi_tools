@@ -3,16 +3,24 @@ from numpy.linalg import norm as euclidean
 from numpy import array
 
 class VerticalBarShape(object):
+    model = "model://vertical_bar"
 
     def __init__(self, oid, pose, rad="0.1", height="2.0"):
         """
         :param oid: Object ID
         """
-        self.name = "vbar"
-        self.id = oid
+        self.oid = oid
         self.pose = pose
         self.radius = float(rad)
         self.height = float(height)
+
+    def __str__(self):
+        return "VerticalBar object with ID {} at {} with radius {}, height {}".format(
+            self.oid,
+            self.pose,
+            self.radius,
+            self.height
+        )
 
     def distance_to(self, point):
         """
