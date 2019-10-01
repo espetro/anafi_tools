@@ -60,3 +60,6 @@ The real-life run is described in the `freeflight.py` source file.
 [wifi_freeflight]: https://www.parrot.com/us/support/products/anafi/how-prepare-your-anafi
 [anafi_tools]: https://github.com/espetro/anafi_tools
 [tello_tools]: https://github.com/espetro/tello_tools
+
+
+(used for A*): https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
