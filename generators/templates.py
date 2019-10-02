@@ -1,6 +1,5 @@
 
-PATH_TEMPLATE_START = """
-<?xml version="1.0" encoding="UTF-8"?>
+PATH_TEMPLATE_START = """<?xml version="1.0" encoding="UTF-8"?>
 <path name="{}">
 <auto_start>{}</auto_start>
 <delay_start>{}</delay_start>
@@ -9,8 +8,7 @@ PATH_TEMPLATE_START = """
 
 PATH_TEMPLATE_END = "\n</path>"
 
-WORLD_TEMPLATE_START = """
-<?xml version="1.0"?>
+WORLD_TEMPLATE_START = """<?xml version="1.0"?>
 <sdf version='1.5'>
   <world name='default'>
 
