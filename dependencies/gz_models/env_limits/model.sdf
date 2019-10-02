@@ -2,9 +2,9 @@
 <sdf version='1.5'>
   <model name='env_limits'>
     <link name='link'>
-      <pose>0 0 0 0 -0 0</pose>
+      <pose>0 0 0.2 0 -0 0</pose>
       <inertial>
-        <mass>1</mass>
+        <mass>0.1</mass>
         <inertia>
           <ixx>0.166667</ixx>
           <ixy>0</ixy>
@@ -45,7 +45,7 @@
       <collision name='collision'>
         <laser_retro>0</laser_retro>
         <max_contacts>0</max_contacts>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 0 0.1 0 -0 0</pose>
         <geometry>
           <box>
             <size>1e-06 1e-06 1e-06</size>
