@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<path name="tempPath">
+<auto_start>true</auto_start>
+<delay_start>0.0</delay_start>
+<loop>false</loop>
+
+        <waypoint>
+            <animation>walk</animation>
+            <velocity>1.0</velocity>
+            <xy>2 4</xy>
+            <stop_duration>0.0</stop_duration>
+        </waypoint>
+
+        <waypoint>
+            <animation>walk</animation>
+            <velocity>1.0</velocity>
+            <xy>3 4</xy>
+            <stop_duration>0.0</stop_duration>
+        </waypoint>
+
+        <waypoint>
+            <animation>walk</animation>
+            <velocity>1.0</velocity>
+            <xy>4 4</xy>
+            <stop_duration>0.0</stop_duration>
+        </waypoint>
+
+        <waypoint>
+            <animation>walk</animation>
+            <velocity>1.0</velocity>
+            <xy>2 4</xy>
+            <stop_duration>0.0</stop_duration>
+        </waypoint>
+</path>

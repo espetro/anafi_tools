@@ -2,7 +2,7 @@
 <sdf version='1.5'>
   <model name='env_limits'>
     <link name='link'>
-      <pose>0 0 0.2 0 -0 0</pose>
+      <pose>0 0 0 0 -0 0</pose>
       <inertial>
         <mass>0.1</mass>
         <inertia>
@@ -38,14 +38,14 @@
           <emissive>0 0 0 1</emissive>
           <lighting>1</lighting>
         </material>
-        <pose>0 0 1 0 -0 0</pose>
+        <pose>0 0 1.7 0 -0 0</pose>
         <cast_shadows>1</cast_shadows>
-        <transparency>0.95</transparency>
+        <transparency>0.75</transparency>
       </visual>
       <collision name='collision'>
         <laser_retro>0</laser_retro>
         <max_contacts>0</max_contacts>
-        <pose>0 0 0.1 0 -0 0</pose>
+        <pose>0 0 1.7 0 0 0</pose>
         <geometry>
           <box>
             <size>1e-06 1e-06 1e-06</size>
@@ -98,7 +98,7 @@
         </surface>
       </collision>
     </link>
-    <static>0</static>
+    <static>1</static>
     <allow_auto_disable>1</allow_auto_disable>
   </model>
 </sdf>

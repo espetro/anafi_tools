@@ -1,15 +1,4 @@
-# -*- coding: utf-8 -*-
 
-PATH_TEMPLATE_START = """<?xml version="1.0" encoding="UTF-8"?>
-<path name="{}">
-<auto_start>{}</auto_start>
-<delay_start>{}</delay_start>
-<loop>{}</loop>
-"""
-
-PATH_TEMPLATE_END = "\n</path>"
-
-WORLD_TEMPLATE_START = """
 <?xml version="1.0"?>
 <sdf version='1.5'>
   <world name='default'>
@@ -60,7 +49,7 @@ WORLD_TEMPLATE_START = """
 
     <plugin name="fwman" filename="libsphinx_fwman.so">
       <spawn_point name="default">
-        <pose>{}</pose>
+        <pose>1 0 0.1 0 0 0</pose>
       </spawn_point>
     </plugin>
 
@@ -70,9 +59,76 @@ WORLD_TEMPLATE_START = """
     <include>
       <uri>model://ground_plane</uri>
     </include>
-"""                   
 
-WORLD_TEMPLATE_END = """
+        <include>
+          <name>start</name>
+          <uri>model://ground_red</uri>
+          <pose>2 0 0.0 0 0 0</pose>
+        </include>
+        
+
+        <include>
+          <name>goal</name>
+          <uri>model://ground_goal</uri>
+          <pose>1 4 0.0 0 0 0</pose>
+        </include>
+        
+
+        <include>
+          <name>PX0</name>
+          <uri>model://ground_tour</uri>
+          <pose>2 4 0.0 0 0 0</pose>
+        </include>
+        
+
+        <include>
+          <name>PX1</name>
+          <uri>model://ground_tour</uri>
+          <pose>4 4 0.0 0 0 0</pose>
+        </include>
+        
+
+        <include>
+          <name>T0_canopy</name>
+          <uri>model://tree_canopy</uri>
+          <pose>1 1 2.5 0 0 0</pose>
+        </include>
+        
+
+        <include>
+          <name>T0_wood</name>
+          <uri>model://vertical_bar</uri>
+          <pose>1 1 0.0 0 0 0</pose>
+        </include>
+        
+
+        <include>
+          <name>T1_canopy</name>
+          <uri>model://tree_canopy</uri>
+          <pose>4 2 2.5 0 0 0</pose>
+        </include>
+        
+
+        <include>
+          <name>T1_wood</name>
+          <uri>model://vertical_bar</uri>
+          <pose>4 2 0.0 0 0 0</pose>
+        </include>
+        
+
+        <include>
+          <name>W00</name>
+          <uri>model://wall_box</uri>
+          <pose>4 0 0.0 0 0 0</pose>
+        </include>
+        
+
+        <include>
+          <name>W01</name>
+          <uri>model://wall_box</uri>
+          <pose>4 1 0.0 0 0 0</pose>
+        </include>
+        
     <scene>
       <ambient>0.4 0.4 0.4 1</ambient>
       <background>0.7 0.7 0.7 1</background>
@@ -93,4 +149,3 @@ WORLD_TEMPLATE_END = """
     </light>
   </world>
 </sdf>
-"""
