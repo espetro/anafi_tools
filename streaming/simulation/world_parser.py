@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from __future__ import print_function
 
 # from streaming.sim_objs.simple_wall import SimpleWallShape

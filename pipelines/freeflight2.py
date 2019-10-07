@@ -1,6 +1,7 @@
 #!/usr/bin/python3.5
 
-from streaming.optitrack import OptitrackMRB
+# from streaming.optitrack import OptitrackMRB
+from streaming.optitrack.optitrack import Optitrack
 
 def process_data(msg, model, csv_writer, control):
     """

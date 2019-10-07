@@ -1,11 +1,10 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # Implementation of a telemetryd consumer tool to create intermediate and written
 # statistical data about drone and pedestrian poses
 
 from __future__ import print_function
 from time import sleep
-from sim_objs.drone import DroneModel
-from sim_objs.pedestrian import PedestrianModel
 
 import os
 import sys
@@ -15,6 +14,7 @@ import optparse
 import Tkinter as tk
 
 # Add parrot-specific libs
+# PARROT_COMMON = "/Documents/parrot/groundsdk/packages/common"
 PARROT_COMMON = "/Documents/code/parrot-groundsdk/packages/common"
 POMP_LIB = os.path.expanduser("~") + PARROT_COMMON + "/libpomp/python"
 TELEMETRYD_LIB = os.path.expanduser("~") + PARROT_COMMON + "/telemetry/tools"
@@ -40,7 +40,7 @@ GNDCTRL_MSG_SECTION_REMOVED = 8
 GNDCTRL_MSG_SECTION_CHANGED = 9
 GNDCTRL_MSG_SECTION_SAMPLE = 10
 
-# Sampling constants
+# # Sampling constants
 SAMPLE_RATE = 1000 * 1000    # Samples every 200ms
 MSG_RATE = 1000 * 1000      # Message every 1s
 
@@ -48,41 +48,58 @@ MSG_RATE = 1000 * 1000      # Message every 1s
 DEFAULT_CTRLADDR = "inet:127.0.0.1:9060"
 DEFAULT_DATAPORT = "5000"
 
-
-#============== DRONE AND PEDESTRIAN TOPICS ===============
-#==========================================================
-
-DRONE_TOPICS = [
-    "omniscient_bebop2.worldPosition.x",
-    "omniscient_bebop2.worldPosition.y",
-    "omniscient_bebop2.worldPosition.z",
-    "omniscient_anafi.worldPosition.x",
-    "omniscient_anafi.worldPosition.y",
-    "omniscient_anafi.worldPosition.z"
-]
-
-PED_TEMPL_TOPICS = [
-    "omniscient_pedestrian{}.worldPosition.x",
-    "omniscient_pedestrian{}.worldPosition.y",
-    "omniscient_pedestrian{}.worldPosition.z",
-]
-
-def get_ped_topics(n_peds):
-    """
-    Get the list of pedestrian topics
-    :param n_peds:
-    """
-    ls = []
-    for n in range(n_peds):
-        ls += [coord.format(n) for coord in PED_TEMPL_TOPICS]
-    return ls
-
-
 #============== TELEMETRY CONSUMER CLASS ==================
 #==========================================================
 
 class TelemetryConsumer:
-    def __init__(self, name, ctrlAddr, dataPort, n_peds):
+    DEFAULT_CTRLADDR = "inet:127.0.0.1:9060"
+    DEFAULT_DATAPORT = 5000
+
+    def __init__(self, name, ctrl_addr, dataport, sample_rate, sample_fun):
+        """Setups the topics and objects to extract telemetry data."""
+        self.fun = sample_fun
+        self.sample_rate = int(sample_rate) * 1000  # X ms *1000
+        self.ctrl_addr = ctrl_addr
+        self.data_port = dataport
+
+    @staticmethod
+    def signal_handler(sig, frame):
+        print("YOU PRESED CTRL+C!", file=sys.stderr)
+
+    def start(self):
+        """
+        Enables the telemetry logging and processing. Only allows to exit
+        throughout the Tkinter app 'close' button.
+        """
+        signal.signal(signal.SIGINT, TelemetryConsumer.signal_handler)
+        # setupLog(options)
+
+        try:
+            root = tk.Tk()
+            app = App(master=root)
+            itf = TelemetryDaemon(
+                "tkgndctrl",
+                self.ctrl_addr,
+                self.data_port,
+                self.sample_rate,
+                self.fun
+            )
+
+            itf.start()
+            app.mainloop()
+            itf.stop()
+        except KeyboardInterrupt as e:
+            print("To close it, exit the windowed app", file=sys.stderr)
+
+        sys.exit(0)
+
+
+#============== TELEMETRY DAEMON CLASS ====================
+#==========================================================
+
+
+class TelemetryDaemon:
+    def __init__(self, name, ctrlAddr, dataPort, rate, sample_fun):
         """
         :param name:
         :param ctrlAddr:
@@ -92,56 +109,19 @@ class TelemetryConsumer:
 
         # Telemetryd-specific consumer options
         self.name = name
+        self.sample_rate = rate
         self.ctrlAddr = ctrlAddr
         self.dataPort = dataPort
-        self.ctrlCtx = pomp.Context(TelemetryConsumer._CtrlEventHandler(self))
-        self.dataCtx = pomp.Context(TelemetryConsumer._DataEventHandler(self))
+
+        self.ctrlCtx = pomp.Context(TelemetryDaemon._CtrlEventHandler(self))
+        self.dataCtx = pomp.Context(TelemetryDaemon._DataEventHandler(self))
+
         self.sections = {}
-
-        # Assign the available drone and pedestrian topics
-        self.DRONE_TOPICS = DRONE_TOPICS
-        self.PEDESTRIAN_TOPICS = get_ped_topics(n_peds)
-
-        self.drone_ref = DroneModel()
-        self.ped_ref = dict()
-        for n in range(n_peds):
-            self.ped_ref[n] = PedestrianModel()
-
         # Init console logging
         print("--------------------")
         print("Ts | SectionID | VarType | VarName | VarValue")
-        print("--------------------")
-
-    def _onDroneSample(self, ts, tname, tid, val):
-        """
-        Run an action when data from the drone is received from a callback
-        :param ts: Timestamp
-        :param tname: Topic name
-        :param tid: Topic id (either X,Y,Z)
-        :param val: Data value (float64)
-        """
-        if tid == "x":
-            self.drone_ref.x = val
-        elif tid == "y":
-            self.drone_ref.y = val
-        elif tid == "z":
-            self.drone_ref.z = val
-
-    def _onPedestrianSample(self, ts, pid, tname, tid, val):
-        """
-        Run an action when data from a pedestrian is received from a callback
-        :param ts: Timestamp
-        :param pid: Pedestrian id (from 0 to n)
-        :param tname: Topic name
-        :param tid: Topic id (either X,Y,Z)
-        :param val: Data value (float64)
-        """
-        if tid == "x":
-            self.ped_ref[pid].x = val
-        elif tid == "y":
-            self.ped_ref[pid].y = val
-        elif tid == "z":
-            self.ped_ref[pid].z = val        
+        print("--------------------")     
+        self.sample_fun = sample_fun
 
     def recvSample(self, sectionId, timestamp, buf):
         """
@@ -163,26 +143,24 @@ class TelemetryConsumer:
                 break
             varBuf = buf[varOff:varOff+varLen]
 
+            # tlmb-dependent data pre-processing
             # dtype = TlmbVarType.toString(varDesc.varType)
             quantity = TlmbSample.extractQuantity(varDesc, varBuf)
 
-            # =========================================
-            # DATA FROM TELEMETRY CAN BE PROCESSED HERE
-            # =========================================
             # print("Drone Data: {} {} {} {} {}".format(ts, topic_id, dtype, dname, val))
             dname = varDesc.getFullName()
             coord = dname.split(".")[-1]
             tname = dname[:-2]  # the whole name but '.x'
             data = float(quantity)
-            ts = timestamp[1] // 1000
+            ts = timestamp[0]
+            # ts = timestamp[1] // 1000
+            pid = dname.split(".")[0][-1]  # gets the pedestrian ID
 
-            if dname in self.DRONE_TOPICS:
-                print("Drone:", ts, tname, coord, data)
-                self._onDroneSample(ts, tname, coord, data)
-            elif dname in self.PEDESTRIAN_TOPICS:
-                pid = dname.split(".")[0][-1]  # gets the pedestrian ID
-                print("Pedestrian", pid, ":", ts, tname, coord, data)
-                self._onPedestrianSample(ts, int(pid), tname, coord, data)
+            # print(timestamp)
+            # =========================================
+            # DATA FROM TELEMETRY CAN BE PROCESSED HERE
+            # =========================================
+            self.sample_fun(dname, tname, pid, int(ts), coord, data)
             # =========================================
 
             varOff += varLen
@@ -199,14 +177,6 @@ class TelemetryConsumer:
         """Stops the """
         self.ctrlCtx.stop()
         self.dataCtx.stop()
-
-    def get_drone(self):
-        """Get the drone reference"""
-        return self.drone_ref
-
-    def get_pedestrian(self, pid):
-        """Get the pedestrian reference by its pedestrian ID or None"""
-        return self.ped_ref.get(pid)
 
     class _CtrlEventHandler(pomp.EventHandler):
         def __init__(self, itf):
@@ -229,8 +199,8 @@ class TelemetryConsumer:
                 GNDCTRL_PROTOCOL_VERSION,
                 self.itf.name,
                 self.itf.dataPort,
-                SAMPLE_RATE,
-                MSG_RATE
+                self.itf.sample_rate, #SAMPLE_RATE
+                self.itf.sample_rate  #MSG_RATE
             )
 
         def onDisconnected(self, ctx, conn):
@@ -242,6 +212,7 @@ class TelemetryConsumer:
             """
             logging.info("Disconnected")
             self.sections = {}
+            sys.exit(0)
 
         def recvMessage(self, ctx, conn, msg):
             """
@@ -323,9 +294,9 @@ class TelemetryConsumer:
                 (sectionId, sec, nsec, buf) = msg.read("%u%u%u%p")
                 self.itf.recvSample(sectionId, (sec, nsec), buf)
 
-
-#============== ALT 1: USE TKINTER MAIN LOOP ==============
+#============== LOGGING AND PARSE UTILS ===================
 #==========================================================
+
 class App(tk.Frame):
     def __init__(self, master=None):
         """Creates a Tkinter app"""
@@ -354,20 +325,6 @@ class App(tk.Frame):
         # Stop everything
         pomp.looper.exitLoop()
 
-#============== ALT 2: SIMPLE SLEEP LOOP ==================
-#==========================================================
-
-def infinite_loop(step):
-    """
-    Runs an infinite loop where an action is executed every X ms
-    :param step:
-    """
-    while True:
-        pomp.looper.stepLoop()
-        sleep(step)
-
-#============== LOGGING AND PARSE UTILS ===================
-#==========================================================
 
 class DefaultOptions:
     def __init__(self):
@@ -461,33 +418,48 @@ def setupLog(options):
 #============== MAIN SCRIPT FUNCTION ======================
 #==========================================================
 
+def signal_handler(sig, frame):
+    print("YOU PRESED CTRL+C!", file=sys.stderr)
+
+
+def print_data(dname, tname, pid, ts, coord, data):
+        """
+        Expected data goes like:
+        ts: timestamp, 1 (int)
+        dname: omniscient_subject.worldPosition.x
+        pid: t (only useful for indicating pedestrian's number ID
+        tname: omniscient_subject.worldPosition (topic name)
+        coord: x (if any)
+        data: 0.0 (float value)
+        """
+        print("Data: {}|{}|{}|{}|{}|{}".format(ts, dname, pid, tname, coord, data))
+
 if __name__ == "__main__":
-    """Enables the telemetry logging and processing"""
+    """
+    Enables the telemetry logging and processing. Only allows to exit
+    throughout the Tkinter app 'close' button.
+    """
     (options, args) = parseArgs()
     ctrl_addr, data_port = args[0], int(args[1])
     setupLog(options)
 
-    # Runs the loop using the Tkinter loop routine
+    signal.signal(signal.SIGINT, signal_handler)
+
     try:
         root = tk.Tk()
         app = App(master=root)
-        itf = TelemetryConsumer("tkgndctrl", ctrl_addr, data_port, 2)
+        itf = TelemetryDaemon(
+            "tkgndctrl",
+            ctrl_addr,
+            data_port,
+            SAMPLE_RATE,
+            print_data
+        )
 
         itf.start()
         app.mainloop()
         itf.stop()
-    except KeyboardInterrupt:
-        root.quit()
-        root.destroy()
-    sys.exit(0)
+    except KeyboardInterrupt as e:
+        print("To close it, exit the windowed app", file=sys.stderr)
 
-    # Runs the loop using simple 'sleep' routines
-    # try:
-    #     cons = TelemetryConsumer("illokdise", ctrl_addr, data_port)
-        
-    #     cons.start()
-    #     infinite_loop(step=0.5)
-    #     cons.stop()
-    # except KeyboardInterrupt:
-    #     pomp.looper.exitLoop()
-    # sys.exit(0)
+    sys.exit(0)
