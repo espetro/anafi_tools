@@ -8,6 +8,7 @@ from streaming.simulation.pedestrian import PedestrianModel
 
 import csv
 import signal
+import threading
 
 class Telemetry:
     DRONE_TOPICS = [
@@ -87,6 +88,14 @@ class Telemetry:
         )
 
         self.daemon.start()
+        self.looper = self.daemon.looper
+
+        # self.daemon_thread = threading.Thread(
+        #     name="daemon",
+        #     target=self.daemon.start,
+        #     args=()
+        # )
+        # self.daemon_thread.setDaemon(True)
 
     @staticmethod
     def _get_ped_topics(n_peds):

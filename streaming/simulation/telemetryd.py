@@ -11,6 +11,7 @@ import sys
 import signal
 import logging
 import optparse
+import threading
 import Tkinter as tk
 
 # Add parrot-specific libs
@@ -61,10 +62,18 @@ class TelemetryConsumer:
         self.sample_rate = int(sample_rate) * 1000  # X ms *1000
         self.ctrl_addr = ctrl_addr
         self.data_port = dataport
+        self.itf = None
+        self.looper = None
 
     @staticmethod
     def signal_handler(sig, frame):
         print("YOU PRESED CTRL+C!", file=sys.stderr)
+
+    @staticmethod
+    def run_pomp_loop(looper):
+        while True:
+            looper.stepLoop()
+            # pomp.looper.stepLoop()
 
     def start(self):
         """
@@ -75,9 +84,12 @@ class TelemetryConsumer:
         # setupLog(options)
 
         try:
-            root = tk.Tk()
-            app = App(master=root)
-            itf = TelemetryDaemon(
+            # root = tk.Tk()
+            # app = App(master=root)
+            self.looper = pomp.looper
+            self.looper.prepareLoop()
+
+            self.itf = TelemetryDaemon(
                 "tkgndctrl",
                 self.ctrl_addr,
                 self.data_port,
@@ -85,12 +97,27 @@ class TelemetryConsumer:
                 self.fun
             )
 
-            itf.start()
-            app.mainloop()
-            itf.stop()
+            print("Started telemetry daemon", file=sys.stderr)
+            self.itf.start()
+            # while True:
+            #     pomp.looper.stepLoop()
+
+            # app.mainloop
+            # self.main_loop_thread = threading.Thread(
+            #     name="pomploop",
+            #     target=TelemetryConsumer.run_pomp_loop,
+            #     args=(pomp.looper)
+            # )
+            # self.main_loop_thread.setDaemon(True)
+
         except KeyboardInterrupt as e:
             print("To close it, exit the windowed app", file=sys.stderr)
 
+    def stop(self):
+        """"""
+        print("Stopping the telemetry daemon", file=sys.stderr)
+        pomp.looper.exitLoop()
+        self.itf.stop()
         sys.exit(0)
 
 
@@ -113,6 +140,7 @@ class TelemetryDaemon:
         self.ctrlAddr = ctrlAddr
         self.dataPort = dataPort
 
+        self.sample_fun = sample_fun
         self.ctrlCtx = pomp.Context(TelemetryDaemon._CtrlEventHandler(self))
         self.dataCtx = pomp.Context(TelemetryDaemon._DataEventHandler(self))
 
@@ -121,7 +149,6 @@ class TelemetryDaemon:
         print("--------------------")
         print("Ts | SectionID | VarType | VarName | VarValue")
         print("--------------------")     
-        self.sample_fun = sample_fun
 
     def recvSample(self, sectionId, timestamp, buf):
         """

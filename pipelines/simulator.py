@@ -12,6 +12,7 @@ import sys
 import shlex
 import signal
 import datetime
+import threading
 
 
 class FalseModel:
@@ -56,14 +57,25 @@ if __name__ == "__main__":
 
     false_world_objects = [FalseModel() for j in range(10)]
 
-    telem = Telemetry(CSV_PATH, false_world_objects, 1, rate=1000)
+    telem = Telemetry(CSV_PATH, false_world_objects, 1, 1000)
+
+    # telem = threading.Thread(
+    #     name="telemetry_consumer",
+    #     target=Telemetry,
+    #     args=(CSV_PATH, false_world_objects, 1, 1000)
+    # )
 
     try:
         while sphinx.poll() is None:
+            print("============ Go on ============")
+            telem.looper.stepLoop()
+            # print("Press CTRL+C if you fancy! Everything is running in the bg.")
             sleep(0.5)
     except KeyboardInterrupt as e:
         print(e)
-        telem.kill()
+        telem.looper.exitLoop()
+        telem.stop()
+        os.system("pkill python")
         sphinx.kill()
 
     # Popen(roscore)
