@@ -1,0 +1,22 @@
+[31m[ERROR] [1570533172.626223160]: poll failed with error Interrupted system call[0m
+ roscore/master processes before relaunching.
+The ROS_MASTER_URI is http://pachacho-HP-Pavilion-Laptop-13-an0xxx:11311/[0m
+[31mThe traceback for the exception was written to the log file[0m
+... logging to /home/pachacho/.ros/log/98ee5700-e9b0-11e9-bab1-802bf97b1155/roslaunch-pachacho-HP-Pavilion-Laptop-13-an0xxx-17683.log
+Checking log directory for disk usage. This may take awhile.
+Press Ctrl-C to interrupt
+Done checking log file disk usage. Usage is <1GB.
+]2;roscore
+[1mstarted roslaunch server http://pachacho-HP-Pavilion-Laptop-13-an0xxx:39511/[0m
+ros_comm version 1.12.14
+
+
+SUMMARY
+========
+
+PARAMETERS
+ * /rosdistro: kinetic
+ * /rosversion: 1.12.14
+
+NODES
+

@@ -1,0 +1,39 @@
+Parrot-Sphinx simulator version 1.4
+
+connecting to firmwared version: 1.4
+starting Telemetryd to capture true data...
+[1;32m[Msg] [0m[1;32mWaiting for master.[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mWaiting for master.[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mConnected to gazebo master @ [0m[1;32mhttp://127.0.0.1:11345[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mPublicized address: [0m[1;32m127.0.0.1[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mConnected to gazebo master @ [0m[1;32mhttp://127.0.0.1:11345[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mPublicized address: [0m[1;32m127.0.0.1[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mcreated parameter server on [0m[1;32mhttp[0m[1;32m:[0m[1;32m8383[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mWorld params for '[0m[1;32mdefault[0m[1;32m':[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32m	spawn_points:[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32m		- name: [0m[1;32mdefault[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32m		  pose: [0m[1;32m1[0m[1;32m [0m[1;32m0[0m[1;32m [0m[1;32m0.1[0m[1;32m [0m[1;32m0[0m[1;32m [0m[1;32m-0[0m[1;32m [0m[1;32m0[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mconnected to firmwared[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mPreparation of firmware [0m[1;32m/opt/parrot-sphinx/usr/share/sphinx/firmwares/ardrone3-milos_pc.ext2.zip[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mfirmware [0m[1;32m/usr/share/firmwared/firmwares//ardrone3-milos_pc.ext2.zip.a3223a5b-4bd8-9583-54ad-cb89d0a34087.firmware[0m[1;32m supported hardwares: [0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32m	[0m[1;32mmilosboard[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mSelected params to build .sdf file for [0m[1;32mbebop2[0m[1;32m:
+[0m[1;32m	param flir_pos = tilted
+	param kalamos_clip_far = 35
+	param kalamos_clip_near = 1.5
+	param low_gpu = 0
+	param with_external_cams = 0
+	param with_flir = 1
+	param with_front_cam = 0
+	param with_hd_battery = 0
+	param with_kalamos = false
+	param xmlns = 
+[0m[1;32m[Msg] [0m[1;32mDrone [0m[1;32mbebop2[0m[1;32m[[0m[1;32m8a2b996e95836d585c0de40e76d220ba82427177[0m[1;32m] loaded[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mWEB DASHBOARD IS ACCESSIBLE at http://localhost:[0m[1;32m9002[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mInstance [0m[1;32mgarrulous_stephanie[0m[1;32m[[0m[1;32m8a2b996e95836d585c0de40e76d220ba82427177[0m[1;32m] started[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mAll drones instantiated[0m[1;32m
+[0m[1;32m[0m[1;32m[0m[1;32m[Msg] [0m[1;32mCleanupInstances[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mInstance [0m[1;32mbebop2[0m[1;32m[[0m[1;32m8a2b996e95836d585c0de40e76d220ba82427177[0m[1;32m] dropped[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mCleanupFirmwares[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mFirmware [0m[1;32mrisible_rebekka[0m[1;32m[[0m[1;32m26b4c9adaa72df04d7821f9442cf04112232f549[0m[1;32m] unprepared (unmounted)[0m[1;32m
+[0m[1;32m[0m[1;32m[0m

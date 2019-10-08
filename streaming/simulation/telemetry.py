@@ -88,7 +88,7 @@ class Telemetry:
         )
 
         self.daemon.start()
-        self.looper = self.daemon.looper
+        # self.looper = self.daemon.looper
 
         # self.daemon_thread = threading.Thread(
         #     name="daemon",
@@ -108,6 +108,10 @@ class Telemetry:
             ls += [coord.format(n) for coord in Telemetry.PED_TEMPL_TOPICS]
         return ls
 
+    def stop(self):
+        self.daemon.stop()
+        self.file.close()
+
     def close_csv(self, sig, frame):
         self.file.close()
 
@@ -119,7 +123,7 @@ class Telemetry:
         :param tid: Topic id (either X,Y,Z)
         :param val: Data value (float64)
         """
-        print("Drone: ", ts, tname, tid, val)
+        # print("Drone: ", ts, tname, tid, val)
 
         if tid == "x":
             self.drone_ref.set_x(ts, val)
@@ -137,8 +141,8 @@ class Telemetry:
         :param tid: Topic id (either X,Y,Z)
         :param val: Data value (float64)
         """
-        print("Pedestrian: ", pid, ":", ts, tname, tid, val)
-        print(pid, type(pid))
+        # print("Pedestrian: ", pid, ":", ts, tname, tid, val)
+        # print(pid, type(pid))
         npid = int(pid)
 
         if tid == "x":
@@ -156,7 +160,7 @@ class Telemetry:
         :param tid: Topic id (either X,Y,Z)
         :param val: Data value (float64)
         """
-        print("Subject: ", ts, tname, tid, val)
+        # print("Subject: ", ts, tname, tid, val)
 
         if tid == "x":
             self.subj_ref.set_x(ts, val)

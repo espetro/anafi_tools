@@ -52,6 +52,20 @@ DEFAULT_DATAPORT = "5000"
 #============== TELEMETRY CONSUMER CLASS ==================
 #==========================================================
 
+class PompThread(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        pomp.looper.prepareLoop()
+
+    def start(self):
+        self.running = True
+        while self.running:
+            pomp.looper.stepLoop(maxMsg=1, timeout=1)
+    
+    def stop(self):
+        self.running = False
+
+
 class TelemetryConsumer:
     DEFAULT_CTRLADDR = "inet:127.0.0.1:9060"
     DEFAULT_DATAPORT = 5000
@@ -86,8 +100,8 @@ class TelemetryConsumer:
         try:
             # root = tk.Tk()
             # app = App(master=root)
-            self.looper = pomp.looper
-            self.looper.prepareLoop()
+            # self.looper = pomp.looper
+            self.looper = PompThread()
 
             self.itf = TelemetryDaemon(
                 "tkgndctrl",
@@ -99,6 +113,8 @@ class TelemetryConsumer:
 
             print("Started telemetry daemon", file=sys.stderr)
             self.itf.start()
+            self.looper.start()
+
             # while True:
             #     pomp.looper.stepLoop()
 
@@ -116,7 +132,8 @@ class TelemetryConsumer:
     def stop(self):
         """"""
         print("Stopping the telemetry daemon", file=sys.stderr)
-        pomp.looper.exitLoop()
+        # pomp.looper.exitLoop()
+        self.looper.stop()
         self.itf.stop()
         sys.exit(0)
 

@@ -47,9 +47,13 @@ if __name__ == "__main__":
     SUBJ = ACTOR.format("subject", SUBJ_PATH)
     PED1 = ACTOR.format("pedestrian0", PED0_PATH)
 
+    sphinx_file = open(CSV_DIR + "/sphinx.log", "w+")
+    roscore_file = open(CSV_DIR + "/roscore.log", "w+")
+    bebop_file = open(CSV_DIR + "/bebop.log", "w+")
+
     sphinx = Popen(
         shlex.split("sphinx {} {} {} {}".format(WORLD_FILE, DRN, SUBJ, PED1)),
-        stdout=None,
+        stdout=sphinx_file,
         stderr=None,
         bufsize=1
     )
@@ -57,28 +61,95 @@ if __name__ == "__main__":
 
     false_world_objects = [FalseModel() for j in range(10)]
 
+
+    print("Starting ROScore...", file=sys.stderr)
+    roscore = Popen(
+        shlex.split("roscore"),
+        stdout=roscore_file,
+        stderr=STDOUT,
+        bufsize=1
+    )
+
+    sleep(10)
+    print("Setting up drone ROS driver...", file=sys.stderr)
+    bebop_node = Popen(
+        shlex.split("roslaunch bebop_driver bebop_node.launch"),
+        stdout=bebop_file,
+        stderr=STDOUT,
+        bufsize=1
+    )
+
+    sleep(7)
+    print("Taking off...", file=sys.stderr)
+    take_off = os.system("rostopic pub --once /bebop/takeoff std_msgs/Empty")
+
+    # # go up or down 0.5m, or stays
+    print("Setting up drone height...", file=sys.stderr)
+    topic_pub = "rostopic pub --once /bebop/cmd_vel geometry_msgs/Twist"
+    twist_dn = "{linear: {x: 0.0, y: 0.0, z: -1.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}"
+    twist_up = "{linear: {x: 0.0, y: 0.0, z: 1.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}"
+    height_drone = randint(-1,1)
+
+    if height_drone != 0:
+        if height_drone == -1:
+            my_twist = twist_dn
+        elif height_drone == 1:
+            my_twist = twist_up
+        
+        for i in range(5):    
+            os.system("{} {}".format(topic_pub, my_twist))
+            sleep(4)
+
+    print("Setting up telemetry consumer...", file=sys.stderr)
     telem = Telemetry(CSV_PATH, false_world_objects, 1, 1000)
 
-    # telem = threading.Thread(
-    #     name="telemetry_consumer",
-    #     target=Telemetry,
-    #     args=(CSV_PATH, false_world_objects, 1, 1000)
-    # )
+    print("\n\n\n\n=========================")
+    print("There is life after the TELEMETRY")
+    print("\n\n\n\n=========================")
 
+    sleep(5)
     try:
-        while sphinx.poll() is None:
-            print("============ Go on ============")
-            telem.looper.stepLoop()
-            # print("Press CTRL+C if you fancy! Everything is running in the bg.")
-            sleep(0.5)
+        # os.system("rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/bebop/cmd_vel")
     except KeyboardInterrupt as e:
-        print(e)
-        telem.looper.exitLoop()
-        telem.stop()
-        os.system("pkill python")
-        sphinx.kill()
+        print("Teleop finished...", file=sys.stderr)
 
-    # Popen(roscore)
-    # Popen(ros bebop_autonomy)
-    # Popen(takeoff)
-    # os.system("ros teleop") # and wait for it to be killed, CTRL+Ced
+    bebop_file.close()
+    roscore_file.close()
+    sphinx_file.close()
+
+    print("Landing the drone...", file=sys.stderr)
+    landing = os.system("rostopic pub --once /bebop/land std_msgs/Empty")
+    sleep(4)
+
+    bebop_node.kill()
+    roscore.kill()
+    sphinx.kill()
+    print("All subprocesses killed")
+    telem.stop()
+    print("Run finished")
+
+
+    
+    # try:
+    #     os.system("rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/bebop/cmd_vel")
+    #     # while sphinx.poll() is None:
+    #         # telem.looper.stepLoop()
+    #         # print("Press CTRL+C if you fancy! Everything is running in the bg.")
+    #         # sleep(0.5)
+    #         # print("hello")
+    # except KeyboardInterrupt as e:
+    #     print(e)
+
+    #     print("Landing the drone...", file=sys.stderr)
+    #     landing = os.system("rostopic pub --once /bebop/land std_msgs/Empty")
+    #     bebop_node.kill()
+    #     roscore.kill()
+    #     sphinx.kill()
+    #     telem.stop()
+
+    #     # os.system("pkill python")
+
+    # # Popen(roscore)
+    # # Popen(ros bebop_autonomy)
+    # # Popen(takeoff)
+    # # os.system("ros teleop") # and wait for it to be killed, CTRL+Ced
