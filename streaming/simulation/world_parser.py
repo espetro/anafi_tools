@@ -10,6 +10,7 @@ from simple_wall import SimpleWallShape
 from top_door_rail import TopDoorRailShape
 from vbar import VerticalBarShape
 from tree_canopy import TreeCanopyShape
+from wall_box import WallBoxShape
 
 import xml.etree.ElementTree as ET
 import pickle as pk
@@ -65,6 +66,7 @@ class WorldParser(object):
                 TopDoorRailShape.model: TopDoorRailShape(m["name"], _pose[:3], _pose[3:]),
                 VerticalBarShape.model: VerticalBarShape(m["name"], _pose[:3]),
                 TreeCanopyShape.model: TreeCanopyShape(m["name"], _pose[:3]),
+                WallBoxShape.model: WallBoxShape(m["name"], _pose[:3])
             }.get(m["uri"], None)
 
             if model is not None:

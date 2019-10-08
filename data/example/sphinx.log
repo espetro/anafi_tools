@@ -28,12 +28,8 @@ starting Telemetryd to capture true data...
 	param with_hd_battery = 0
 	param with_kalamos = false
 	param xmlns = 
-[0m[1;32m[Msg] [0m[1;32mDrone [0m[1;32mbebop2[0m[1;32m[[0m[1;32m8a2b996e95836d585c0de40e76d220ba82427177[0m[1;32m] loaded[0m[1;32m
+[0m[1;32m[Msg] [0m[1;32mDrone [0m[1;32mbebop2[0m[1;32m[[0m[1;32mcf97c91731bc92dfe4d5a6f980586ebeb07d5c00[0m[1;32m] loaded[0m[1;32m
 [0m[1;32m[0m[1;32m[Msg] [0m[1;32mWEB DASHBOARD IS ACCESSIBLE at http://localhost:[0m[1;32m9002[0m[1;32m
-[0m[1;32m[0m[1;32m[Msg] [0m[1;32mInstance [0m[1;32mgarrulous_stephanie[0m[1;32m[[0m[1;32m8a2b996e95836d585c0de40e76d220ba82427177[0m[1;32m] started[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mInstance [0m[1;32madamant_rebekka[0m[1;32m[[0m[1;32mcf97c91731bc92dfe4d5a6f980586ebeb07d5c00[0m[1;32m] started[0m[1;32m
 [0m[1;32m[0m[1;32m[Msg] [0m[1;32mAll drones instantiated[0m[1;32m
-[0m[1;32m[0m[1;32m[0m[1;32m[Msg] [0m[1;32mCleanupInstances[0m[1;32m
-[0m[1;32m[0m[1;32m[Msg] [0m[1;32mInstance [0m[1;32mbebop2[0m[1;32m[[0m[1;32m8a2b996e95836d585c0de40e76d220ba82427177[0m[1;32m] dropped[0m[1;32m
-[0m[1;32m[0m[1;32m[Msg] [0m[1;32mCleanupFirmwares[0m[1;32m
-[0m[1;32m[0m[1;32m[Msg] [0m[1;32mFirmware [0m[1;32mrisible_rebekka[0m[1;32m[[0m[1;32m26b4c9adaa72df04d7821f9442cf04112232f549[0m[1;32m] unprepared (unmounted)[0m[1;32m
-[0m[1;32m[0m[1;32m[0m
+[0m[1;32m[0m

@@ -2,8 +2,8 @@
 # from streaming.sim_objs.cube import CubeShape
 from cube import CubeShape
 
-class SimpleWallShape(CubeShape):
-    model = "model://simple_wall"
+class WallBoxShape(CubeShape):
+    model = "model://wall_box"
 
     def __init__(self, oid, pose, orient=[0.0, 0.0, 0.0], dims=["0.2", "5.0", "2.5"]):
         """
@@ -13,5 +13,5 @@ class SimpleWallShape(CubeShape):
         :param dims: A tuple (dim_x, dim_y, dim_z) of the box geometry. By default
                      it is _____
         """
-        super(SimpleWallShape, self).__init__(oid, pose, orient, dims)
-        self.name = "SimpleWall"
+        super(WallBoxShape, self).__init__(oid, pose, orient, dims)
+        self.name = "WallBox"

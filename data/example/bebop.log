@@ -1,768 +1,97 @@
 warning: xacro: Traditional processing is deprecated. Switch to --inorder processing!
 To check for compatibility of your document, use option --check-order.
 For more infos, see http://wiki.ros.org/xacro#Processing_Order
-[31m[ERROR] [1570529379.641617826]: [ARCONTROLLER_Network] 12:09:39:641 | ARCONTROLLER_Network_ReaderRun:1294 - ARCOMMANDS_Decoder_DecodeBuffer () failed : 2 ARDrone3.GPSSettingsState.UNKNOWN -> Unknown comma[0m
-[31m[ERROR] [1570529379.759591056]: [ARCONTROLLER_Network] 12:09:39:759 | ARCONTROLLER_Network_ReaderRun:1294 - ARCOMMANDS_Decoder_DecodeBuffer () failed : 3 ARDrone3.GPSSettingsState.UNKNOWN -> Unknown comma[0m
-[0m[ INFO] [1570529379.345583563]: Initializing nodelet with 8 worker threads.[0m
-[0m[ INFO] [1570529379.427906211]: [BebopSDK] 12:09:39:427 | Bebop:225 - Bebop Cnstr()[0m
-[0m[ INFO] [1570529379.427998978]: Nodelet Cstr[0m
-[0m[ INFO] [1570529379.444912745]: Connecting to Bebop ...[0m
-[0m[ INFO] [1570529379.452463076]: [CB] 12:09:39:452 | Ardrone3PilotingStateFlatTrimChanged:388 - [STATES] Enabling states/ardrone3/PilotingState/FlatTrimChanged[0m
-[0m[ INFO] [1570529379.459117502]: [CB] 12:09:39:458 | Ardrone3PilotingStateFlyingStateChanged:432 - [STATES] Enabling states/ardrone3/PilotingState/FlyingStateChanged[0m
-[0m[ INFO] [1570529379.463968929]: [CB] 12:09:39:463 | Ardrone3PilotingStateNavigateHomeStateChanged:534 - [STATES] Enabling states/ardrone3/PilotingState/NavigateHomeStateChanged[0m
-[0m[ INFO] [1570529379.467770475]: [CB] 12:09:39:467 | Ardrone3PilotingStatePositionChanged:592 - [STATES] Enabling states/ardrone3/PilotingState/PositionChanged[0m
-[0m[ INFO] [1570529379.480617860]: [CB] 12:09:39:480 | Ardrone3PilotingStateSpeedChanged:657 - [STATES] Enabling states/ardrone3/PilotingState/SpeedChanged[0m
-[0m[ INFO] [1570529379.484555545]: [CB] 12:09:39:484 | Ardrone3PilotingStateAttitudeChanged:722 - [STATES] Enabling states/ardrone3/PilotingState/AttitudeChanged[0m
-[0m[ INFO] [1570529379.489918817]: [CB] 12:09:39:489 | Ardrone3PilotingStateAltitudeChanged:838 - [STATES] Enabling states/ardrone3/PilotingState/AltitudeChanged[0m
-[0m[ INFO] [1570529379.503242939]: [CB] 12:09:39:503 | Ardrone3MediaStreamingStateVideoEnableChanged:1388 - [STATES] Enabling states/ardrone3/MediaStreamingState/VideoEnableChanged[0m
-[0m[ INFO] [1570529379.506978435]: [CB] 12:09:39:506 | Ardrone3CameraStateOrientation:1490 - [STATES] Enabling states/ardrone3/CameraState/Orientation[0m
-[0m[ INFO] [1570529379.516076455]: [CB] 12:09:39:516 | Ardrone3GPSStateNumberOfSatelliteChanged:1882 - [STATES] Enabling states/ardrone3/GPSState/NumberOfSatelliteChanged[0m
-[0m[ INFO] [1570529379.526924642]: [CB] 12:09:39:526 | CommonCommonStateBatteryStateChanged:148 - [STATES] Enabling states/common/CommonState/BatteryStateChanged[0m
-[0m[ INFO] [1570529379.534522900]: [CB] 12:09:39:534 | CommonCommonStateWifiSignalChanged:510 - [STATES] Enabling states/common/CommonState/WifiSignalChanged[0m
-[0m[ INFO] [1570529379.551252992]: [CB] 12:09:39:551 | CommonOverHeatStateOverHeatChanged:1023 - [STATES] Enabling states/common/OverHeatState/OverHeatChanged[0m
-[0m[ INFO] [1570529379.556280761]: [CB] 12:09:39:556 | CommonMavlinkStateMavlinkFilePlayingStateChanged:1118 - [STATES] Enabling states/common/MavlinkState/MavlinkFilePlayingStateChanged[0m
-[0m[ INFO] [1570529379.561311011]: [CB] 12:09:39:561 | CommonMavlinkStateMavlinkPlayErrorStateChanged:1183 - [STATES] Enabling states/common/MavlinkState/MavlinkPlayErrorStateChanged[0m
-[0m[ INFO] [1570529379.575146140]: [CB] 12:09:39:575 | CommonFlightPlanStateAvailabilityStateChanged:1568 - [STATES] Enabling states/common/FlightPlanState/AvailabilityStateChanged[0m
-[0m[ INFO] [1570529379.580142129]: [CB] 12:09:39:580 | CommonFlightPlanStateComponentStateListChanged:1619 - [STATES] Enabling states/common/FlightPlanState/ComponentStateListChanged[0m
-[0m[ INFO] [1570529379.618549376]: [ARCONTROLLER_Network] 12:09:39:618 | ARCONTROLLER_Network_GetAvailableSocketPort:128 - d2c_port port: 43210[0m
-[0m[ INFO] [1570529379.619879599]: [ARCONTROLLER_Stream2] 12:09:39:619 | ARCONTROLLER_Stream2_Open_Socket:143 - udp local port stream: 55004[0m
-[0m[ INFO] [1570529379.619993507]: [ARCONTROLLER_Stream2] 12:09:39:619 | ARCONTROLLER_Stream2_Open_Socket:143 - udp local port control: 55005[0m
-[0m[ INFO] [1570529379.626083248]: [BebopSDK] 12:09:39:626 | CommandReceivedCallback:113 - Command Received Callback LWP id is: 18620[0m
-[0m[ INFO] [1570529379.764208360]: [BebopSDK] 12:09:39:764 | Connect:321 - BebopSDK inited, lwp_id: 18452[0m
-[33m[ WARN] [1570529379.764286167]: Resetting all settings ...[0m
-[0m[ INFO] [1570529379.764363958]: [BebopSDK] 12:09:39:764 | ResetAllSettings:417 - All s[31m[ERROR] [1570529380.152329747]: [ARCONTROLLER_Network] 12:09:40:152 | ARCONTROLLER_Network_ReaderRun:1294 - ARCOMMANDS_Decoder_DecodeBuffer () failed : 2 ARDrone3.GPSSettingsState.UNKNOWN -> Unknown comma[0m
-ettings of the drone have been reset to default values.[0m
-[0m[ INFO] [1570529379.930254940]: Value for PilotingSettingsMaxAltitudeCurrent recved: 30[0m
-[0m[ INFO] [1570529379.930343319]: [CB] 12:09:39:930 | Update:111 - Checking if PilotingSettingsMaxAltitudeCurrent exists in params ...[0m
-[0m[ INFO] [1570529379.931904250]: [CB] 12:09:39:931 | Update:119 -   Yes[0m
-[0m[ INFO] [1570529379.937611374]: Value for PilotingSettingsMaxDistanceValue recved: 2000[0m
-[0m[ INFO] [1570529379.937668863]: [CB] 12:09:39:937 | Update:351 - Checking if PilotingSettingsMaxDistanceValue exists in params ...[0m
-[0m[ INFO] [1570529379.939024477]: [CB] 12:09:39:938 | Update:359 -   Yes[0m
-[0m[ INFO] [1570529379.947198527]: Value for PilotingSettingsNoFlyOverMaxDistanceShouldnotflyover recved: 0[0m
-[0m[ INFO] [1570529379.947242927]: [CB] 12:09:39:947 | Update:431 - Checking if PilotingSettingsNoFlyOverMaxDistanceShouldnotflyover exists in params ...[0m
-[0m[ INFO] [1570529379.948403766]: [CB] 12:09:39:948 | Update:439 -   Yes[0m
-[0m[ INFO] [1570529379.960653097]: Value for PilotingSettingsMaxTiltCurrent recved: 20[0m
-[0m[ INFO] [1570529379.960701616]: [CB] 12:09:39:960 | Update:191 - Checking if PilotingSettingsMaxTiltCurrent exists in params ...[0m
-[0m[ INFO] [1570529379.963057254]: [CB] 12:09:39:962 | Update:199 -   Yes[0m
-[0m[ INFO] [1570529379.975902676]: Value for PilotingSettingsBankedTurnValue recved: 0[0m
-[0m[ INFO] [1570529379.976246381]: [CB] 12:09:39:976 | Update:511 - Checking if PilotingSettingsBankedTurnValue exists in params ...[0m
-[0m[ INFO] [1570529379.981785932]: [CB] 12:09:39:981 | Update:519 -   Yes[0m
-[0m[ INFO] [1570529379.987589937]: Value for SpeedSettingsMaxVerticalSpeedCurrent recved: 1[0m
-[0m[ INFO] [1570529379.987659106]: [CB] 12:09:39:987 | Update:991 - Checking if SpeedSettingsMaxVerticalSpeedCurrent exists in params ...[0m
-[0m[ INFO] [1570529379.988926583]: [CB] 12:09:39:988 | Update:999 -   Yes[0m
-[0m[ INFO] [1570529380.000280677]: Value for SpeedSettingsMaxRotationSpeedCurrent recved: 100[0m
-[0m[ INFO] [1570529380.000362180]: [CB] 12:09:40:000 | Update:1071 - Checking if SpeedSettingsMaxRotationSpeedCurrent exists in params ...[0m
-[0m[ INFO] [1570529380.001713386]: [CB] 12:09:40:001 | Update:1079 -   Yes[0m
-[0m[ INFO] [1570529380.008012622]: Value for SpeedSettingsHullProtectionPresent recved: 0[0m
-[0m[ INFO] [1570529380.008113336]: [CB] 12:09:40:008 | Update:1151 - Checking if SpeedSettingsHullProtectionPresent exists in params ...[0m
-[0m[ INFO] [1570529380.010475949]: [CB] 12:09:40:010 | Update:1159 -   Yes[0m
-[0m[ INFO] [1570529380.095659174]: Value for PictureSettingsVideoStabilizationModeMode recved: 0[0m
-[0m[ INFO] [1570529380.095734657]: [CB] 12:09:40:095 | Update:1539 - Checking if PictureSettingsVideoStabilizationModeMode exists in params ...[0m
-[0m[ INFO] [1570529380.096877921]: [CB] 12:09:40:096 | Update:1547 -   Yes[0m
-[0m[ INFO] [1570529380.118261222]: Value for GPSSettingsReturnHomeDelayDelay recved: 3[0m
-[0m[ INFO] [1570529380.118305811]: [CB] 12:09:40:118 | Update:1939 - Checking if GPSSettingsReturnHomeDelayDelay exists in params ...[0m
-[0m[ INFO] [1570529380.120166584]: [CB] 12:09:40:120 | Update:1947 -   Yes[0m
-[0m[ INFO] [1570529380.144850998]: Value for GPSSettingsHomeTypeType recved: 0[0m
-[0m[ INFO] [1570529380.144977170]: [CB] 12:09:40:144 | Update:1859 - Checking if GPSSettingsHomeTypeType exists in params ...[0m
-[0m[ INFO] [1570529380.146548578]: [CB] 12:09:40:146 | Update:1867 -   Yes[0m
-[0m[ INFO] [1570529380.158383199]: Value for SpeedSettingsMaxPitchRollRotationSpeedCurrent recved: 300[0m
-[0m[ INFO] [1570529380.158460129]: [CB] 12:09:40:158 | Update:1311 - Checking if SpeedSettingsMaxPitchRollRotationSpeedCurrent exists in params ...[0m
-[0m[ INFO] [1570529380.159848234]: [CB] 12:09:40:159 | Update:1319 -   Yes[0m
-[0m[ INFO] [1570529380.159935507]: Value for PictureSettingsVideoResolutionsType recved: 0[0m
-[0m[ INFO] [1570529380.159966780]: [CB] 12:09:40:159 | Update:1779 - Checking if PictureSettingsVideoRes[31m[ERROR] [1570529382.779481610]: [ARCONTROLLER_Network] 12:09:42:779 | ARCONTROLLER_Network_ReaderRun:1294 - ARCOMMANDS_Decoder_DecodeBuffer () failed : 2 ARDrone3.GPSSettingsState.UNKNOWN -> Unknown comma[0m
-olutionsType exists in params ...[0m
-[0m[ INFO] [1570529380.161125077]: [CB] 12:09:40:161 | Update:1787 -   Yes[0m
-[0m[ INFO] [1570529380.161211638]: Value for PictureSettingsVideoRecordingModeMode recved: 1[0m
-[0m[ INFO] [1570529380.161247054]: [CB] 12:09:40:161 | Update:1619 - Checking if PictureSettingsVideoRecordingModeMode exists in params ...[0m
-[0m[ INFO] [1570529380.162188330]: [CB] 12:09:40:162 | Update:1627 -   Yes[0m
-[0m[ INFO] [1570529380.162264228]: Value for PictureSettingsVideoFramerateFramerate recved: 2[0m
-[0m[ INFO] [1570529380.162288076]: [CB] 12:09:40:162 | Update:1699 - Checking if PictureSettingsVideoFramerateFramerate exists in params ...[0m
-[0m[ INFO] [1570529380.163931097]: [CB] 12:09:40:163 | Update:1707 -   Yes[0m
-[0m[ INFO] [1570529382.764612028]: Fetching all settings from the Drone ...[0m
-[0m[ INFO] [1570529382.774526298]: Value for PilotingSettingsMaxAltitudeCurrent recved: 30[0m
-[0m[ INFO] [1570529382.774782188]: [CB] 12:09:42:774 | Update:111 - Checking if PilotingSettingsMaxAltitudeCurrent exists in params ...[0m
-[0m[ INFO] [1570529382.776851483]: [CB] 12:09:42:776 | Update:119 -   Yes[0m
-[0m[ INFO] [1570529382.776986537]: Value for PilotingSettingsMaxDistanceValue recved: 2000[0m
-[0m[ INFO] [1570529382.777048507]: [CB] 12:09:42:777 | Update:351 - Checking if PilotingSettingsMaxDistanceValue exists in params ...[0m
-[0m[ INFO] [1570529382.779428357]: [CB] 12:09:42:779 | Update:359 -   Yes[0m
-[0m[ INFO] [1570529382.779582400]: Value for PilotingSettingsNoFlyOverMaxDistanceShouldnotflyover recved: 0[0m
-[0m[ INFO] [1570529382.779638600]: [CB] 12:09:42:779 | Update:431 - Checking if PilotingSettingsNoFlyOverMaxDistanceShouldnotflyover exists in params ...[0m
-[0m[ INFO] [1570529382.781564254]: [CB] 12:09:42:781 | Update:439 -   Yes[0m
-[0m[ INFO] [1570529382.782086205]: Value for PilotingSettingsMaxTiltCurrent recved: 20[0m
-[0m[ INFO] [1570529382.782126310]: [CB] 12:09:42:782 | Update:191 - Checking if PilotingSettingsMaxTiltCurrent exists in params ...[0m
-[0m[ INFO] [1570529382.783543896]: [CB] 12:09:42:783 | Update:199 -   Yes[0m
-[0m[ INFO] [1570529382.784622755]: Value for PilotingSettingsBankedTurnValue recved: 0[0m
-[0m[ INFO] [1570529382.784679437]: [CB] 12:09:42:784 | Update:511 - Checking if PilotingSettingsBankedTurnValue exists in params ...[0m
-[0m[ INFO] [1570529382.786019842]: [CB] 12:09:42:785 | Update:519 -   Yes[0m
-[0m[ INFO] [1570529382.786104399]: Value for SpeedSettingsMaxVerticalSpeedCurrent recved: 1[0m
-[0m[ INFO] [1570529382.786146588]: [CB] 12:09:42:786 | Update:991 - Checking if SpeedSettingsMaxVerticalSpeedCurrent exists in params ...[0m
-[0m[ INFO] [1570529382.787790391]: [CB] 12:09:42:787 | Update:999 -   Yes[0m
-[0m[ INFO] [1570529382.787901257]: Value for SpeedSettingsMaxRotationSpeedCurrent recved: 100[0m
-[0m[ INFO] [1570529382.787939315]: [CB] 12:09:42:787 | Update:1071 - Checking if SpeedSettingsMaxRotationSpeedCurrent exists in params ...[0m
-[0m[ INFO] [1570529382.789048680]: [CB] 12:09:42:789 | Update:1079 -   Yes[0m
-[0m[ INFO] [1570529382.789126378]: Value for SpeedSettingsHullProtectionPresent recved: 0[0m
-[0m[ INFO] [1570529382.789165559]: [CB] 12:09:42:789 | Update:1151 - Checking if SpeedSettingsHullProtectionPresent exists in params ...[0m
-[0m[ INFO] [1570529382.790429615]: [CB] 12:09:42:790 | Update:1159 -   Yes[0m
-[0m[ INFO] [1570529382.790787777]: Value for SpeedSettingsOutdoorOutdoor recved: 1[0m
-[0m[ INFO] [1570529382.790858809]: [CB] 12:09:42:790 | Update:1231 - Checking if SpeedSettingsOutdoorOutdoor exists in params ...[0m
-[0m[ INFO] [1570529382.794152715]: [CB] 12:09:42:794 | Update:1239 -   Yes[0m
-[0m[ INFO] [1570529382.794260092]: Value for SpeedSettingsMaxPitchRollRotationSpeedCurrent recved: 300[0m
-[0m[ INFO] [1570529382.794300071]: [CB] 12:09:42:794 | Update:1311 - Checking if SpeedSettingsMaxPitchRollRotationSpeedCurrent exists in params ...[0m
-[0m[ INFO] [1570529382.796755503]: [CB] 12:09:42:796 | Update:1319 -   Yes[0m
-[0m[ INFO] [1570529382.808968639]: Value for Pi[31m[ERROR] [1570529386.295895039]: [ARSTREAM2_Rtcp] 12:09:46:295 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529386.296074134]: [ARSTREAM2_Rtcp] 12:09:46:296 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529386.580848156]: [ARSTREAM2_Rtcp] 12:09:46:580 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529386.729369716]: [ARSTREAM2_Rtcp] 12:09:46:729 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529387.027430370]: [ARSTREAM2_Rtcp] 12:09:47:027 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529387.326911318]: [ARSTREAM2_Rtcp] 12:09:47:326 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529387.478033751]: [ARSTREAM2_Rtcp] 12:09:47:478 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529387.629442673]: [ARSTREAM2_Rtcp] 12:09:47:629 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-ctureSettingsVideoStabilizationModeMode recved: 0[0m
-[0m[ INFO] [1570529382.809081625]: [CB] 12:09:42:809 | Update:1539 - Checking if PictureSettingsVideoStabilizationModeMode exists in params ...[0m
-[0m[ INFO] [1570529382.810607668]: [CB] 12:09:42:810 | Update:1547 -   Yes[0m
-[0m[ INFO] [1570529382.810681221]: Value for PictureSettingsVideoRecordingModeMode recved: 1[0m
-[0m[ INFO] [1570529382.810774464]: [CB] 12:09:42:810 | Update:1619 - Checking if PictureSettingsVideoRecordingModeMode exists in params ...[0m
-[0m[ INFO] [1570529382.812104857]: [CB] 12:09:42:812 | Update:1627 -   Yes[0m
-[0m[ INFO] [1570529382.816122287]: Value for PictureSettingsVideoFramerateFramerate recved: 2[0m
-[0m[ INFO] [1570529382.816281457]: [CB] 12:09:42:816 | Update:1699 - Checking if PictureSettingsVideoFramerateFramerate exists in params ...[0m
-[0m[ INFO] [1570529382.819500651]: [CB] 12:09:42:819 | Update:1707 -   Yes[0m
-[0m[ INFO] [1570529382.819651338]: Value for PictureSettingsVideoResolutionsType recved: 0[0m
-[0m[ INFO] [1570529382.819693138]: [CB] 12:09:42:819 | Update:1779 - Checking if PictureSettingsVideoResolutionsType exists in params ...[0m
-[0m[ INFO] [1570529382.821367345]: [CB] 12:09:42:821 | Update:1787 -   Yes[0m
-[0m[ INFO] [1570529382.821762436]: Value for GPSSettingsReturnHomeDelayDelay recved: 3[0m
-[0m[ INFO] [1570529382.821807886]: [CB] 12:09:42:821 | Update:1939 - Checking if GPSSettingsReturnHomeDelayDelay exists in params ...[0m
-[0m[ INFO] [1570529382.823630545]: [CB] 12:09:42:823 | Update:1947 -   Yes[0m
-[0m[ INFO] [1570529382.823781242]: Value for GPSSettingsHomeTypeType recved: 0[0m
-[0m[ INFO] [1570529382.823818062]: [CB] 12:09:42:823 | Update:1859 - Checking if GPSSettingsHomeTypeType exists in params ...[0m
-[0m[ INFO] [1570529382.825632197]: [CB] 12:09:42:825 | Update:1867 -   Yes[0m
-[0m[ INFO] [1570529386.117623188]: Dynamic reconfigure callback with level: -1[0m
-[0m[ INFO] [1570529386.152480069]: Enabling video stream ...[0m
-[33m[ WARN] [1570529386.152556062]: [BebopSDK] 12:09:46:152 | StartStreaming:359 - Video streaming started ...[0m
-[0m[ INFO] [1570529386.152822331]: Nodelet lwp_id: 18452[0m
-[0m[ INFO] [1570529386.152874099]: bebop_driver nodelet loaded.[0m
-[0m[ INFO] [1570529386.152911557]: [CameraThread] thread lwp_id: 18880[0m
-[0m[ INFO] [1570529386.152987713]: [AuxThread] thread lwp_id: 18881[0m
-[0m[ INFO] [1570529386.160146371]: [ARSTREAM2_StreamReceiver] 12:09:46:160 | ARSTREAM2_StreamReceiver_StartAppOutput:1911 - App output is running[0m
-[0m[ INFO] [1570529386.160244988]: [ARSTREAM2_StreamReceiver] 12:09:46:160 | ARSTREAM2_StreamReceiver_RunAppOutputThread:1336 - App output thread running[0m
-[0m[ INFO] [1570529386.160390202]: [ARSTREAM2_StreamReceiver] 12:09:46:160 | ARSTREAM2_StreamReceiver_RunNetworkThread:1666 - Receiver thread running[0m
-[33m[ WARN] [1570529386.295835452]: [ARSTREAM2_Rtcp] 12:09:46:295 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529386.296033336]: [ARSTREAM2_Rtcp] 12:09:46:296 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529386.580694031]: [ARSTREAM2_Rtcp] 12:09:46:580 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529386.729301087]: [ARSTREAM2_Rtcp] 12:09:46:729 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529387.027357277]: [ARSTREAM2_Rtcp] 12:09:47:027 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529387.326863004]: [ARSTREAM2_Rtcp] 12:09:47:326 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529387.477890818]: [ARSTREAM2_Rtcp] 12:09:47:477 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529387.629342149]: [ARSTREAM2_Rtcp] 12:09:47:629 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529387.782960171]: [ARSTREAM2_Rtcp] 12:09:47[31m[ERROR] [1570529387.783089618]: [ARSTREAM2_Rtcp] 12:09:47:783 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529387.934804279]: [ARSTREAM2_Rtcp] 12:09:47:934 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529387.934958820]: [ARSTREAM2_Rtcp] 12:09:47:934 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529388.086455734]: [ARSTREAM2_Rtcp] 12:09:48:086 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529388.238149143]: [ARSTREAM2_Rtcp] 12:09:48:238 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529388.390452522]: [ARSTREAM2_Rtcp] 12:09:48:390 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529388.685025775]: [ARSTREAM2_Rtcp] 12:09:48:685 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529388.973086797]: [ARSTREAM2_Rtcp] 12:09:48:973 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529389.260899503]: [ARSTREAM2_Rtcp] 12:09:49:260 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529389.548464743]: [ARSTREAM2_Rtcp] 12:09:49:548 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529389.548575103]: [ARSTREAM2_Rtcp] 12:09:49:548 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529389.871680741]: [ARSTREAM2_Rtcp] 12:09:49:871 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529390.194964374]: [ARSTREAM2_Rtcp] 12:09:50:194 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529390.518318727]: [ARSTREAM2_Rtcp] 12:09:50:518 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529390.840078289]: [ARSTREAM2_Rtcp] 12:09:50:840 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529391.162238162]: [ARSTREAM2_Rtcp] 12:09:51:162 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529391.484781007]: [ARSTREAM2_Rtcp] 12:09:51:484 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529391.485003404]: [ARSTREAM2_Rtcp] 12:09:51:484 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529391.811999922]: [ARSTREAM2_Rtcp] 12:09:51:811 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529392.144278058]: [ARSTREAM2_Rtcp] 12:09:52:144 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529392.476982095]: [ARSTREAM2_Rtcp] 12:09:52:476 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529392.815759972]: [ARSTREAM2_Rtcp] 12:09:52:815 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529393.155945985]: [ARSTREAM2_Rtcp] 12:09:53:155 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529393.326069020]: [ARSTREAM2_Rtcp] 12:09:53:326 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529393.326579927]: [ARSTREAM2_Rtcp] 12:09:53:326 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529393.666452477]: [ARSTREAM2_Rtcp] 12:09:53:666 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529394.016135991]: [ARSTREAM2_Rtcp] 12:09:54:016 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529394.190949933]: [ARSTREAM2_Rtcp] 12:09:54:190 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-:782 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529387.934708726]: [ARSTREAM2_Rtcp] 12:09:47:934 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529387.934908369]: [ARSTREAM2_Rtcp] 12:09:47:934 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529388.086394330]: [ARSTREAM2_Rtcp] 12:09:48:086 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529388.238071378]: [ARSTREAM2_Rtcp] 12:09:48:238 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529388.390206064]: [ARSTREAM2_Rtcp] 12:09:48:389 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529388.684956088]: [ARSTREAM2_Rtcp] 12:09:48:684 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529388.972934841]: [ARSTREAM2_Rtcp] 12:09:48:972 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529389.260735271]: [ARSTREAM2_Rtcp] 12:09:49:260 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529389.548413533]: [ARSTREAM2_Rtcp] 12:09:49:548 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529389.548541288]: [ARSTREAM2_Rtcp] 12:09:49:548 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529389.871629095]: [ARSTREAM2_Rtcp] 12:09:49:871 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529390.194916225]: [ARSTREAM2_Rtcp] 12:09:50:194 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529390.518276198]: [ARSTREAM2_Rtcp] 12:09:50:518 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529390.840026811]: [ARSTREAM2_Rtcp] 12:09:50:839 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529391.162174949]: [ARSTREAM2_Rtcp] 12:09:51:162 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529391.484705487]: [ARSTREAM2_Rtcp] 12:09:51:484 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529391.484956942]: [ARSTREAM2_Rtcp] 12:09:51:484 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529391.811924900]: [ARSTREAM2_Rtcp] 12:09:51:811 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529392.144219604]: [ARSTREAM2_Rtcp] 12:09:52:144 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529392.476902943]: [ARSTREAM2_Rtcp] 12:09:52:476 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529392.815524592]: [ARSTREAM2_Rtcp] 12:09:52:815 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529393.155612264]: [ARSTREAM2_Rtcp] 12:09:53:155 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529393.325799495]: [ARSTREAM2_Rtcp] 12:09:53:325 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529393.326481509]: [ARSTREAM2_Rtcp] 12:09:53:326 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529393.666118264]: [ARSTREAM2_Rtcp] 12:09:53:665 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529394.016065074]: [ARSTREAM2_Rtcp] 12:09:54:015 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529394.190853082]: [ARSTREAM2_Rtcp] 12:09:54:190 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529394.366053429]: [ARSTREAM2_Rtcp] 12:09:54:365 | ARSTR[31m[ERROR] [1570529394.366630732]: [ARSTREAM2_Rtcp] 12:09:54:366 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529394.709693678]: [ARSTREAM2_Rtcp] 12:09:54:709 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529394.878555698]: [ARSTREAM2_Rtcp] 12:09:54:878 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529395.215515148]: [ARSTREAM2_Rtcp] 12:09:55:215 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529395.215633763]: [ARSTREAM2_Rtcp] 12:09:55:215 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529395.551700334]: [ARSTREAM2_Rtcp] 12:09:55:551 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529395.885997685]: [ARSTREAM2_Rtcp] 12:09:55:885 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529396.220643490]: [ARSTREAM2_Rtcp] 12:09:56:220 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529396.554856512]: [ARSTREAM2_Rtcp] 12:09:56:554 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529396.902243631]: [ARSTREAM2_Rtcp] 12:09:56:902 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529397.244541000]: [ARSTREAM2_Rtcp] 12:09:57:244 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529397.244675362]: [ARSTREAM2_Rtcp] 12:09:57:244 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529397.587875856]: [ARSTREAM2_Rtcp] 12:09:57:587 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529397.783546553]: [ARSTREAM2_Rtcp] 12:09:57:783 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529397.975042919]: [ARSTREAM2_Rtcp] 12:09:57:975 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529398.167386951]: [ARSTREAM2_Rtcp] 12:09:58:167 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529398.358338352]: [ARSTREAM2_Rtcp] 12:09:58:358 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529398.551823093]: [ARSTREAM2_Rtcp] 12:09:58:551 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529398.908920343]: [ARSTREAM2_Rtcp] 12:09:58:908 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529399.088149495]: [ARSTREAM2_Rtcp] 12:09:59:088 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529399.088460080]: [ARSTREAM2_Rtcp] 12:09:59:088 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529399.267022192]: [ARSTREAM2_Rtcp] 12:09:59:266 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529399.445904228]: [ARSTREAM2_Rtcp] 12:09:59:445 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529399.624937585]: [ARSTREAM2_Rtcp] 12:09:59:624 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529399.787891272]: [ARSTREAM2_Rtcp] 12:09:59:787 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529400.112641134]: [ARSTREAM2_Rtcp] 12:10:00:112 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529400.274764380]: [ARSTREAM2_Rtcp] 12:10:00:274 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-EAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529394.709573757]: [ARSTREAM2_Rtcp] 12:09:54:709 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529394.878471857]: [ARSTREAM2_Rtcp] 12:09:54:878 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529395.215458570]: [ARSTREAM2_Rtcp] 12:09:55:215 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529395.215596923]: [ARSTREAM2_Rtcp] 12:09:55:215 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529395.551648144]: [ARSTREAM2_Rtcp] 12:09:55:551 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529395.885924418]: [ARSTREAM2_Rtcp] 12:09:55:885 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529396.220599570]: [ARSTREAM2_Rtcp] 12:09:56:220 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529396.554811105]: [ARSTREAM2_Rtcp] 12:09:56:554 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529396.901900099]: [ARSTREAM2_Rtcp] 12:09:56:901 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529397.244477687]: [ARSTREAM2_Rtcp] 12:09:57:244 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529397.244627623]: [ARSTREAM2_Rtcp] 12:09:57:244 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529397.587669090]: [ARSTREAM2_Rtcp] 12:09:57:587 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529397.783464163]: [ARSTREAM2_Rtcp] 12:09:57:783 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529397.974970570]: [ARSTREAM2_Rtcp] 12:09:57:974 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529398.167081883]: [ARSTREAM2_Rtcp] 12:09:58:166 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529398.358292034]: [ARSTREAM2_Rtcp] 12:09:58:358 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529398.551603121]: [ARSTREAM2_Rtcp] 12:09:58:551 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529398.908872752]: [ARSTREAM2_Rtcp] 12:09:58:908 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529399.088046738]: [ARSTREAM2_Rtcp] 12:09:59:087 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529399.088366700]: [ARSTREAM2_Rtcp] 12:09:59:088 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529399.266924753]: [ARSTREAM2_Rtcp] 12:09:59:266 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529399.445736696]: [ARSTREAM2_Rtcp] 12:09:59:445 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529399.624671196]: [ARSTREAM2_Rtcp] 12:09:59:624 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529399.787539954]: [ARSTREAM2_Rtcp] 12:09:59:787 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529400.112278639]: [ARSTREAM2_Rtcp] 12:10:00:111 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529400.153132419]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529400.274421767]: [ARSTREAM2_Rtcp] 12:10:00:274 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529400.599818038]: [ARSTREAM2_Rtcp] 12:10:00:599 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected send[31m[ERROR] [1570529400.600405973]: [ARSTREAM2_Rtcp] 12:10:00:600 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529400.767940864]: [ARSTREAM2_Rtcp] 12:10:00:767 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529400.768868475]: [ARSTREAM2_Rtcp] 12:10:00:768 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529401.100835715]: [ARSTREAM2_Rtcp] 12:10:01:100 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529401.434087264]: [ARSTREAM2_Rtcp] 12:10:01:434 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529401.600060592]: [ARSTREAM2_Rtcp] 12:10:01:600 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529401.942536131]: [ARSTREAM2_Rtcp] 12:10:01:942 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529402.285063844]: [ARSTREAM2_Rtcp] 12:10:02:285 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529402.456015114]: [ARSTREAM2_Rtcp] 12:10:02:455 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529402.803275894]: [ARSTREAM2_Rtcp] 12:10:02:803 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529402.803371529]: [ARSTREAM2_Rtcp] 12:10:02:803 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529402.979761240]: [ARSTREAM2_Rtcp] 12:10:02:979 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529403.155663096]: [ARSTREAM2_Rtcp] 12:10:03:155 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529403.332121653]: [ARSTREAM2_Rtcp] 12:10:03:332 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529403.509615905]: [ARSTREAM2_Rtcp] 12:10:03:509 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529403.686091426]: [ARSTREAM2_Rtcp] 12:10:03:686 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529403.857617825]: [ARSTREAM2_Rtcp] 12:10:03:857 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529404.200516064]: [ARSTREAM2_Rtcp] 12:10:04:200 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529404.543229833]: [ARSTREAM2_Rtcp] 12:10:04:543 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529404.543319244]: [ARSTREAM2_Rtcp] 12:10:04:543 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529404.885971509]: [ARSTREAM2_Rtcp] 12:10:04:885 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529405.057935393]: [ARSTREAM2_Rtcp] 12:10:05:057 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529405.229438591]: [ARSTREAM2_Rtcp] 12:10:05:229 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529405.572656253]: [ARSTREAM2_Rtcp] 12:10:05:572 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529405.918083553]: [ARSTREAM2_Rtcp] 12:10:05:918 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-er SSRC[0m
-[33m[ WARN] [1570529400.767635647]: [ARSTREAM2_Rtcp] 12:10:00:767 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529400.768694804]: [ARSTREAM2_Rtcp] 12:10:00:768 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529401.086450111]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529401.100789972]: [ARSTREAM2_Rtcp] 12:10:01:100 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529401.434023819]: [ARSTREAM2_Rtcp] 12:10:01:433 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529401.599995694]: [ARSTREAM2_Rtcp] 12:10:01:599 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529401.942365289]: [ARSTREAM2_Rtcp] 12:10:01:942 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529402.284980498]: [ARSTREAM2_Rtcp] 12:10:02:284 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529402.353142415]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529402.455936425]: [ARSTREAM2_Rtcp] 12:10:02:455 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529402.619809482]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529402.803230737]: [ARSTREAM2_Rtcp] 12:10:02:803 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529402.803335432]: [ARSTREAM2_Rtcp] 12:10:02:803 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529402.979699341]: [ARSTREAM2_Rtcp] 12:10:02:979 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529403.155618480]: [ARSTREAM2_Rtcp] 12:10:03:155 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529403.332054958]: [ARSTREAM2_Rtcp] 12:10:03:331 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529403.509384516]: [ARSTREAM2_Rtcp] 12:10:03:509 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529403.553153556]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529403.685806612]: [ARSTREAM2_Rtcp] 12:10:03:685 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529403.857431104]: [ARSTREAM2_Rtcp] 12:10:03:857 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529404.200449354]: [ARSTREAM2_Rtcp] 12:10:04:200 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529404.543189686]: [ARSTREAM2_Rtcp] 12:10:04:543 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529404.543287279]: [ARSTREAM2_Rtcp] 12:10:04:543 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529404.885898040]: [ARSTREAM2_Rtcp] 12:10:04:885 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529405.057729346]: [ARSTREAM2_Rtcp] 12:10:05:057 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529405.229378466]: [ARSTREAM2_Rtcp] 12:10:05:229 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529405.572536403]: [ARSTREAM2_Rtcp] 12:10:05:572 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529405.918031428]: [ARSTREAM2_Rtcp] 12:10:05:917 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529406.020142782]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529406.264038882]: [ARSTREAM2_Rtcp] 12:10:06:263 | ARSTREAM2_RTCP_Receiver_Proce[31m[ERROR] [1570529406.264134856]: [ARSTREAM2_Rtcp] 12:10:06:264 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529406.609558880]: [ARSTREAM2_Rtcp] 12:10:06:609 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529406.609697809]: [ARSTREAM2_Rtcp] 12:10:06:609 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529406.966596001]: [ARSTREAM2_Rtcp] 12:10:06:966 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529407.324678444]: [ARSTREAM2_Rtcp] 12:10:07:324 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529407.502928935]: [ARSTREAM2_Rtcp] 12:10:07:502 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529407.874876696]: [ARSTREAM2_Rtcp] 12:10:07:874 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529408.262858609]: [ARSTREAM2_Rtcp] 12:10:08:262 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529408.650779797]: [ARSTREAM2_Rtcp] 12:10:08:650 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529408.650921131]: [ARSTREAM2_Rtcp] 12:10:08:650 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529408.857046411]: [ARSTREAM2_Rtcp] 12:10:08:857 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529409.064091958]: [ARSTREAM2_Rtcp] 12:10:09:064 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529409.271338665]: [ARSTREAM2_Rtcp] 12:10:09:271 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529409.686114240]: [ARSTREAM2_Rtcp] 12:10:09:686 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529409.896105993]: [ARSTREAM2_Rtcp] 12:10:09:896 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529410.105364691]: [ARSTREAM2_Rtcp] 12:10:10:105 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529410.314884330]: [ARSTREAM2_Rtcp] 12:10:10:314 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529410.524038685]: [ARSTREAM2_Rtcp] 12:10:10:524 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529410.734046311]: [ARSTREAM2_Rtcp] 12:10:10:734 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529410.734165407]: [ARSTREAM2_Rtcp] 12:10:10:734 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529411.101720165]: [ARSTREAM2_Rtcp] 12:10:11:101 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529411.468175721]: [ARSTREAM2_Rtcp] 12:10:11:468 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529411.652646450]: [ARSTREAM2_Rtcp] 12:10:11:652 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529412.007606821]: [ARSTREAM2_Rtcp] 12:10:12:007 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529412.185204710]: [ARSTREAM2_Rtcp] 12:10:12:185 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-ssSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529406.609492433]: [ARSTREAM2_Rtcp] 12:10:06:609 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529406.609661159]: [ARSTREAM2_Rtcp] 12:10:06:609 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529406.966548939]: [ARSTREAM2_Rtcp] 12:10:06:966 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529407.324607051]: [ARSTREAM2_Rtcp] 12:10:07:324 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529407.502876211]: [ARSTREAM2_Rtcp] 12:10:07:502 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529407.874824632]: [ARSTREAM2_Rtcp] 12:10:07:874 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529408.262785065]: [ARSTREAM2_Rtcp] 12:10:08:262 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529408.650714668]: [ARSTREAM2_Rtcp] 12:10:08:650 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529408.650870783]: [ARSTREAM2_Rtcp] 12:10:08:650 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529408.857002083]: [ARSTREAM2_Rtcp] 12:10:08:856 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529409.064042640]: [ARSTREAM2_Rtcp] 12:10:09:063 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529409.086485526]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529409.271272267]: [ARSTREAM2_Rtcp] 12:10:09:271 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529409.486475797]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529409.686059599]: [ARSTREAM2_Rtcp] 12:10:09:685 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529409.895924439]: [ARSTREAM2_Rtcp] 12:10:09:895 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529410.105313367]: [ARSTREAM2_Rtcp] 12:10:10:105 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529410.219825202]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529410.314837701]: [ARSTREAM2_Rtcp] 12:10:10:314 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529410.523968112]: [ARSTREAM2_Rtcp] 12:10:10:523 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529410.734002462]: [ARSTREAM2_Rtcp] 12:10:10:733 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529410.734114446]: [ARSTREAM2_Rtcp] 12:10:10:734 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529411.101645650]: [ARSTREAM2_Rtcp] 12:10:11:101 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529411.353117406]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529411.468132671]: [ARSTREAM2_Rtcp] 12:10:11:468 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529411.652584875]: [ARSTREAM2_Rtcp] 12:10:11:652 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529411.953181544]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529412.007539320]: [ARSTREAM2_Rtcp] 12:10:12:007 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529412.185162111]: [ARSTREAM2_Rtcp] 12:10:12:185 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529412.362853041]: [ARSTREAM2_Rtcp] 12:10:12[31m[ERROR] [1570529412.379493371]: [ARSTREAM2_Rtcp] 12:10:12:379 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529412.723922931]: [ARSTREAM2_Rtcp] 12:10:12:723 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529412.724021361]: [ARSTREAM2_Rtcp] 12:10:12:724 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529413.088366681]: [ARSTREAM2_Rtcp] 12:10:13:088 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529413.270962048]: [ARSTREAM2_Rtcp] 12:10:13:270 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529413.454789448]: [ARSTREAM2_Rtcp] 12:10:13:454 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529413.637250648]: [ARSTREAM2_Rtcp] 12:10:13:637 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529413.988322320]: [ARSTREAM2_Rtcp] 12:10:13:988 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529414.338929281]: [ARSTREAM2_Rtcp] 12:10:14:338 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529414.689603249]: [ARSTREAM2_Rtcp] 12:10:14:689 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529414.689736205]: [ARSTREAM2_Rtcp] 12:10:14:689 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529415.063181013]: [ARSTREAM2_Rtcp] 12:10:15:063 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529415.249315484]: [ARSTREAM2_Rtcp] 12:10:15:249 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529415.435997769]: [ARSTREAM2_Rtcp] 12:10:15:435 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529415.622993170]: [ARSTREAM2_Rtcp] 12:10:15:622 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529415.805032291]: [ARSTREAM2_Rtcp] 12:10:15:805 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529416.169266070]: [ARSTREAM2_Rtcp] 12:10:16:169 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529416.352124596]: [ARSTREAM2_Rtcp] 12:10:16:352 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529416.716676860]: [ARSTREAM2_Rtcp] 12:10:16:716 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529416.717072434]: [ARSTREAM2_Rtcp] 12:10:16:717 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529417.081062244]: [ARSTREAM2_Rtcp] 12:10:17:081 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529417.446439243]: [ARSTREAM2_Rtcp] 12:10:17:446 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529417.813485368]: [ARSTREAM2_Rtcp] 12:10:17:813 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529418.182034586]: [ARSTREAM2_Rtcp] 12:10:18:182 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529418.553212311]: [ARSTREAM2_Rtcp] 12:10:18:553 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529418.932678048]: [ARSTREAM2_Rtcp] 12:10:18:932 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529418.933310176]: [ARSTREAM2_Rtcp] 12:10:18:933 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-:362 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529412.723875087]: [ARSTREAM2_Rtcp] 12:10:12:723 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529412.723990873]: [ARSTREAM2_Rtcp] 12:10:12:723 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529413.088281352]: [ARSTREAM2_Rtcp] 12:10:13:088 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529413.270757589]: [ARSTREAM2_Rtcp] 12:10:13:270 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529413.454404464]: [ARSTREAM2_Rtcp] 12:10:13:454 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529413.636968056]: [ARSTREAM2_Rtcp] 12:10:13:636 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529413.753154433]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529413.988271807]: [ARSTREAM2_Rtcp] 12:10:13:988 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529414.338866409]: [ARSTREAM2_Rtcp] 12:10:14:338 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529414.689539513]: [ARSTREAM2_Rtcp] 12:10:14:689 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529414.689685140]: [ARSTREAM2_Rtcp] 12:10:14:689 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529415.062970644]: [ARSTREAM2_Rtcp] 12:10:15:062 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529415.249273095]: [ARSTREAM2_Rtcp] 12:10:15:249 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529415.435932201]: [ARSTREAM2_Rtcp] 12:10:15:435 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529415.622915518]: [ARSTREAM2_Rtcp] 12:10:15:622 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529415.804962036]: [ARSTREAM2_Rtcp] 12:10:15:804 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529416.169208626]: [ARSTREAM2_Rtcp] 12:10:16:169 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529416.351865367]: [ARSTREAM2_Rtcp] 12:10:16:351 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529416.716438585]: [ARSTREAM2_Rtcp] 12:10:16:716 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529416.716993183]: [ARSTREAM2_Rtcp] 12:10:16:716 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529417.081002928]: [ARSTREAM2_Rtcp] 12:10:17:080 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529417.446364950]: [ARSTREAM2_Rtcp] 12:10:17:446 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529417.813438885]: [ARSTREAM2_Rtcp] 12:10:17:813 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529418.181953870]: [ARSTREAM2_Rtcp] 12:10:18:181 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529418.552878916]: [ARSTREAM2_Rtcp] 12:10:18:552 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529418.932338074]: [ARSTREAM2_Rtcp] 12:10:18:931 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529418.933177588]: [ARSTREAM2_Rtcp] 12:10:18:933 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529419.127722416]: [ARSTREAM2_Rtcp] 12:10:19:127 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unex[31m[ERROR] [1570529419.127830278]: [ARSTREAM2_Rtcp] 12:10:19:127 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529419.323333633]: [ARSTREAM2_Rtcp] 12:10:19:323 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529419.519045583]: [ARSTREAM2_Rtcp] 12:10:19:518 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529419.714233915]: [ARSTREAM2_Rtcp] 12:10:19:714 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529419.901729636]: [ARSTREAM2_Rtcp] 12:10:19:901 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529420.276148439]: [ARSTREAM2_Rtcp] 12:10:20:276 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529420.464108948]: [ARSTREAM2_Rtcp] 12:10:20:464 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529420.650900540]: [ARSTREAM2_Rtcp] 12:10:20:650 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529420.823898433]: [ARSTREAM2_Rtcp] 12:10:20:823 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529420.824489203]: [ARSTREAM2_Rtcp] 12:10:20:824 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529420.996320422]: [ARSTREAM2_Rtcp] 12:10:20:996 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529421.169020067]: [ARSTREAM2_Rtcp] 12:10:21:168 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529421.512450418]: [ARSTREAM2_Rtcp] 12:10:21:512 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529421.684046695]: [ARSTREAM2_Rtcp] 12:10:21:684 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529422.015514110]: [ARSTREAM2_Rtcp] 12:10:22:015 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529422.348274898]: [ARSTREAM2_Rtcp] 12:10:22:348 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529422.680409532]: [ARSTREAM2_Rtcp] 12:10:22:680 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529422.681071936]: [ARSTREAM2_Rtcp] 12:10:22:681 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529423.024300355]: [ARSTREAM2_Rtcp] 12:10:23:024 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529423.196059466]: [ARSTREAM2_Rtcp] 12:10:23:195 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529423.538803750]: [ARSTREAM2_Rtcp] 12:10:23:538 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529423.710408178]: [ARSTREAM2_Rtcp] 12:10:23:710 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529423.878832031]: [ARSTREAM2_Rtcp] 12:10:23:878 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529424.047726057]: [ARSTREAM2_Rtcp] 12:10:24:047 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529424.216630436]: [ARSTREAM2_Rtcp] 12:10:24:216 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529424.385174524]: [ARSTREAM2_Rtcp] 12:10:24:385 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529424.385330554]: [ARSTREAM2_Rtcp] 12:10:24:385 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529424.723057619]: [ARSTREAM2_Rtcp] 12:10:24:722 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-pected sender SSRC[0m
-[33m[ WARN] [1570529419.323280085]: [ARSTREAM2_Rtcp] 12:10:19:323 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529419.419834258]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529419.518896156]: [ARSTREAM2_Rtcp] 12:10:19:518 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529419.714175048]: [ARSTREAM2_Rtcp] 12:10:19:714 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529419.901607181]: [ARSTREAM2_Rtcp] 12:10:19:901 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529420.276095973]: [ARSTREAM2_Rtcp] 12:10:20:276 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529420.464058379]: [ARSTREAM2_Rtcp] 12:10:20:464 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529420.650855347]: [ARSTREAM2_Rtcp] 12:10:20:650 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529420.823669257]: [ARSTREAM2_Rtcp] 12:10:20:823 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529420.824395567]: [ARSTREAM2_Rtcp] 12:10:20:824 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529420.995973955]: [ARSTREAM2_Rtcp] 12:10:20:995 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529421.168784480]: [ARSTREAM2_Rtcp] 12:10:21:168 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529421.511969473]: [ARSTREAM2_Rtcp] 12:10:21:511 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529421.683817158]: [ARSTREAM2_Rtcp] 12:10:21:683 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529422.015257637]: [ARSTREAM2_Rtcp] 12:10:22:014 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529422.347930321]: [ARSTREAM2_Rtcp] 12:10:22:347 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529422.680029135]: [ARSTREAM2_Rtcp] 12:10:22:679 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529422.680964054]: [ARSTREAM2_Rtcp] 12:10:22:680 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529423.023866224]: [ARSTREAM2_Rtcp] 12:10:23:023 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529423.195741182]: [ARSTREAM2_Rtcp] 12:10:23:195 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529423.538709347]: [ARSTREAM2_Rtcp] 12:10:23:538 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529423.710368760]: [ARSTREAM2_Rtcp] 12:10:23:710 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529423.878768470]: [ARSTREAM2_Rtcp] 12:10:23:878 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529424.047660322]: [ARSTREAM2_Rtcp] 12:10:24:047 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529424.216567659]: [ARSTREAM2_Rtcp] 12:10:24:216 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529424.385110078]: [ARSTREAM2_Rtcp] 12:10:24:385 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529424.385294889]: [ARSTREAM2_Rtcp] 12:10:24:385 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529424.722595433]: [ARSTREAM2_Rtcp] 12:10:24:722 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529425.038274567]: [31m[ERROR] [1570529425.038380525]: [ARSTREAM2_Rtcp] 12:10:25:038 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529425.353936866]: [ARSTREAM2_Rtcp] 12:10:25:353 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529425.670846610]: [ARSTREAM2_Rtcp] 12:10:25:670 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529426.008017537]: [ARSTREAM2_Rtcp] 12:10:26:008 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529426.345919229]: [ARSTREAM2_Rtcp] 12:10:26:345 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529426.346111287]: [ARSTREAM2_Rtcp] 12:10:26:346 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529426.514547431]: [ARSTREAM2_Rtcp] 12:10:26:514 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529426.684498763]: [ARSTREAM2_Rtcp] 12:10:26:684 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529427.030296629]: [ARSTREAM2_Rtcp] 12:10:27:030 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529427.204053570]: [ARSTREAM2_Rtcp] 12:10:27:204 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529427.377642740]: [ARSTREAM2_Rtcp] 12:10:27:377 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529427.723466713]: [ARSTREAM2_Rtcp] 12:10:27:723 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529427.894810209]: [ARSTREAM2_Rtcp] 12:10:27:894 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529428.238051348]: [ARSTREAM2_Rtcp] 12:10:28:238 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529428.238130436]: [ARSTREAM2_Rtcp] 12:10:28:238 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529428.409521441]: [ARSTREAM2_Rtcp] 12:10:28:409 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529428.753625037]: [ARSTREAM2_Rtcp] 12:10:28:753 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529429.091520098]: [ARSTREAM2_Rtcp] 12:10:29:091 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529429.428452880]: [ARSTREAM2_Rtcp] 12:10:29:428 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529429.598372288]: [ARSTREAM2_Rtcp] 12:10:29:598 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529429.768268771]: [ARSTREAM2_Rtcp] 12:10:29:768 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529430.120617924]: [ARSTREAM2_Rtcp] 12:10:30:120 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529430.121280770]: [ARSTREAM2_Rtcp] 12:10:30:121 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529430.297980872]: [ARSTREAM2_Rtcp] 12:10:30:297 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529430.650556621]: [ARSTREAM2_Rtcp] 12:10:30:650 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529430.991837894]: [ARSTREAM2_Rtcp] 12:10:30:991 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529431.163132481]: [ARSTREAM2_Rtcp] 12:10:31:163 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[ARSTREAM2_Rtcp] 12:10:25:038 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529425.353888865]: [ARSTREAM2_Rtcp] 12:10:25:353 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529425.670479129]: [ARSTREAM2_Rtcp] 12:10:25:670 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529426.007970844]: [ARSTREAM2_Rtcp] 12:10:26:007 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529426.345791025]: [ARSTREAM2_Rtcp] 12:10:26:345 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529426.346068570]: [ARSTREAM2_Rtcp] 12:10:26:346 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529426.514495530]: [ARSTREAM2_Rtcp] 12:10:26:514 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529426.684119981]: [ARSTREAM2_Rtcp] 12:10:26:683 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529427.030165606]: [ARSTREAM2_Rtcp] 12:10:27:029 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529427.203805297]: [ARSTREAM2_Rtcp] 12:10:27:203 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529427.377416755]: [ARSTREAM2_Rtcp] 12:10:27:377 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529427.723358426]: [ARSTREAM2_Rtcp] 12:10:27:723 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529427.894743573]: [ARSTREAM2_Rtcp] 12:10:27:894 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529428.238008860]: [ARSTREAM2_Rtcp] 12:10:28:237 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529428.238110921]: [ARSTREAM2_Rtcp] 12:10:28:238 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529428.409461265]: [ARSTREAM2_Rtcp] 12:10:28:409 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529428.753407788]: [ARSTREAM2_Rtcp] 12:10:28:753 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529429.091108853]: [ARSTREAM2_Rtcp] 12:10:29:090 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529429.428378453]: [ARSTREAM2_Rtcp] 12:10:29:428 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529429.598058717]: [ARSTREAM2_Rtcp] 12:10:29:597 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529429.767882715]: [ARSTREAM2_Rtcp] 12:10:29:767 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529430.086436704]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529430.120279056]: [ARSTREAM2_Rtcp] 12:10:30:119 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529430.121120569]: [ARSTREAM2_Rtcp] 12:10:30:121 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529430.297545814]: [ARSTREAM2_Rtcp] 12:10:30:297 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529430.650489380]: [ARSTREAM2_Rtcp] 12:10:30:650 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529430.991778035]: [ARSTREAM2_Rtcp] 12:10:30:991 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529431.162989552]: [ARSTREAM2_Rtcp] 12:10:31:162 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529431.335331194]: [ARSTREAM2_Rtcp] 12:10:31:334 | ARSTREAM2_RTCP_Receiver_Proc[31m[ERROR] [1570529431.335933486]: [ARSTREAM2_Rtcp] 12:10:31:335 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529431.677177205]: [ARSTREAM2_Rtcp] 12:10:31:677 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529432.040198618]: [ARSTREAM2_Rtcp] 12:10:32:040 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529432.040818826]: [ARSTREAM2_Rtcp] 12:10:32:040 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529432.224029906]: [ARSTREAM2_Rtcp] 12:10:32:223 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529432.410583037]: [ARSTREAM2_Rtcp] 12:10:32:410 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529432.591784662]: [ARSTREAM2_Rtcp] 12:10:32:591 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529432.774859538]: [ARSTREAM2_Rtcp] 12:10:32:774 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529432.947296871]: [ARSTREAM2_Rtcp] 12:10:32:947 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529433.119834287]: [ARSTREAM2_Rtcp] 12:10:33:119 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529433.293103811]: [ARSTREAM2_Rtcp] 12:10:33:293 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529433.638533740]: [ARSTREAM2_Rtcp] 12:10:33:638 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529433.983807316]: [ARSTREAM2_Rtcp] 12:10:33:983 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529433.983922006]: [ARSTREAM2_Rtcp] 12:10:33:983 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529434.330383171]: [ARSTREAM2_Rtcp] 12:10:34:330 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529434.674978812]: [ARSTREAM2_Rtcp] 12:10:34:674 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529434.851076938]: [ARSTREAM2_Rtcp] 12:10:34:851 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529435.027552518]: [ARSTREAM2_Rtcp] 12:10:35:027 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529435.204304679]: [ARSTREAM2_Rtcp] 12:10:35:204 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529435.380170478]: [ARSTREAM2_Rtcp] 12:10:35:380 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529435.557993826]: [ARSTREAM2_Rtcp] 12:10:35:557 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529435.906131333]: [ARSTREAM2_Rtcp] 12:10:35:906 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529435.906376232]: [ARSTREAM2_Rtcp] 12:10:35:906 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529436.248726896]: [ARSTREAM2_Rtcp] 12:10:36:248 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529436.591305614]: [ARSTREAM2_Rtcp] 12:10:36:591 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-essSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529431.677118725]: [ARSTREAM2_Rtcp] 12:10:31:677 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529432.040097289]: [ARSTREAM2_Rtcp] 12:10:32:039 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529432.040758721]: [ARSTREAM2_Rtcp] 12:10:32:040 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529432.223693107]: [ARSTREAM2_Rtcp] 12:10:32:223 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529432.410272255]: [ARSTREAM2_Rtcp] 12:10:32:409 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529432.591736320]: [ARSTREAM2_Rtcp] 12:10:32:591 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529432.774796740]: [ARSTREAM2_Rtcp] 12:10:32:774 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529432.947222231]: [ARSTREAM2_Rtcp] 12:10:32:947 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529433.119789205]: [ARSTREAM2_Rtcp] 12:10:33:119 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529433.219807527]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529433.292919494]: [ARSTREAM2_Rtcp] 12:10:33:292 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529433.638481679]: [ARSTREAM2_Rtcp] 12:10:33:638 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529433.953475933]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529433.983757824]: [ARSTREAM2_Rtcp] 12:10:33:983 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529433.983879803]: [ARSTREAM2_Rtcp] 12:10:33:983 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529434.330238307]: [ARSTREAM2_Rtcp] 12:10:34:330 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529434.353268555]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529434.674928371]: [ARSTREAM2_Rtcp] 12:10:34:674 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529434.850979176]: [ARSTREAM2_Rtcp] 12:10:34:850 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529435.027507443]: [ARSTREAM2_Rtcp] 12:10:35:027 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529435.153455657]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529435.204123208]: [ARSTREAM2_Rtcp] 12:10:35:203 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529435.380102397]: [ARSTREAM2_Rtcp] 12:10:35:380 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529435.557906106]: [ARSTREAM2_Rtcp] 12:10:35:557 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529435.906009821]: [ARSTREAM2_Rtcp] 12:10:35:905 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529435.906336411]: [ARSTREAM2_Rtcp] 12:10:35:906 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529436.219916722]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529436.248673896]: [ARSTREAM2_Rtcp] 12:10:36:248 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529436.591253137]: [ARSTREAM2_Rtcp] 12:10:36:591 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529436.938574246]: [ARSTREAM2_Rtcp] 12:10:3[31m[ERROR] [1570529436.938798293]: [ARSTREAM2_Rtcp] 12:10:36:938 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529437.291346988]: [ARSTREAM2_Rtcp] 12:10:37:291 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529437.467740149]: [ARSTREAM2_Rtcp] 12:10:37:467 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529437.820262516]: [ARSTREAM2_Rtcp] 12:10:37:820 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529437.820383903]: [ARSTREAM2_Rtcp] 12:10:37:820 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529438.171621875]: [ARSTREAM2_Rtcp] 12:10:38:171 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529438.523376186]: [ARSTREAM2_Rtcp] 12:10:38:523 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529438.699457613]: [ARSTREAM2_Rtcp] 12:10:38:699 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529439.071189375]: [ARSTREAM2_Rtcp] 12:10:39:071 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529439.257002655]: [ARSTREAM2_Rtcp] 12:10:39:256 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529439.628020752]: [ARSTREAM2_Rtcp] 12:10:39:627 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529439.993816895]: [ARSTREAM2_Rtcp] 12:10:39:993 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529439.993941070]: [ARSTREAM2_Rtcp] 12:10:39:993 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529440.174904142]: [ARSTREAM2_Rtcp] 12:10:40:174 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529440.538333607]: [ARSTREAM2_Rtcp] 12:10:40:538 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529440.903399775]: [ARSTREAM2_Rtcp] 12:10:40:903 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529441.270640034]: [ARSTREAM2_Rtcp] 12:10:41:270 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529441.454495906]: [ARSTREAM2_Rtcp] 12:10:41:454 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529441.638209705]: [ARSTREAM2_Rtcp] 12:10:41:638 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529441.820956908]: [ARSTREAM2_Rtcp] 12:10:41:820 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529441.821088298]: [ARSTREAM2_Rtcp] 12:10:41:821 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529442.005662320]: [ARSTREAM2_Rtcp] 12:10:42:005 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529442.191507314]: [ARSTREAM2_Rtcp] 12:10:42:191 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529442.375964069]: [ARSTREAM2_Rtcp] 12:10:42:375 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529442.560786865]: [ARSTREAM2_Rtcp] 12:10:42:560 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529442.750607344]: [ARSTREAM2_Rtcp] 12:10:42:750 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529443.103770101]: [ARSTREAM2_Rtcp] 12:10:43:103 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-6:938 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529437.291293144]: [ARSTREAM2_Rtcp] 12:10:37:291 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529437.467695517]: [ARSTREAM2_Rtcp] 12:10:37:467 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529437.820218405]: [ARSTREAM2_Rtcp] 12:10:37:820 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529437.820343409]: [ARSTREAM2_Rtcp] 12:10:37:820 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529438.171546848]: [ARSTREAM2_Rtcp] 12:10:38:171 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529438.523176756]: [ARSTREAM2_Rtcp] 12:10:38:522 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529438.699050269]: [ARSTREAM2_Rtcp] 12:10:38:698 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529439.070831170]: [ARSTREAM2_Rtcp] 12:10:39:070 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529439.256636252]: [ARSTREAM2_Rtcp] 12:10:39:256 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529439.627578289]: [ARSTREAM2_Rtcp] 12:10:39:627 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529439.993731932]: [ARSTREAM2_Rtcp] 12:10:39:993 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529439.993898580]: [ARSTREAM2_Rtcp] 12:10:39:993 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529440.153489662]: [AuxThread] Input cmd_vel timeout, reseting cmd_vel ...[0m
-[33m[ WARN] [1570529440.174841022]: [ARSTREAM2_Rtcp] 12:10:40:174 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529440.538237290]: [ARSTREAM2_Rtcp] 12:10:40:538 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529440.903087344]: [ARSTREAM2_Rtcp] 12:10:40:902 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529441.270308975]: [ARSTREAM2_Rtcp] 12:10:41:269 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529441.454187129]: [ARSTREAM2_Rtcp] 12:10:41:453 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529441.638047553]: [ARSTREAM2_Rtcp] 12:10:41:637 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529441.820902266]: [ARSTREAM2_Rtcp] 12:10:41:820 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529441.821058738]: [ARSTREAM2_Rtcp] 12:10:41:821 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529442.005605395]: [ARSTREAM2_Rtcp] 12:10:42:005 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529442.191437807]: [ARSTREAM2_Rtcp] 12:10:42:191 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529442.375913116]: [ARSTREAM2_Rtcp] 12:10:42:375 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529442.560508737]: [ARSTREAM2_Rtcp] 12:10:42:560 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529442.750380043]: [ARSTREAM2_Rtcp] 12:10:42:750 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529443.103622690]: [ARSTREAM2_Rtcp] 12:10:43:103 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529443.279417457]: [ARSTREAM2_Rtcp] 12:10:43:279 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Un[31m[ERROR] [1570529443.279578877]: [ARSTREAM2_Rtcp] 12:10:43:279 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529443.455026949]: [ARSTREAM2_Rtcp] 12:10:43:455 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529443.630779824]: [ARSTREAM2_Rtcp] 12:10:43:630 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529443.630888263]: [ARSTREAM2_Rtcp] 12:10:43:630 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529443.976400479]: [ARSTREAM2_Rtcp] 12:10:43:976 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529444.145657905]: [ARSTREAM2_Rtcp] 12:10:44:145 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529444.314916505]: [ARSTREAM2_Rtcp] 12:10:44:314 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529444.653356184]: [ARSTREAM2_Rtcp] 12:10:44:653 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529445.004817896]: [ARSTREAM2_Rtcp] 12:10:45:004 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529445.187900702]: [ARSTREAM2_Rtcp] 12:10:45:187 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529445.369899269]: [ARSTREAM2_Rtcp] 12:10:45:369 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529445.551565593]: [ARSTREAM2_Rtcp] 12:10:45:551 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529445.551675589]: [ARSTREAM2_Rtcp] 12:10:45:551 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529445.733839463]: [ARSTREAM2_Rtcp] 12:10:45:733 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529446.076056857]: [ARSTREAM2_Rtcp] 12:10:46:076 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529446.247165899]: [ARSTREAM2_Rtcp] 12:10:46:247 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529446.589185476]: [ARSTREAM2_Rtcp] 12:10:46:589 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529446.760138133]: [ARSTREAM2_Rtcp] 12:10:46:760 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529447.110487627]: [ARSTREAM2_Rtcp] 12:10:47:110 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529447.285084938]: [ARSTREAM2_Rtcp] 12:10:47:285 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529447.285189925]: [ARSTREAM2_Rtcp] 12:10:47:285 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529447.459792325]: [ARSTREAM2_Rtcp] 12:10:47:459 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529447.634273437]: [ARSTREAM2_Rtcp] 12:10:47:634 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529447.975965270]: [ARSTREAM2_Rtcp] 12:10:47:975 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529448.305946550]: [ARSTREAM2_Rtcp] 12:10:48:305 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529448.471577424]: [ARSTREAM2_Rtcp] 12:10:48:471 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529448.801143160]: [ARSTREAM2_Rtcp] 12:10:48:801 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529449.146068883]: [ARSTREAM2_Rtcp] 12:10:49:146 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-expected sender SSRC[0m
-[33m[ WARN] [1570529443.454972941]: [ARSTREAM2_Rtcp] 12:10:43:454 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529443.630719279]: [ARSTREAM2_Rtcp] 12:10:43:630 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529443.630854402]: [ARSTREAM2_Rtcp] 12:10:43:630 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529443.976328906]: [ARSTREAM2_Rtcp] 12:10:43:976 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529444.145613871]: [ARSTREAM2_Rtcp] 12:10:44:145 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529444.314876288]: [ARSTREAM2_Rtcp] 12:10:44:314 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529444.653282720]: [ARSTREAM2_Rtcp] 12:10:44:653 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529445.004591009]: [ARSTREAM2_Rtcp] 12:10:45:004 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529445.187620783]: [ARSTREAM2_Rtcp] 12:10:45:187 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529445.369650361]: [ARSTREAM2_Rtcp] 12:10:45:369 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529445.551524368]: [ARSTREAM2_Rtcp] 12:10:45:551 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529445.551631638]: [ARSTREAM2_Rtcp] 12:10:45:551 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529445.733778527]: [ARSTREAM2_Rtcp] 12:10:45:733 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529446.076013999]: [ARSTREAM2_Rtcp] 12:10:46:075 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529446.247104781]: [ARSTREAM2_Rtcp] 12:10:46:247 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529446.589119110]: [ARSTREAM2_Rtcp] 12:10:46:589 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529446.760094679]: [ARSTREAM2_Rtcp] 12:10:46:760 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529447.110440076]: [ARSTREAM2_Rtcp] 12:10:47:110 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529447.285038418]: [ARSTREAM2_Rtcp] 12:10:47:284 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529447.285161130]: [ARSTREAM2_Rtcp] 12:10:47:285 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529447.459742194]: [ARSTREAM2_Rtcp] 12:10:47:459 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529447.634228765]: [ARSTREAM2_Rtcp] 12:10:47:634 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529447.975710664]: [ARSTREAM2_Rtcp] 12:10:47:975 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529448.305898386]: [ARSTREAM2_Rtcp] 12:10:48:305 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529448.471277445]: [ARSTREAM2_Rtcp] 12:10:48:470 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529448.801083146]: [ARSTREAM2_Rtcp] 12:10:48:801 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529449.146015359]: [ARSTREAM2_Rtcp] 12:10:49:145 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529449.146193034]: [ARSTREAM2_Rtcp] 12:10:49:146 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected p[31m[ERROR] [1570529449.146322180]: [ARSTREAM2_Rtcp] 12:10:49:146 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529449.319596928]: [ARSTREAM2_Rtcp] 12:10:49:319 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529449.665160477]: [ARSTREAM2_Rtcp] 12:10:49:665 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529449.837946730]: [ARSTREAM2_Rtcp] 12:10:49:837 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529450.016606347]: [ARSTREAM2_Rtcp] 12:10:50:016 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529450.375219032]: [ARSTREAM2_Rtcp] 12:10:50:375 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529450.731241071]: [ARSTREAM2_Rtcp] 12:10:50:731 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529451.088050015]: [ARSTREAM2_Rtcp] 12:10:51:087 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529451.088716575]: [ARSTREAM2_Rtcp] 12:10:51:088 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529451.265314926]: [ARSTREAM2_Rtcp] 12:10:51:265 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529451.443193257]: [ARSTREAM2_Rtcp] 12:10:51:443 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529451.621375455]: [ARSTREAM2_Rtcp] 12:10:51:621 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529451.799444110]: [ARSTREAM2_Rtcp] 12:10:51:799 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529451.969777547]: [ARSTREAM2_Rtcp] 12:10:51:969 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529452.309585172]: [ARSTREAM2_Rtcp] 12:10:52:309 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529452.649368281]: [ARSTREAM2_Rtcp] 12:10:52:649 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529452.998971753]: [ARSTREAM2_Rtcp] 12:10:52:998 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529452.999065570]: [ARSTREAM2_Rtcp] 12:10:52:999 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529453.178496066]: [ARSTREAM2_Rtcp] 12:10:53:178 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529453.536535735]: [ARSTREAM2_Rtcp] 12:10:53:536 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529453.715347661]: [ARSTREAM2_Rtcp] 12:10:53:715 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529454.071634310]: [ARSTREAM2_Rtcp] 12:10:54:071 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529454.248958719]: [ARSTREAM2_Rtcp] 12:10:54:248 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529454.602538945]: [ARSTREAM2_Rtcp] 12:10:54:602 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529454.955974830]: [ARSTREAM2_Rtcp] 12:10:54:955 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529454.956104686]: [ARSTREAM2_Rtcp] 12:10:54:956 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2126 - Failed to process application clock delta (-1)[0m
-[31m[ERROR] [1570529455.309634295]: [ARSTREAM2_Rtcp] 12:10:55:309 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529455.661751925]: [ARSTREAM2_Rtcp] 12:10:55:661 | ARSTREAM2_RTCP_Receiver_ProcessCompoundPacket:2099 - Failed to process sender report (-1)[0m
-[31m[ERROR] [1570529455.807839149]: [ARNETWORKAL_WifiNetwork] 12:10:55:807 | ARNETWORKAL_WifiNetwork_Send:780 - [0x7fabf824e7d0] Socket send error (errno = 22 , Invalid argument)[0m
-eer SSRC[0m
-[33m[ WARN] [1570529449.319357107]: [ARSTREAM2_Rtcp] 12:10:49:319 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529449.665093120]: [ARSTREAM2_Rtcp] 12:10:49:665 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529449.837907832]: [ARSTREAM2_Rtcp] 12:10:49:837 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529450.016554904]: [ARSTREAM2_Rtcp] 12:10:50:016 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529450.375166902]: [ARSTREAM2_Rtcp] 12:10:50:375 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529450.731195796]: [ARSTREAM2_Rtcp] 12:10:50:731 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529451.087674833]: [ARSTREAM2_Rtcp] 12:10:51:087 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529451.088590595]: [ARSTREAM2_Rtcp] 12:10:51:088 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529451.265241475]: [ARSTREAM2_Rtcp] 12:10:51:265 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529451.443110839]: [ARSTREAM2_Rtcp] 12:10:51:442 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529451.621295370]: [ARSTREAM2_Rtcp] 12:10:51:621 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529451.799402059]: [ARSTREAM2_Rtcp] 12:10:51:799 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529451.969707927]: [ARSTREAM2_Rtcp] 12:10:51:969 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529452.309393192]: [ARSTREAM2_Rtcp] 12:10:52:309 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529452.649304276]: [ARSTREAM2_Rtcp] 12:10:52:649 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529452.998912446]: [ARSTREAM2_Rtcp] 12:10:52:998 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529452.999039902]: [ARSTREAM2_Rtcp] 12:10:52:999 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529453.178261973]: [ARSTREAM2_Rtcp] 12:10:53:177 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529453.536491825]: [ARSTREAM2_Rtcp] 12:10:53:536 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529453.715299717]: [ARSTREAM2_Rtcp] 12:10:53:715 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529454.071590034]: [ARSTREAM2_Rtcp] 12:10:54:071 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529454.248879363]: [ARSTREAM2_Rtcp] 12:10:54:248 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529454.602430057]: [ARSTREAM2_Rtcp] 12:10:54:602 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529454.955908133]: [ARSTREAM2_Rtcp] 12:10:54:955 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529454.956070724]: [ARSTREAM2_Rtcp] 12:10:54:956 | ARSTREAM2_RTCP_ProcessApplicationClockDelta:1405 - Unexpected peer SSRC[0m
-[33m[ WARN] [1570529455.309329225]: [ARSTREAM2_Rtcp] 12:10:55:308 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[33m[ WARN] [1570529455.661692782]: [ARSTREAM2_Rtcp] 12:10:55:661 | ARSTREAM2_RTCP_Receiver_ProcessSenderReport:290 - Unexpected sender SSRC[0m
-[0m[ INFO] [1570529455.832709891]: [ARSTREAM2_StreamReceiver] 12:10:55:832 | ARSTREAM2_StreamReceiver_RunNetworkThread:1822 - Receiver thread h[31m[ERROR] [1570533172.625042560]: poll failed with error Interrupted system call[0m
-[31m[ERROR] [1570533172.625398313]: poll failed with error Interrupted system call[0m
+[31m[ERROR] [1570534158.609109710]: [ARDISCOVERY_Connection] 13:29:18:609 | ARDISCOVERY_Connection_ControllerInitSocket:669 - connect() SO_ERROR: 111 Connection refused[0m
+[31m[ERROR] [1570534158.609208563]: [ARDISCOVERY_Device] 13:29:18:609 | ARDISCOVERY_Device_NewARNetworkAL:243 - error: Socket access permission denied[0m
+[31m[ERROR] [1570534158.609253564]: [ARCONTROLLER_Network] 13:29:18:609 | ARCONTROLLER_Network_New:355 - error: Error during the getting of the ARNETWORKAL_Manager from the device[0m
+[31m[ERROR] [1570534158.609479288]: [ARCONTROLLER_Device] 13:29:18:609 | ARCONTROLLER_Device_StopNetwork:7264 - Error occured durring unregistering ARCommands to the feature ARCONTROLLER_DICTIONARY_KEY_GENER[0m
+[31m[ERROR] [1570534158.609534527]: [ARCONTROLLER_Device] 13:29:18:609 | ARCONTROLLER_Device_StopNetwork:7282 - Error occured durring unregistering ARCommands to the feature ARCONTROLLER_DICTIONARY_KEY_ARDRO[0m
+[31m[ERROR] [1570534158.609580550]: [ARCONTROLLER_Device] 13:29:18:609 | ARCONTROLLER_Device_StopNetwork:7291 - Error occured durring unregistering ARCommands to the feature ARCONTROLLER_DICTIONARY_KEY_COMMO[0m
+[31m[ERROR] [1570534158.609623513]: [ARCONTROLLER_Device] 13:29:18:609 | ARCONTROLLER_Device_StopRun:5992 - StopNetwork failed with error :Bad parameters[0m
+[31m[ERROR] [1570534158.609675603]: [ARCONTROLLER_Device] 13:29:18:609 | ARCONTROLLER_Device_StartRun:5957 - Start fail error :Error during the getting of the ARNETWORKAL_Manager from the device[0m
+[31m[FATAL] [1570534158.610218143]: Init failed: Waiting for device failed: No error[0m
+[0m[ INFO] [1570534158.027127013]: Initializing nodelet with 8 worker threads.[0m
+[0m[ INFO] [1570534158.112313326]: [BebopSDK] 13:29:18:112 | Bebop:225 - Bebop Cnstr()[0m
+[0m[ INFO] [1570534158.112450998]: Nodelet Cstr[0m
+[0m[ INFO] [1570534158.130613250]: Connecting to Bebop ...[0m
+[0m[ INFO] [1570534158.209402397]: [CB] 13:29:18:209 | Ardrone3PilotingStateFlatTrimChanged:388 - [STATES] Enabling states/ardrone3/PilotingState/FlatTrimChanged[0m
+[0m[ INFO] [1570534158.212094017]: [CB] 13:29:18:212 | Ardrone3PilotingStateFlyingStateChanged:432 - [STATES] Enabling states/ardrone3/PilotingState/FlyingStateChanged[0m
+[0m[ INFO] [1570534158.264334494]: [CB] 13:29:18:264 | Ardrone3PilotingStateNavigateHomeStateChanged:534 - [STATES] Enabling states/ardrone3/PilotingState/NavigateHomeStateChanged[0m
+[0m[ INFO] [1570534158.272557633]: [CB] 13:29:18:272 | Ardrone3PilotingStatePositionChanged:592 - [STATES] Enabling states/ardrone3/PilotingState/PositionChanged[0m
+[0m[ INFO] [1570534158.275254336]: [CB] 13:29:18:275 | Ardrone3PilotingStateSpeedChanged:657 - [STATES] Enabling states/ardrone3/PilotingState/SpeedChanged[0m
+[0m[ INFO] [1570534158.278630768]: [CB] 13:29:18:278 | Ardrone3PilotingStateAttitudeChanged:722 - [STATES] Enabling states/ardrone3/PilotingState/AttitudeChanged[0m
+[0m[ INFO] [1570534158.282225232]: [CB] 13:29:18:282 | Ardrone3PilotingStateAltitudeChanged:838 - [STATES] Enabling states/ardrone3/PilotingState/AltitudeChanged[0m
+[0m[ INFO] [1570534158.400990215]: [CB] 13:29:18:400 | Ardrone3MediaStreamingStateVideoEnableChanged:1388 - [STATES] Enabling states/ardrone3/MediaStreamingState/VideoEnableChanged[0m
+[0m[ INFO] [1570534158.439452313]: [CB] 13:29:18:439 | Ardrone3CameraStateOrientation:1490 - [STATES] Enabling states/ardrone3/CameraState/Orientation[0m
+[0m[ INFO] [1570534158.528336512]: [CB] 13:29:18:528 | Ardrone3GPSStateNumberOfSatelliteChanged:1882 - [STATES] Enabling states/ardrone3/GPSState/NumberOfSatelliteChanged[0m
+[0m[ INFO] [1570534158.544258014]: [CB] 13:29:18:544 | CommonCommonStateBatteryStateChanged:148 - [STATES] Enabling states/common/CommonState/BatteryStateChanged[0m
+[0m[ INFO] [1570534158.553059075]: [CB] 13:29:18:552 | CommonCommonStateWifiSignalChanged:510 - [STATES] Enabling states/common/CommonState/WifiSignalChanged[0m
+[0m[ INFO] [1570534158.564906767]: [CB] 13:29:18:564 | CommonOverHeatStateOverHeatChanged:1023 - [STATES] Enabling states/common/OverHeatState/OverHeatChanged[0m
+[0m[ INFO] [1570534158.567856855]: [CB] 13:29:18:567 | CommonMavlinkStateMavlinkFilePlayingStateChanged:1118 - [STATES] Enabling states/common/MavlinkState/MavlinkFilePlayingStateChanged[0m
+[0m[ INFO] [1570534158.571389797]: [CB] 13:29:18:571 | CommonMavlinkStateMavlinkPlayErrorStateChanged:1183 - [STATES] Enabling states/common/MavlinkState/MavlinkPlayErrorStateChanged[0m
+[0m[ INFO] [1570534158.590294147]: [CB] 13:29:18:590 | CommonFlightPlanStateAvailabilityStateChanged:1568 - [STATES] Enabling states/common/FlightPlanState/AvailabilityStateChanged[0m
+[0m[ INFO] [1570534158.593750458]: [CB] 13:29:18:593 | CommonFlightPlanStateComponentStateListChanged:1619 - [STATES] Enabling states/common/FlightPlanState/ComponentStateListChanged[0m
+[0m[ INFO] [1570534158.608584267]: [ARCONTROLLER_Network] 13:29:18:608 | ARCONTROLLER_Network_GetAvailableSocketPort:128 - d2c_port port: 43210[0m
+[0m[ INFO] [1570534158.608868613]: [ARCONTROLLER_Stream2] 13:29:18:608 | ARCONTROLLER_Stream2_Open_Socket:143 - udp local port stream: 55004[0m
+[0m[ INFO] [1570534158.608915952]: [ARCONTROLLER_Stream2] 13:29:18:608 | ARCONTROLLER_Stream2_Open_Socket:143 - udp local port control: 55005[0m
+[0m[ INFO] [1570534158.609401625]: [ARCONTROLLER_Device] 13:29:18:609 | ARCONTROLLER_Device_StartRun:5949 - Start failed or canceled.[0m
+[0m[ INFO] [1570534158.609878251]: [BebopSDK] 13:29:18:609 | Cleanup:326 - Bebop Cleanup()[0m
+[0m[ INFO] [1570534158.610368571]: Bebop Nodelet Dstr: 0[0m
+[0m[ INFO] [1570534158.610393964]: Killing Camera Thread ...[0m
+[0m[ INFO] [1570534158.610419392]: Killing A[31m[bebop/bebop_driver-1] process has died [pid 25078, exit code -11, cmd /home/pachacho/Documents/catkin_ws/devel/lib/bebop_driver/bebop_driver_node __name:=bebop_driver __log:=/home/pachacho/.ros/log/98ee5700-e9b0-11e9-bab1-802bf97b1155/bebop-bebop_driver-1.log].
+log file: /home/pachacho/.ros/log/98ee5700-e9b0-11e9-bab1-802bf97b1155/bebop-bebop_driver-1*.log[0m
+... logging to /home/pachacho/.ros/log/98ee5700-e9b0-11e9-bab1-802bf97b1155/roslaunch-pachacho-HP-Pavilion-Laptop-13-an0xxx-25056.log
+Checking log directory for disk usage. This may take awhile.
+Press Ctrl-C to interrupt
+Done checking log file disk usage. Usage is <1GB.
+]2;/home/pachacho/Documents/catkin_ws/src/bebop_autonomy/bebop_driver/launch/bebop_node.launch
+[1mstarted roslaunch server http://pachacho-HP-Pavilion-Laptop-13-an0xxx:43639/[0m
+
+SUMMARY
+========
+
+PARAMETERS
+ * /bebop/bebop_driver/bebop_ip: 10.202.0.1
+ * /bebop/bebop_driver/camera_info_url: package://bebop_d...
+ * /bebop/bebop_driver/cmd_vel_timeout: 0.2
+ * /bebop/bebop_driver/odom_frame_id: odom
+ * /bebop/bebop_driver/publish_odom_tf: True
+ * /bebop/bebop_driver/reset_settings: True
+ * /bebop/bebop_driver/states/enable_altitudechanged: True
+ * /bebop/bebop_driver/states/enable_autotakeoffmodechanged: True
+ * /bebop/bebop_driver/states/enable_camerastate_orientation: True
+ * /bebop/bebop_driver/states/enable_commonstate_batterystatechanged: True
+ * /bebop/bebop_driver/states/enable_commonstate_wifisignalchanged: True
+ * /bebop/bebop_driver/states/enable_controllerstate_ispilotingchanged: True
+ * /bebop/bebop_driver/states/enable_flightplanstate_availabilitystatechanged: True
+ * /bebop/bebop_driver/states/enable_flightplanstate_componentstatelistchanged: True
+ * /bebop/bebop_driver/states/enable_gpsstate_numberofsatellitechanged: True
+ * /bebop/bebop_driver/states/enable_mavlinkstate_mavlinkfileplayingstatechanged: True
+ * /bebop/bebop_driver/states/enable_mavlinkstate_mavlinkplayerrorstatechanged: True
+ * /bebop/bebop_driver/states/enable_mediastreamingstate_videoenablechanged: True
+ * /bebop/bebop_driver/states/enable_numberofsatellitechanged: True
+ * /bebop/bebop_driver/states/enable_overheatstate_overheatchanged: True
+ * /bebop/bebop_driver/states/enable_pilotingstate_altitudechanged: True
+ * /bebop/bebop_driver/states/enable_pilotingstate_attitudechanged: True
+ * /bebop/bebop_driver/states/enable_pilotingstate_flattrimchanged: True
+ * /bebop/bebop_driver/states/enable_pilotingstate_flyingstatechanged: True
+ * /bebop/bebop_driver/states/enable_pilotingstate_navigatehomestatechanged: True
+ * /bebop/bebop_driver/states/enable_pilotingstate_positionchanged: True
+ * /bebop/bebop_driver/states/enable_pilotingstate_speedchanged: True
+ * /bebop/robot_description: <?xml version="1....
+ * /rosdistro: kinetic
+ * /rosversion: 1.12.14
+
+NODES
+  /bebop/
+    bebop_driver (bebop_driver/bebop_driver_node)
+    robot_state_publisher (robot_state_publisher/robot_state_publisher)
+
+[1mROS_MASTER_URI=http://localhost:11311[0m
+]2;/home/pachacho/Documents/catkin_ws/src/bebop_autonomy/bebop_driver/launch/bebop_node.launch http://localhost:11311
+[1mprocess[bebop/bebop_driver-1]: started with pid [25078][0m
+[1mprocess[bebop/robot_state_publisher-2]: started with pid [25079][0m
+[bebop/robot_state_publisher-2] killing on exit
+shutting down processing monitor...
+... shutting down processing monitor complete
+[1mdone[0m
