@@ -1,8 +1,7 @@
 from __future__ import print_function
-from templates import PATH_TEMPLATE_START, PATH_TEMPLATE_END
-from tempfile import NamedTemporaryFile
 from random import randint
-# from generators.templates import PATH_TEMPLATE_START, PATH_TEMPLATE_END
+from tempfile import NamedTemporaryFile
+from templates import PATH_TEMPLATE_START, PATH_TEMPLATE_END
 
 class PathGen:
     def __init__(self, fdir, points, track_models=False,

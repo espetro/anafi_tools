@@ -1,7 +1,7 @@
+# -*- coding: utf-8 -*-
 from __future__ import print_function
-from templates import WORLD_TEMPLATE_START, WORLD_TEMPLATE_END
 from tempfile import NamedTemporaryFile, mkdtemp
-# from generators.templates import WORLD_TEMPLATE_START, WORLD_TEMPLATE_END
+from templates import WORLD_TEMPLATE_START, WORLD_TEMPLATE_END
 
 class WorldGen:
     def __init__(self, fdir, grid, goal_pos, subj_pos, drone_pos, peds_paths=None, tree_pos=None, door_pos=None, wall_pos=None):

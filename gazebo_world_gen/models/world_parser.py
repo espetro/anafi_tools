@@ -1,19 +1,12 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import print_function
-
-# from streaming.sim_objs.simple_wall import SimpleWallShape
-# from streaming.sim_objs.top_door_rail import TopDoorRailShape
-# from streaming.sim_objs.vbar import VerticalBarShape
-# from streaming.sim_objs.tree_canopy import TreeCanopyShape
-from simple_wall import SimpleWallShape
-from top_door_rail import TopDoorRailShape
-from vbar import VerticalBarShape
-from tree_canopy import TreeCanopyShape
-from wall_box import WallBoxShape
+from __future__ import absolute_import
+from models.simple_wall import SimpleWallShape
+from models.top_door_rail import TopDoorRailShape
+from models.vbar import VerticalBarShape
+from models.tree_canopy import TreeCanopyShape
+from models.wall_box import WallBoxShape
 
 import xml.etree.ElementTree as ET
-import pickle as pk
 
 
 class WorldParser(object):
@@ -71,45 +64,3 @@ class WorldParser(object):
 
             if model is not None:
                 self.models.append(model)
-
-
-    # def write_to_file(self, fpath):
-    #     with open(fpath, "w") as f:
-    #         for o in self.objs:
-    #             f.write("{} {}".format(o.pose, o.volume))
-
-    # def save_to_pk(self, fpath):
-    #     with open(fpath, "w") as f:
-    #         pk.dump(self.objs, f)
-
-
-if __name__ == "__main__":
-    print("""Choose a world to parse:
-    1: Wall with People
-    2: Trees with People
-    3: Door with People
-    """)
-
-    choice = int(raw_input("Choose an option: "))
-
-    if choice == 1:
-        fpath = "/opt/parrot-sphinx/usr/share/sphinx/worlds/goal_stop_after_wall_people.world"
-        w = WorldParser(fpath)
-        print(w)
-        for m in w.models:
-            print(m)
-
-    if choice == 2:
-        fpath = "/opt/parrot-sphinx/usr/share/sphinx/worlds/goal_pass_around_trees.world"
-        w = WorldParser(fpath)
-        
-        w.objects
-        for m in w.models:
-            print(m)
-
-    if choice == 3:
-        fpath = "/opt/parrot-sphinx/usr/share/sphinx/worlds/goal_cross_door.world"
-        w = WorldParser(fpath)
-        print(w.models)
-        for m in w.models:
-            print(m)

@@ -130,16 +130,3 @@ class PathFinder:
                     if [nopen for nopen in opened if (nopen == node and node.g > nopen.g)] == []:                            
                         opened.append(node)
         return []
-
-if __name__ == "__main__":
-    # from random_world import RandomWorld
-    # world = RandomWorld.load_from("example_grid.pk")
-    import pickle as pk
-
-    with open("example_grid.pk", "rb") as f:
-        world = pk.load(f)
-
-    (grid, goal_pos, subj_pos, drone_pos, peds, trees, doors, walls) = world
-
-    path = PathFinder(grid, subj_pos, goal_pos)
-    print(path.a_star())
