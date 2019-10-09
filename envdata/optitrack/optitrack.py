@@ -12,7 +12,6 @@
 # run "load_olympe" and once inside, "load_ros2"
 
 import rclpy
-import olympe
 
 from geometry_msgs.msg import PoseStamped
 from rclpy.node import Node
@@ -78,15 +77,15 @@ class OptiTrackPose(Node):
             )
         )
 
-if __name__ == "__main__":
-    # x = PoseStamped()
-    # print(x)
-    # print(dir(x))
+# if __name__ == "__main__":
+#     # x = PoseStamped()
+#     # print(x)
+#     # print(dir(x))
 
-    rclpy.init(args=None)
+#     rclpy.init(args=None)
 
-    node = OptiTrackPose()
-    rclpy.spin(node)
+#     node = OptiTrackPose()
+#     rclpy.spin(node)
 
-    node.destroy_node()
-    rclpy.shutdown()
+#     node.destroy_node()
+#     rclpy.shutdown()

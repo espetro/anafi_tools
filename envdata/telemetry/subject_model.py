@@ -2,8 +2,7 @@ from __future__ import print_function, absolute_import
 from numpy.linalg import norm as euclidean
 from numpy import array
 
-class PedestrianModel(object):
-
+class SubjectModel:
     def __init__(self, pose_x=None, pose_y=None, pose_z=None, rad=0.6, height=1.7):
         """
         Height is defined in $SPHINX_ROOT/actors/pedestrian.actor
@@ -56,9 +55,11 @@ class PedestrianModel(object):
 
         if point[2] <= self.height:
             # Ignore Z axis
-            dist = euclidean(array(self.pose[:2]), curr_pose[:2]) - self.radius
+            dist = euclidean(array(point[:2]), curr_pose[:2]) - self.radius
         else:
             # Use maximum height and no radius
             centr = curr_pose + array([0, 0, self.height])
             dist = euclidean(array(centr), array(point))
         return dist
+
+    

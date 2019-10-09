@@ -1,61 +1,56 @@
 # How the real-life proof-of-work should go
 
-
 CONFIG = {
-    "runs": 1,
-    "object_probs": {"tree": 0.4, "door": 0.0, "wall": 0.2},
-    "world_shape": (5,5),
-    "number_peds": 1,
-    "maximum_objects": 5,
-    "subj_to_goal_dist": 4
+
 }
+    
 
-RANDOM_HEIGHT = get_random_height_cmd()
+DATA_DIR = "/home/pachacho/Documents/anafi_tools/data/pow"
 
-TEST_NAME = "A_environments"  # A = without pedestrians
-
-DATA_DIR = "/home/pachacho/Documents/anafi_tools/data/test"
-
-DRONE_FPATH = "/opt/parrot-sphinx/usr/share/sphinx/drones/local_bebop2.drone"
-ACTOR = "/opt/parrot-sphinx/usr/share/sphinx/actors/pedestrian.actor::name={}::path={}"
+OPTITRACK_FPATH = ""
 
 if __name__ == "__main__":
-    
+
+    # engine = tensorflow.load_model("my_model.tf")
+
     for i in range(CONFIG["runs"]):
         print_start("Starting run no. {}".format(i))
 
-        world = WorldBuilder(CONFIG)
-        objects = world.get_object_models()
-
-        world_fpath, subj_fpath, peds_fpath = world.get_paths()
-
-        subject = ACTOR.format("subject", subj_fpath)
-        # nm[-1] gives the pedestrian number; nm ~= P1, P0, ..
-        pedestrians = " ".join([ACTOR.format(nm[-1], txt) for (nm, txt) in peds_fpath])
-
         try:
-            BackgroundTask(
-                "sphinx {} {} {} {}".format(world_fpath, DRONE_FPATH, subject, pedestrians),
-                log=True, log_file="", wait=5
-            )
+            print("Launch Optitrack (external to this script!)")
 
-            BackgroundTask("roscore", log=True, log_file="", wait=5)
-            
             BackgroundTask(
-                "roslaunch bebop_driver bebop_node.launch",
+                "roscore",
                 log=True, log_file="", wait=5
             )
             
-            RunTask("rostopic pub --once /bebop/takeoff std_msgs/Empty", wait=5)
+            BackgroundTask(
+                "ros2 run ros1_bridge dynamic_bridge --bridge-all-1to2-topics",
+                log=True, log_file="", wait=5
+            )
+            
+            BackgroundTask(
+                "roslaunch vrpn_client_ros sample.launch server:=192.168.101.93:3883",
+                log=True, log_file="", wait=5
+            )
+            
+            # drone = AnafiControl(AnafiControl.PHYSICAL_IP)
+            # drone.set_vel([0,0,1,0,0,0])
 
-            for i in range(5):
-                RunTask("rostopic pub --once /bebop/cmd_vel geometry_msgs/Twist {}".format(RANDOM_HEIGHT))
+            # This node reads from optitrack topics, computes distances-forces
+            # then pass them to the used "engine" and finally sends it to
+            # the drone through olympe (POW_IP for real drone, SIM_IP otherwise)
+            runner = MasterNode(
+                simulated=False,
+                model=engine,
+                ip = MasterNode.POW_IP,
+                logfile=OPTITRACK_FPATH
+            )
 
-            # TelemetryDaemon(CONFIG) (Aggregator????)
-
-            RunTask("rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/bebop/cmd_vel", wait=5)
+            # Wait until the drone lands i.e. the simulation ends
+            opti.wait()
 
         except KeyboardInterrupt as e:
             print_error("CTRL+C has been pressed! Exiting")
-
-            RunTask("rostopic pub --once /bebop/land std_msgs/Empty", wait=5)
+            # If the run is interrumpted, do an emergency land
+            opti.emergency_land()
