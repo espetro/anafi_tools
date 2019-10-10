@@ -20,7 +20,7 @@ from rclpy.node import Node
 # msg.Header, msg.Pose(msg.Point(x,y,z)) 'position',
 # msg.Quaternion(x,y,z,w) 'orientation' 
 
-class OptiTrackPose(Node):
+class OptiTrackConsumer(Node):
 
     def __init__(self):
         """"""
@@ -30,6 +30,12 @@ class OptiTrackPose(Node):
             "vrpn_client_node/drone/pose",
             self.drone_cb
         )
+
+        self.pose_subj = self.create_subscription(
+            PoseStamped,
+            "vrpn_client_node/subject/pose",
+            self.subj_cb
+        )        
 
     def __str__(self):
         """"""
@@ -68,14 +74,18 @@ class OptiTrackPose(Node):
 
     def drone_cb(self, msg):
         """"""
-        inf = OptiTrackPose._Header2dict(msg.header)
-        pos = OptiTrackPose._Point2list(msg.pose.position)
-        ori = OptiTrackPose._Quaternion2list(msg.pose.orientation)
+        inf = OptiTrackConsumer._Header2dict(msg.header)
+        pos = OptiTrackConsumer._Point2list(msg.pose.position)
+        ori = OptiTrackConsumer._Quaternion2list(msg.pose.orientation)
         self.get_logger().info(
             "-----\nI heard {}\n{}\n{}\n-----".format(
                 inf, pos, ori
             )
         )
+
+    def subj_cb(self, msg):
+        """"""
+        pass
 
 # if __name__ == "__main__":
 #     # x = PoseStamped()

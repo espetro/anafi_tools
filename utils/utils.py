@@ -6,6 +6,7 @@ from random import randint
 from time import sleep
 
 import os
+import shlex
 
 # ======= CONFIGURATION =======
 # =============================
@@ -32,22 +33,37 @@ def get_random_height_cmd():
 
 class BackgroundTask:
     """Launch a non-blocking task in the background"""
-    def __init__(self, cmd, log=False, log_file=None, wait=0):
+    def __init__(self, cmd, shell=False, log=False, stdout=False, daemon=False, log_file=None, wait=0):
         
         self.log = log
-        self.out = {
-            True: open(log_file, "w+"),
-            False: PIPE
-        }.get(log)
+
+        if log is True:
+            self.out = open(log_file, "w+")
+        elif stdout is True:
+            self.out = STDOUT
+        else:
+            self.out = PIPE
 
         sleep(wait)
 
+        self.cmd = {
+            True: cmd,
+            False: shlex.split(cmd)
+        }.get(shell)
+
         self.process = Popen(
-            shlex.split(cmd),
+            self.cmd,
             stdout=self.out,
             stderr=STDOUT,
+            shell=shell,
             bufsize=1
         )
+
+        self.process.setDaemon(daemon)
+
+    def poll(self):
+        """Returns None if the process is still running"""
+        return self.process.poll()
 
     def kill(self):
         if self.log:

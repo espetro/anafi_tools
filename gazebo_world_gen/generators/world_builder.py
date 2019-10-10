@@ -27,7 +27,11 @@ class WorldBuilder:
         )
         self.path = path_model.a_star()
 
-        # ============
+        (self.world_fpath, self.subj_fpath, self.peds_fpath) = self._gen2file(config["delay_start"])
+
+
+    def _gen2file(self, delay_start=20):
+        """"""
         self.fdir = mkdtemp(prefix="sphinx_", suffix="_worldconf")
 
         # Matches to ((x,y), type, vel, stop_duration)
@@ -37,22 +41,24 @@ class WorldBuilder:
         door_locs = [door["pos"] for door in self.world.doors.values()]
         wall_locs = [wall["pos"][0] for wall in self.world.walls.values()]
 
-        self.subj_fpath = PathGen(
-            self.fdir, path_points, delay_start=20.0
+        subj_fpath = PathGen(
+            self.fdir, path_points, delay_start=delay_start
         ).get_path()
-        self.world_fpath = WorldGen(
+        world_fpath = WorldGen(
             self.fdir, self.world.grid, self.world.goal_pos, self.world.subj_pos,
             self.world.drone_pos, self.world.peds, tree_locs, door_locs, wall_locs
         ).get_path()
 
-        self.peds_fpath = []
+        peds_fpath = []
 
         for (name, data) in self.world.peds.items():
             points = [(p, "P", 1.0, 0.0) for p in data["pos"][0]]
             generator = PathGen(
                 self.fdir, points, loop=data["loop"], delay_start=0.0, is_ped=True
             )
-            self.peds_fpath.append((name, generator.get_path()))
+            peds_fpath.append((name, generator.get_path()))
+
+        return (world_fpath, subj_fpath, peds_fpath)
 
     def get_object_models(self):
         """

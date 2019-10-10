@@ -1,22 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Implementation of a telemetryd consumer tool to create intermediate and written
-# statistical data about drone and pedestrian poses
-
 from __future__ import print_function
-from time import sleep
 
 import os
 import sys
+import time
 import signal
 import logging
 import optparse
 import threading
-import Tkinter as tk
 
 # Add parrot-specific libs
-# PARROT_COMMON = "/Documents/parrot/groundsdk/packages/common"
-PARROT_COMMON = "/Documents/code/parrot-groundsdk/packages/common"
+PARROT_COMMON = "/Documents/parrot/groundsdk/packages/common"
+# PARROT_COMMON = "/Documents/code/parrot-groundsdk/packages/common"
 POMP_LIB = os.path.expanduser("~") + PARROT_COMMON + "/libpomp/python"
 TELEMETRYD_LIB = os.path.expanduser("~") + PARROT_COMMON + "/telemetry/tools"
 
@@ -41,131 +37,88 @@ GNDCTRL_MSG_SECTION_REMOVED = 8
 GNDCTRL_MSG_SECTION_CHANGED = 9
 GNDCTRL_MSG_SECTION_SAMPLE = 10
 
-# # Sampling constants
-SAMPLE_RATE = 1000 * 1000    # Samples every 200ms
-MSG_RATE = 1000 * 1000      # Message every 1s
-
-# Script default arguments
-DEFAULT_CTRLADDR = "inet:127.0.0.1:9060"
-DEFAULT_DATAPORT = "5000"
-
-#============== TELEMETRY CONSUMER CLASS ==================
-#==========================================================
-
-class PompThread(threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
-        pomp.looper.prepareLoop()
-
-    def start(self):
-        self.running = True
-        while self.running:
-            pomp.looper.stepLoop(maxMsg=1, timeout=1)
-    
-    def stop(self):
-        self.running = False
-
-
-class TelemetryConsumer:
-    DEFAULT_CTRLADDR = "inet:127.0.0.1:9060"
-    DEFAULT_DATAPORT = 5000
-
-    def __init__(self, name, ctrl_addr, dataport, sample_rate, sample_fun):
-        """Setups the topics and objects to extract telemetry data."""
-        self.fun = sample_fun
-        self.sample_rate = int(sample_rate) * 1000  # X ms *1000
-        self.ctrl_addr = ctrl_addr
-        self.data_port = dataport
-        self.itf = None
-        self.looper = None
-
-    @staticmethod
-    def signal_handler(sig, frame):
-        print("YOU PRESED CTRL+C!", file=sys.stderr)
-
-    @staticmethod
-    def run_pomp_loop(looper):
-        while True:
-            looper.stepLoop()
-            # pomp.looper.stepLoop()
-
-    def start(self):
-        """
-        Enables the telemetry logging and processing. Only allows to exit
-        throughout the Tkinter app 'close' button.
-        """
-        signal.signal(signal.SIGINT, TelemetryConsumer.signal_handler)
-        # setupLog(options)
-
-        try:
-            # root = tk.Tk()
-            # app = App(master=root)
-            # self.looper = pomp.looper
-            self.looper = PompThread()
-
-            self.itf = TelemetryDaemon(
-                "tkgndctrl",
-                self.ctrl_addr,
-                self.data_port,
-                self.sample_rate,
-                self.fun
-            )
-
-            print("Started telemetry daemon", file=sys.stderr)
-            self.itf.start()
-            self.looper.start()
-
-            # while True:
-            #     pomp.looper.stepLoop()
-
-            # app.mainloop
-            # self.main_loop_thread = threading.Thread(
-            #     name="pomploop",
-            #     target=TelemetryConsumer.run_pomp_loop,
-            #     args=(pomp.looper)
-            # )
-            # self.main_loop_thread.setDaemon(True)
-
-        except KeyboardInterrupt as e:
-            print("To close it, exit the windowed app", file=sys.stderr)
-
-    def stop(self):
-        """"""
-        print("Stopping the telemetry daemon", file=sys.stderr)
-        # pomp.looper.exitLoop()
-        self.looper.stop()
-        self.itf.stop()
-        sys.exit(0)
-
 
 #============== TELEMETRY DAEMON CLASS ====================
 #==========================================================
 
+class SimpleDmn(threading.Thread):
+    def __init__(self):
+        """Setups the pomp service in a separate thread"""
+        threading.Thread.__init__(self)
+        # pomp.looper.prepareLoop()
+
+    def start(self):
+        self.running = True
+        while self.running:
+            k = 5 * 4
+            # print(1)
+            # pomp.looper.stepLoop(maxMsg=1, timeout=1)
+    
+    def stop(self):
+        print("Exiting the damned loop")
+        # sys.exit(0)
+        self.running = False
+        # pomp.looper.exitLoop()
+
+class SimpleItf:
+    """A simple object to try pomp.looper in the bg (threading vs multiprocessing)"""
+    def __init__(self, range=1e4):
+        self.range = 1e4
+        self.task = SimpleDmn()
+        self.task.setDaemon(True)
+        
+        self.go_on = True
+
+        signal.signal(signal.SIGINT, self.stop)
+        pomp.looper.prepareLoop()
+
+    def start(self):
+        self.task.start()
+        i = 0
+        while i < self.range and self.go_on:
+            time.sleep(1)
+            print("Illo")
+            i += 1
+
+    def stop(self, sig, frame):
+        print("Exiting task")
+        # self.task.exit()
+        print("Exiting main app")
+        self.go_on = False
+        # sys.exit(0)
+
 
 class TelemetryDaemon:
-    def __init__(self, name, ctrlAddr, dataPort, rate, sample_fun):
-        """
-        :param name:
-        :param ctrlAddr:
-        :param dataPort:
-        :param n_peds:
-        """
+    SAMPLE_RATE = 1000 * 1000    # Samples every 1000ms
+    MSG_RATE = 1000 * 1000      # Message every 1s
+    DEFAULT_CTRLADDR = "inet:127.0.0.1:9060"
+    DEFAULT_DATAPORT = "5000"
 
-        # Telemetryd-specific consumer options
+    def __init__(self, on_sample, name="tkgndctrl",
+        ctrlAddr="inet:127.0.0.1:9060", dataPort=5000, rate=1000):
+        """
+        Setups the telemetry daemon's default configuration. Rate defaults to
+        1000 ms (1s).
+        """
         self.name = name
-        self.sample_rate = rate
+        self.sample_rate = int(rate) * 1000
         self.ctrlAddr = ctrlAddr
         self.dataPort = dataPort
 
-        self.sample_fun = sample_fun
+        self.on_sample = on_sample
         self.ctrlCtx = pomp.Context(TelemetryDaemon._CtrlEventHandler(self))
         self.dataCtx = pomp.Context(TelemetryDaemon._DataEventHandler(self))
 
+        self.looper = TelemetryDaemon.PompThread()
+
         self.sections = {}
-        # Init console logging
-        print("--------------------")
-        print("Ts | SectionID | VarType | VarName | VarValue")
-        print("--------------------")     
+
+        signal.signal(signal.SIGINT, self._signal_handler)
+
+    def _signal_handler(self, sig, frame):
+        print("\nExiting telemetry daemon loop!\n")
+        sys.exit(0)
+        # self.stop()
 
     def recvSample(self, sectionId, timestamp, buf):
         """
@@ -191,44 +144,66 @@ class TelemetryDaemon:
             # dtype = TlmbVarType.toString(varDesc.varType)
             quantity = TlmbSample.extractQuantity(varDesc, varBuf)
 
-            # print("Drone Data: {} {} {} {} {}".format(ts, topic_id, dtype, dname, val))
-            dname = varDesc.getFullName()
-            coord = dname.split(".")[-1]
-            tname = dname[:-2]  # the whole name but '.x'
-            data = float(quantity)
-            ts = timestamp[0]
-            # ts = timestamp[1] // 1000
-            pid = dname.split(".")[0][-1]  # gets the pedestrian ID
-
-            # print(timestamp)
+            full_name = varDesc.getFullName()
+            spaces = full_name.split(".")
+            # related to "omniscient_bebop2.worldPosition.x"
+            data = {
+                "ts": timestamp[0],
+                "topic": full_name,
+                "namespace": spaces[0],
+                "coord": spaces[-1],
+                "value": float(quantity),
+                "pid": spaces[0][-1]  # for pedestrians
+            }
+            
             # =========================================
             # DATA FROM TELEMETRY CAN BE PROCESSED HERE
             # =========================================
-            self.sample_fun(dname, tname, pid, int(ts), coord, data)
+            self.on_sample(data)
             # =========================================
 
             varOff += varLen
 
     def start(self):
-        """Starts the """
+        """Starts the connection with the telemetry service and the pomp loop"""
         (family, addr) = pomp.parseAddr(self.ctrlAddr)
         self.ctrlCtx.connect(family, addr)
 
         (family, addr) = pomp.parseAddr("inet:0.0.0.0:%u" % self.dataPort)
         self.dataCtx.bind(family, addr)
 
+        self.looper.start()
+
     def stop(self):
-        """Stops the """
+        """Stops the connection with the telemetry service and the pomp loop"""
         self.ctrlCtx.stop()
         self.dataCtx.stop()
+        print("Telemetry connections closed. Go now with the loop")
+        self.looper.stop()
+
+    class PompThread(threading.Thread):
+        def __init__(self):
+            """Setups the pomp service in a separate thread"""
+            threading.Thread.__init__(self)
+            pomp.looper.prepareLoop()
+
+        def start(self):
+            self.running = True
+            while self.running:
+                pomp.looper.stepLoop(maxMsg=1, timeout=1)
+        
+        def stop(self):
+            print("Exiting the damned loop")
+            sys.exit(0)
+            self.running = False
+            pomp.looper.exitLoop()
 
     class _CtrlEventHandler(pomp.EventHandler):
-        def __init__(self, itf):
+        def __init__(self, interface):
             """
             Creates a Control Event Handler
-            :param itf:
             """
-            self.itf = itf
+            self.itf = interface
 
         def onConnected(self, ctx, conn):
             """
@@ -254,9 +229,10 @@ class TelemetryDaemon:
             :param ctx pomp.Context:
             :param conn:
             """
+            print("Disconnected")
             logging.info("Disconnected")
             self.sections = {}
-            sys.exit(0)
+            # sys.exit(0)
 
         def recvMessage(self, ctx, conn, msg):
             """
@@ -304,206 +280,65 @@ class TelemetryDaemon:
                 # self.itf.recvSample(sectionId, (sec, nsec), buf)
 
     class _DataEventHandler(pomp.EventHandler):
-        def __init__(self, itf):
-            """
-            Creates a Data Event Handler
-            :param itf:
-            """
-            self.itf = itf
+        def __init__(self, interface):
+            self.itf = interface
 
         def onConnected(self, ctx, conn):
-            """
-            Run an action when the handler is connected
-            :param ctx pomp.Context:
-            :param conn:
-            """
             pass
 
         def onDisconnected(self, ctx, conn):
-            """
-            Run an action when the handler is disconnected
-            :param ctx pomp.Context:
-            :param conn:
-            """
             pass
 
         def recvMessage(self, ctx, conn, msg):
-            """
-            Run an action when the handler receives a message
-            :param ctx pomp.Context:
-            :param conn:
-            :param msg:
-            """
             if msg.msgid == GNDCTRL_MSG_SECTION_SAMPLE:
                 (sectionId, sec, nsec, buf) = msg.read("%u%u%u%p")
                 self.itf.recvSample(sectionId, (sec, nsec), buf)
 
-#============== LOGGING AND PARSE UTILS ===================
-#==========================================================
 
-class App(tk.Frame):
-    def __init__(self, master=None):
-        """Creates a Tkinter app"""
-        tk.Frame.__init__(self, master)
-
-        # Prepare looper
-        pomp.looper.prepareLoop()
-        self.after(100, self._onIdle)
-
-        self._panel = tk.Frame(self)
-        self._panel.pack(expand=True, fill="both")
-        self.pack(expand=True, fill="both")
-
-        self.master.wm_geometry("155x15")
-        self.master.wm_title("telemetry")
-        # self.master.wm_withdraw()
-        # self.master.wm_deiconify()
-
-    def _onIdle(self):
-        """Run an action if the app becomes idle"""
-        pomp.looper.stepLoop()
-        self.after(1000, self._onIdle)
-
-    def destroy(self):
-        """Run an action when the app is closed"""
-        # Stop everything
-        pomp.looper.exitLoop()
-
-
-class DefaultOptions:
-    def __init__(self):
-        """Creates an object of default logging options"""
-        self.quiet = False
-        self.verbose = False
-        self.log_level = 2
-
-def parseArgs():
-    """Setups the parser"""
-    parser = optparse.OptionParser(usage=_USAGE)
-
-    parser.add_option("-q", "--quiet",
-        dest="quiet",
-        action="store_true",
-        default=False,
-        help="be quiet")
-
-    parser.add_option("-l", "--log-level",
-        dest="log_level",
-        default=2,
-        help="log level (default is 2, highest is 1, lowest is 5)")
-
-    parser.add_option("-v", "--verbose",
-        dest="verbose",
-        action="store_true",
-        default=False,
-        help="verbose output")
-
-    # Parse arguments
-    (options, args) = parser.parse_args()
-    if len(args) != 2:
-        print(
-            "Bad number of arguments. Falling back to default arguments",
-            "\nControl Address: {}".format(DEFAULT_CTRLADDR),
-            "\nDataport: {}".format(DEFAULT_DATAPORT),
-            file=sys.stderr
-        )
-        options = DefaultOptions()
-        args = [DEFAULT_CTRLADDR, DEFAULT_DATAPORT]
-    return (options, args)
-
-
+# =========== RUN AS SCRIPT ===========
+# =====================================
 _USAGE = (
-    "usage: %prog [<options>] <ctrladdr> <dataport>\n"
+    "usage: %prog <num_peds> <world>\n"
     "Connect to a ishtar server\n"
     "\n"
-    "  <options>: see below\n"
-    "  <ctrladdr> : control address\n"
-    "  <dataport> : data port\n"
+    "  <num_peds> : Number of pedestrians in the simulation\n"
+    "  <world> : World absolute file path\n"
     "\n"
-    "<ctrladdr> format:\n"
-    "  inet:<addr>:<port>\n"
-    "  inet6:<addr>:<port>\n"
-    "  unix:<path>\n"
-    "  unix:@<name>\n"
 )
 
+def parseArgs():
+    # Setup parser
+    parser = optparse.OptionParser(usage=_USAGE)
 
-def setupLog(options):
-    """
-    Setups the logger tool
-    :param options:
-    """
-    lvl = {
-        1: logging.DEBUG,
-        2: logging.INFO,
-        3: logging.WARNING,
-        4: logging.ERROR,
-        5: logging.CRITICAL
-    }.get(options.log_level)
+    # parser.add_option("-q", "--quiet",
+    #     dest="quiet",
+    #     action="store_true",
+    #     default=False,
+    #     help="be quiet")
 
-    logging.basicConfig(
-        level=lvl,
-        format="[%(levelname)s][%(asctime)s] %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-        stream=sys.stderr)
+    # parser.add_option("-v", "--verbose",
+    #     dest="verbose",
+    #     action="store_true",
+    #     default=False,
+    #     help="verbose output")
 
-    logging.addLevelName(logging.CRITICAL, "C")
-    logging.addLevelName(logging.ERROR, "E")
-    logging.addLevelName(logging.WARNING, "W")
-    logging.addLevelName(logging.INFO, "I")
-    logging.addLevelName(logging.DEBUG, "D")
+    # Parse arguments
+    (_, args) = parser.parse_args()
+    if len(args) != 2:
+        parser.error("Bad number or arguments")
+    return (None, args)
 
-    # Setup log level
-    if options.quiet == True:
-        logging.getLogger().setLevel(logging.CRITICAL)
-    elif options.verbose:
-        logging.getLogger().setLevel(logging.DEBUG)
-
-#============== MAIN SCRIPT FUNCTION ======================
-#==========================================================
-
-def signal_handler(sig, frame):
-    print("YOU PRESED CTRL+C!", file=sys.stderr)
-
-
-def print_data(dname, tname, pid, ts, coord, data):
-        """
-        Expected data goes like:
-        ts: timestamp, 1 (int)
-        dname: omniscient_subject.worldPosition.x
-        pid: t (only useful for indicating pedestrian's number ID
-        tname: omniscient_subject.worldPosition (topic name)
-        coord: x (if any)
-        data: 0.0 (float value)
-        """
-        print("Data: {}|{}|{}|{}|{}|{}".format(ts, dname, pid, tname, coord, data))
 
 if __name__ == "__main__":
-    """
-    Enables the telemetry logging and processing. Only allows to exit
-    throughout the Tkinter app 'close' button.
-    """
-    (options, args) = parseArgs()
-    ctrl_addr, data_port = args[0], int(args[1])
-    setupLog(options)
-
-    signal.signal(signal.SIGINT, signal_handler)
+    # sample_fun defaults to 'print'
+    # python telemetryd.py --no-peds 1 --world hello
+    (_, args) = parseArgs()
 
     try:
-        root = tk.Tk()
-        app = App(master=root)
-        itf = TelemetryDaemon(
-            "tkgndctrl",
-            ctrl_addr,
-            data_port,
-            SAMPLE_RATE,
-            print_data
-        )
+        telem = TelemetryDaemon(on_sample=print)
+        telem.start()
 
-        itf.start()
-        app.mainloop()
-        itf.stop()
-    except KeyboardInterrupt as e:
-        print("To close it, exit the windowed app", file=sys.stderr)
-
-    sys.exit(0)
+    except KeyboardInterrupt:
+        sys.exit(0)
+        telem.exit()
+     

@@ -1,5 +1,15 @@
 # How the simulation testing should go
 
+from __future__ import absolute_import, print_function
+from utils.utils import RunTask, BackgroundTask, print_start, print_error, setupRun, get_random_height_cmd
+from generators.world_builder import WorldBuilder
+
+import sys
+
+sys.path.append("/home/pachacho/Documents/anafi_tools/envdata/aggregate")
+
+from master2 import MasterNode
+
 CONFIG = {
     "runs": 1,
     "object_probs": {"tree": 0.4, "door": 0.0, "wall": 0.2},
@@ -50,11 +60,8 @@ if __name__ == "__main__":
             for i in range(5):
                 RunTask("rostopic pub --once /bebop/cmd_vel geometry_msgs/Twist {}".format(RANDOM_HEIGHT))
 
-            # TelemetryDaemon(CONFIG) (Aggregator????)
-
-            RunTask("rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/bebop/cmd_vel", wait=5)
+            # Run until CTRL+C is pressed (presumably at the end of the simulation)
+            MasterNode(CONFIG)
 
         except KeyboardInterrupt as e:
             print_error("CTRL+C has been pressed! Exiting")
-
-            RunTask("rostopic pub --once /bebop/land std_msgs/Empty", wait=5)

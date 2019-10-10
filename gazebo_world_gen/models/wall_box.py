@@ -1,6 +1,9 @@
 
 # from streaming.sim_objs.cube import CubeShape
 from cube import CubeShape
+from numpy.linalg import norm as euclidean
+from numpy import array
+from math import sin, cos, sqrt
 
 class WallBoxShape(CubeShape):
     model = "model://wall_box"
@@ -19,15 +22,14 @@ class WallBoxShape(CubeShape):
         self.radius = 0.35
 
     def distance_to(self, point):
-    """
-    :param point: A tuple (x,y,z)
-    """
-
-    if point[2] <= self.height:
-        # Ignore Z axis
-        dist = CubeShape._euclidean(array(point[:2]), self.pose[:2]) - self.radius
-    else:
-        # Use maximum height and no radius
-        centr = array(self.pose) + array([0, 0, self.height])
-        dist = CubeShape._euclidean(array(centr), array(point))
-    return dist
+        """
+        :param point: A tuple (x,y,z)
+        """
+        if point[2] <= self.height:
+            # Ignore Z axis
+            dist = CubeShape._euclidean(array(point[:2]), self.pose[:2]) - self.radius
+        else:
+            # Use maximum height and no radius
+            centr = array(self.pose) + array([0, 0, self.height])
+            dist = CubeShape._euclidean(array(centr), array(point))
+        return dist

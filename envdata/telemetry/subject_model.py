@@ -24,14 +24,13 @@ class SubjectModel:
     def __repr__(self):
         return "(Subject ({},{},{}))".format(self.x[1], self.y[1], self.z[1])
 
-    def set_x(self, ts, val):
-        self.x = (ts, val)
-
-    def set_y(self, ts, val):
-        self.y = (ts, val)
-
-    def set_z(self, ts, val):
-        self.z = (ts, val)
+    def set_val(self, ts, uid, val):
+        if uid == "x":
+            self.x = (ts, val)
+        elif uid == "y":
+            self.y = (ts, val)
+        elif uid == "z":
+            self.z = (ts, val)
 
     def get_pos(self):
         """A nice way to implement it would be checking timestamp on 3 coords"""
