@@ -5,11 +5,10 @@
 from __future__ import print_function
 from utils.utils import RunTask, BackgroundTask, print_start, print_error, setupRun, get_random_height_cmd
 from generators.world_builder import WorldBuilder
-from datetime import datetime
-from time import sleep
+from utils.configs import A_CONFIG
 
+import os
 import sys
-import signal
 
 sys.path.append("/home/pachacho/Documents/anafi_tools/envdata/aggregate")
 sys.path.append("/home/pachacho/Documents/anafi_tools/envdata/telemetry")
@@ -17,109 +16,81 @@ sys.path.append("/home/pachacho/Documents/anafi_tools/envdata/telemetry")
 # from master2 import MasterNode
 from telemetry import TelemetryConsumer
 
+
+# ==== FUNCTIONS =======
 # ====================
 
-def stop_datalogger(sig, frame, logger):
-    print("\nStopping the run\n")
-    RunTask("rostopic pub --once /bebop/land std_msgs/Empty", wait=5)
-    logger.stop()
+def simulate(config):
+    """Runs a simulation given the configuration dictionary"""    
 
-def random_log_file(fdir, ext="csv"):
-    rnd = datetime.now().strftime("%y%m%d_%H%M%S")
-    return "{}/telemetry{}.{}".format(fdir, rnd, ext)
+    SPHINX_ROOT = os.getenv("SPHINX_ROOT")
+    ACTOR = SPHINX_ROOT + "/actors/pedestrian.actor::name={}::path={}"
+    GZ_DRONE = SPHINX_ROOT + "/drones/local_bebop2.drone"
+
+    # ROScore doesnt need to be restarted each run
+    roscore = BackgroundTask("roscore", log=False, wait=5)
+    MOVE_UP_DRONE = "rostopic pub --once /bebop/cmd_vel geometry_msgs/Twist {}"
+    MOVE_RNG = 5  # moves the drone in the Z axis by 0.5 or -0.5
 
 
-# ====================
+    for i in range(config["reps"]):
+        print("\nRun no {}. Initial wait: {}".format(i, config["delay_start"]))
 
-RANDOM_HEIGHT = get_random_height_cmd()
+        # ==== PER-RUN SETUP ====        
+        # =======================
 
-TRAIN_NAME = "A_env"  # A = without peds
+        # Generate world files
+        world = WorldBuilder(config)
+        objects = world.get_object_models()
+        (world_fpath, subj_fpath, peds_fpath) = world.get_paths()
 
-DATA_DIR = "/home/pachacho/Documents/anafi_tools/data/train"
-DATA_RIGHT = "/1"
-DATA_WRONG = "/0"
+        # nm[-1] gives the pedestrian number; nm ~= P1, P0, ..
+        GZ_SUBJECT = ACTOR.format("subject", subj_fpath)
+        GZ_PEDS = " ".join([ACTOR.format(nm[-1], txt) for (nm, txt) in peds_fpath])
 
-DRONE_FPATH = "/opt/parrot-sphinx/usr/share/sphinx/drones/local_bebop2.drone"
-ACTOR = "/opt/parrot-sphinx/usr/share/sphinx/actors/pedestrian.actor::name={}::path={}"
+        RANDOM_HEIGHT = get_random_height_cmd(config["set_height"])
 
-CONFIG = {
-    "runs": 1,
-    "delay_start": 30,
-    "object_probs": {"tree": 0.4, "door": 0.0, "wall": 0.2},
-    "world_shape": (5,5),
-    "number_peds": 1,
-    "maximum_objects": 5,
-    "subj_to_goal_dist": 4,
-    "simulated": True,
-    "model": None,
-    "ip": None,
-    "logfile": random_log_file(DATA_DIR, "csv")
-}
+        # ==== TASK DISPATCH ====
+        # =======================
 
-# ====================
+        sphinx = BackgroundTask(
+            "sphinx {} {} {} {}".format(world_fpath, GZ_DRONE, GZ_SUBJECT, GZ_PEDS),
+            log=False, wait=5
+        )
 
-if __name__ == "__main__":
-    
-    for i in range(5):
-
-        print("Run no {}".format(i))
-
-        # telem = TelemetryConsumer(print, no_peds=1, objs=None)
-        # telem.start()
-
-        telem = BackgroundTask(
-            "python home/pachacho/Documents/anafi_tools/envdata/telemetry/telemetryd.py",
-            shell=False, daemon=True, stdout=False, wait=1
+        bebop_driver = BackgroundTask(
+            "roslaunch bebop_driver bebop_node.launch",
+            log=False, wait=10
         )
         
-        sleep(5)
-        print("out")
-        telem.kill()
+        RunTask("rostopic pub --once /bebop/takeoff std_msgs/Empty", wait=5)
 
-    # for i in range(CONFIG["runs"]):
-    #     print_start("Starting run no. {}".format(i))
+        if RANDOM_HEIGHT != "":
+            for i in range(MOVE_RNG):
+                RunTask(MOVE_UP_DRONE.format(RANDOM_HEIGHT), wait=4)
 
-    #     world = WorldBuilder(CONFIG)
-    #     objects = world.get_object_models()
+        teleop = BackgroundTask(
+            "terminator -e 'rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/bebop/cmd_vel'",
+            shell=True, wait=0.5
+        )
 
-    #     world_fpath, subj_fpath, peds_fpath = world.get_paths()
+        # Run while teleop is active
+        data_logger = MasterNode(CONFIG, teleop)
+        data_logger.start()
 
-    #     subject = ACTOR.format("subject", subj_fpath)
-    #     # nm[-1] gives the pedestrian number; nm ~= P1, P0, ..
-    #     pedestrians = " ".join([ACTOR.format(nm[-1], txt) for (nm, txt) in peds_fpath])
+        # ==== WAIT UNTIL EXPERT POLICY RECORDING IS FINISHED ====
+        # ========================================================
+        teleop.wait()
 
-    #     # ====== START THE TASKS ======
-    #     # ==== Total: 30s waiting =====
-    #     # =============================
+        data_logger.stop()  # saves-closes the .CSV when finished
+        bebop_driver.kill()
+        sphinx.kill()
 
-    #     BackgroundTask(
-    #         "sphinx {} {} {} {}".format(world_fpath, DRONE_FPATH, subject, pedestrians),
-    #         log=True, log_file="", wait=5
-    #     )
+    roscore.kill()  # kills roscore after ALL runs
 
-    #     BackgroundTask("roscore", log=True, log_file="", wait=5)
-        
-    #     BackgroundTask(
-    #         "roslaunch bebop_driver bebop_node.launch",
-    #         log=True, log_file="", wait=10
-    #     )
-        
-    #     RunTask("rostopic pub --once /bebop/takeoff std_msgs/Empty", wait=7)
 
-    #     for i in range(5):
-    #         RunTask(
-    #             "rostopic pub --once /bebop/cmd_vel geometry_msgs/Twist {}".format(RANDOM_HEIGHT),
-    #             wait=3
-    #         )
+# ==== MAIN FLOW ====
+# ===================
 
-    #     teleop = BackgroundTask(
-    #         "terminator -e 'rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/bebop/cmd_vel'",
-    #         shell=True, wait=0.5
-    #     )
-
-    #     # Run while teleop is active
-    #     data_logger = MasterNode(CONFIG, teleop)
-
-    #     signal.signal(signal.SIGINT, lambda s,f: stop_datalogger(s,f,data_logger))
-        
-    #     data_logger.start()
+if __name__ == "__main__":
+    simulate(A_CONFIG)

@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, absolute_import
-from subprocess import Popen, STDOUT, PIPE
+from subprocess import call, Popen, STDOUT, PIPE
 from termcolor import colored
 from random import randint
 from time import sleep
 
-import os
 import shlex
 
 # ======= CONFIGURATION =======
@@ -24,9 +23,12 @@ def print_start(_str):
 def print_error(_str):
     print(colored(_str, "red"))
 
-def get_random_height_cmd():
-    x = randint(0,1)
-    return [TWIST_DN, TWIST_UP][x]
+def get_random_height_cmd(wanting_it):
+    if wanting_it:
+        x = randint(0,1)
+        return [TWIST_DN, TWIST_UP][x]
+    else:
+        return ""
 
 # ======= SUBPROCESSES / THREADS =======
 # ======================================
@@ -44,12 +46,12 @@ class BackgroundTask:
         else:
             self.out = PIPE
 
-        sleep(wait)
-
         self.cmd = {
             True: cmd,
             False: shlex.split(cmd)
         }.get(shell)
+
+        sleep(wait)
 
         self.process = Popen(
             self.cmd,
@@ -58,8 +60,6 @@ class BackgroundTask:
             shell=shell,
             bufsize=1
         )
-
-        self.process.setDaemon(daemon)
 
     def poll(self):
         """Returns None if the process is still running"""
@@ -77,5 +77,5 @@ class RunTask:
     def __init__(self, cmd, wait=0):
 
         sleep(wait)
-        os.system(cmd)
+        call(cmd, shell=True)
 
