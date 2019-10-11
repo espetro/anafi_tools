@@ -1,4 +1,5 @@
 from time import sleep
+from datetime import datetime
 
 import sys, os
 import logging
@@ -129,7 +130,7 @@ class GndCtrlItf(object):
                 break
             varBuf = buf[varOff:varOff+varLen]
 
-            # self.app.sample(sectionId, timestamp, varId, varDesc, varBuf)
+            self.app.sample(sectionId, timestamp, varId, varDesc, varBuf)
 
             varOff += varLen
 
@@ -165,6 +166,8 @@ class App():
         self.running = False
         self.thread = None
         self.itf = GndCtrlItf(self, "example", args[0], int(args[1]))
+        self.file = open(args[2], "w+")
+
         signal.signal(signal.SIGINT,
                       lambda signal, frame: self._signal_handler())
         signal.signal(signal.SIGTERM,
@@ -185,6 +188,7 @@ class App():
         self.thread.start()
 
     def stop(self):
+        self.file.close()
         self.running = False
         self.thread.join()
 
@@ -206,7 +210,9 @@ class App():
         pass
 
     def sample(self, sectionId, timestamp, varId, varDesc, buf):
-        print(sectionId, timestamp, varId, varDesc, buf)
+        if not self.file.closed:
+            _str = "{} {} {} {}\n".format(sectionId, timestamp, varId, varDesc)
+            self.file.write(_str)
 
 #===============================================================================
 #===============================================================================
@@ -262,22 +268,31 @@ def parseArgs():
 #===============================================================================
 #===============================================================================
 if __name__ == "__main__":
+    fdir = "/home/pachacho/Documents/anafi_tools/data/train"
     # (options, args) = parseArgs()
-    args = ["inet:127.0.0.1:9060", 5000]
     # setupLog(options)
     # setupLog(DefaultOpts())
 
     for i in range(5):
         print("Run no {}".format(i))
 
+        args = [
+            "inet:127.0.0.1:9060",
+            5000,
+            "{}/example{}.log".format(
+                fdir,
+                datetime.now().strftime("%y%m%d_%H%M%S")
+            )
+        ]
+
         try:
             app = App(args)
             app.start()
+            print("Sleeping 10s (like running other tasks e.g. joining teleop)")
+            sleep(10)
         except KeyboardInterrupt:
             app.stop()
-        
-        print("Sleeping 10s (like running other tasks e.g. joining teleop)")
-        sleep(10)
-        app.stop()
+        finally:
+            app.stop()
 
     sys.exit(0)

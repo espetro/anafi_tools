@@ -1,7 +1,7 @@
 
 from numpy.linalg import norm as euclidean
-from numpy import array
 from math import sin, cos, sqrt
+import numpy as np
 
 class CubeShape(object):
 
@@ -15,10 +15,10 @@ class CubeShape(object):
         """
         self.name = "Cube"
         self.oid = oid
-        self.pose = pose
+        self.pose = np.array([float(p) for p in pose])
         self.orient = orient
         self.dims = [float(x) for x in dims]
-        self.rads = [d / 2 for d in self.dims]
+        self.rads = no.array(self.dims) / 2
 
     def __str__(self):
         """Writes the object information"""
@@ -37,62 +37,43 @@ class CubeShape(object):
     @staticmethod
     def _euclidean(poseA, poseB):
         """
-        :param poseA:
-        :param poseB:
+        :param poseA: A numpy array of shape (1,3)
+        :param poseB: A numpy array of shape (1,3)
         """
-        # return euclidean(array(poseA), array(poseB))
-        return sqrt(sum([(a - b)**2 for a,b in zip(poseA, poseB)]))
-
+        return sqrt(sum((poseA - poseB) ** 2))
+        # return sqrt(sum([(a - b)**2 for a,b in zip(poseA, poseB)]))
     
-    def _get_corner_dist(self, points):
+    def _nearest_cloud_point(self, point, low_center=True):
         """
-        Computes the distance from the box to a point by obtaining the closest
-        distance from the point to one of the 30 corner/face points.
-        (5 points per face: corners + center)
+        Computes the distance from a point to the closest edge or face center
+        of the box. There are 5 points per face (edges + center).
 
-        :param points:
+        :param point: A tuple (x,y,z) of type float
+        :param low_center: If True, the center is located at the center
+            of the bottom face
         """
+        if low_center:
+            pose = self.pose + np.array([0,0, self.dims[0,2]])
 
-        # pose_aligned = self.align_to_orig()
+        pt = np.array([float(p) for p in point])
 
-        # # X-centered faces
-        # r_main, r_other = rads[0], rads[1:]
-        # for x in range(2):
-        #     x = array(center_pose) + array()
-        
-        # self.rads[2]
+        cloud = np.array([
+            [-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1],
+            [-1, -1, 1], [1, -1, 1 ], [1, 1, 1], [-1, 1, 1],
+            [0, -1, 0], [0, 1, 0], [1, 0, 0], [-1, 0, 0], [0, 0, 1], [0, 0, -1]
+        ])
 
-        # self.rads[0], self.rads[1]
-        # self.rads[0], -self.rads[1]
-        # -self.rads[0], self.rads[1]
-        # -self.rads[0], -self.rads[1]
+        cloud = np.multiply(self.rads, cloud)
 
-        # Y-centered faces
+        cloud += pose
 
-        # Z-centered faces
+        dist_to_pt = lambda cloud_point: CubeShape._euclidean(cloud_point, pt)
+        dists = np.vectorize(dist_to_pt)(cloud)
 
-        # fcx1: face center x1
-        # fcx1 = array(pose_aligned) - array([self.rads[0], 0, 0])
-        # fcx2 = array(pose_aligned) + array([self.rads[0], 0, 0])
+        # return [x for (x,d) in zip(cloud, dists) if d == np.min(dists)][0]
+        return np.min(dists)
 
-        # fcy1 = array(pose_aligned) - array([0, self.rads[1], 0])
-        # fcy2 = array(pose_aligned) - array([0, self.rads[1], 0])
-
-        # fcz1 = array(pose_aligned) - array([0, 0, self.rads[2]])
-        # fcz2 = array(pose_aligned) - array([0, 0, self.rads[2]])
-
-        # d = 1e6
-        # f_final = None
-        # for f in [fcx1, fcx2, fcy1, fcy2, fcz1, fcz2]:
-        #     f_dist = CubeShape._euclidean(point, f)
-        #     if d > f_dist:
-        #         d = f_dist
-        #         f_final = f
-
-        # # Get 4 corners
-        # corner_tl = f_final + array()
-
-    def _get_transform_dist(self, point):
+    def _cartesian_tf(self, point):
         """
         Computes the distance between the box and a 3D point by using coordinate
         transforms. Note that the drone is pitch-yaw-invariant in order to get
@@ -105,7 +86,7 @@ class CubeShape(object):
         _, yaw, _ = self.orient
 
         # (1) Get point in the wall reference
-        pt_to_rotate = array(point) - array(self.pose)
+        pt_to_rotate = np.array(point) - np.array(self.pose)
         p_near = [
             pt_to_rotate[0] * cos(yaw) + pt_to_rotate[1] * sin(yaw),
             pt_to_rotate[1] * cos(yaw) - pt_to_rotate[0] * sin(yaw),
@@ -130,7 +111,7 @@ class CubeShape(object):
         ]
 
         # (3.2) Adjust the distance
-        pt_unrotated += array(self.pose)
+        pt_unrotated += np.array(self.pose)
 
         return 0, pt_unrotated, point, self.pose
         # return CubeShape._euclidean(point, pt_unrotated)
@@ -143,8 +124,8 @@ class CubeShape(object):
         :param point: A tuple (x,y,z)
         """
 
-        # dist = self._get_corner_dist(point)
-        dist = self._get_transform_dist(point)
+        dist = self._nearest_cloud_point(point)
+        # dist = self._cartesian_tf(point)
 
         return dist
 
