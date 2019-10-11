@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from tempfile import mkdtemp
+from random import randint
 from generators.list2path import PathGen
 from generators.grid2world import WorldGen
 from generators.path_finder import PathFinder
@@ -12,9 +13,11 @@ class WorldBuilder:
         """
         Builds a new world given the configuration dictionary
         """
+        min_peds, max_peds = config["num_peds"]
+
         self.probs = config["object_probs"]
         self.shape = config["world_shape"]
-        self.peds = config["number_peds"]
+        self.peds = randint(min_peds, max_peds)
         self.max_objs = config["maximum_objects"]
         self.sj2gl = config["subj_to_goal_dist"]
 
@@ -29,7 +32,9 @@ class WorldBuilder:
 
         (self.world_fpath, self.subj_fpath, self.peds_fpath) = self._gen2file(config["delay_start"])
 
-
+    def get_num_peds(self):
+        return self.peds
+        
     def _gen2file(self, delay_start=20):
         """"""
         self.fdir = mkdtemp(prefix="sphinx_", suffix="_worldconf")
@@ -54,7 +59,7 @@ class WorldBuilder:
         for (name, data) in self.world.peds.items():
             points = [(p, "P", 1.0, 0.0) for p in data["pos"][0]]
             generator = PathGen(
-                self.fdir, points, loop=data["loop"], delay_start=0.0, is_ped=True
+                self.fdir, points, loop=True, delay_start=0.0, is_ped=True
             )
             peds_fpath.append((name, generator.get_path()))
 

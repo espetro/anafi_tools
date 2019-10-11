@@ -18,7 +18,7 @@ class WallBoxShape(CubeShape):
         """
         super(WallBoxShape, self).__init__(oid, pose, orient, dims)
         self.name = "WallBox"
-        self.height = 2.0
+        self.height = 3.75
         self.radius = 0.35
 
     def distance_to(self, point):

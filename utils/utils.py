@@ -51,8 +51,6 @@ class BackgroundTask:
             False: shlex.split(cmd)
         }.get(shell)
 
-        sleep(wait)
-
         self.process = Popen(
             self.cmd,
             stdout=self.out,
@@ -61,11 +59,18 @@ class BackgroundTask:
             bufsize=1
         )
 
+        sleep(wait)
+
     def poll(self):
         """Returns None if the process is still running"""
         return self.process.poll()
 
+    def wait(self):
+        """Waits until the background process finishes"""
+        self.process.wait()
+
     def kill(self):
+        """Kills the background process"""
         if self.log:
             self.out.close()
 

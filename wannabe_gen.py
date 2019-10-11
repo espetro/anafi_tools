@@ -13,12 +13,28 @@ import sys
 sys.path.append("/home/pachacho/Documents/anafi_tools/envdata/aggregate")
 sys.path.append("/home/pachacho/Documents/anafi_tools/envdata/telemetry")
 
+# pip install -e gazebo... to get changes updated
+
+
 # from master2 import MasterNode
-from telemetry import TelemetryConsumer
+from data_logger import DataLogger
 
 
 # ==== FUNCTIONS =======
 # ====================
+from threading import Thread
+from subprocess import call
+from time import sleep
+
+class KeLeFollen:
+    def __init__(self, cmd, wait=5):
+        self.cmd = cmd
+        sleep(wait)
+        self.thread = Thread(target=self.start_cmd)
+
+    def start_cmd(self):
+        call(self.cmd, shell=False)
+
 
 def simulate(config):
     """Runs a simulation given the configuration dictionary"""    
@@ -33,60 +49,85 @@ def simulate(config):
     MOVE_RNG = 5  # moves the drone in the Z axis by 0.5 or -0.5
 
 
-    for i in range(config["reps"]):
-        print("\nRun no {}. Initial wait: {}".format(i, config["delay_start"]))
+    try:
+        for i in range(config["reps"]):
+            print("\nRun no {}. Initial wait: {}".format(i, config["delay_start"]))
+            config["run_name"] = "run{}".format(i)
 
-        # ==== PER-RUN SETUP ====        
-        # =======================
+            # ==== PER-RUN SETUP ====        
+            # =======================
 
-        # Generate world files
-        world = WorldBuilder(config)
-        objects = world.get_object_models()
-        (world_fpath, subj_fpath, peds_fpath) = world.get_paths()
+            # Generate world files
+            print("Generating new world.")
 
-        # nm[-1] gives the pedestrian number; nm ~= P1, P0, ..
-        GZ_SUBJECT = ACTOR.format("subject", subj_fpath)
-        GZ_PEDS = " ".join([ACTOR.format(nm[-1], txt) for (nm, txt) in peds_fpath])
+            world = WorldBuilder(config)
+            objects = world.get_object_models()
+            (world_fpath, subj_fpath, peds_fpath) = world.get_paths()
+            config["final_peds"] = world.get_num_peds()
 
-        RANDOM_HEIGHT = get_random_height_cmd(config["set_height"])
+            # nm[-1] gives the pedestrian number; nm ~= P1, P0, ..
+            GZ_SUBJECT = ACTOR.format("subject", subj_fpath)
+            GZ_PEDS = " ".join([ACTOR.format(nm[-1], txt) for (nm, txt) in peds_fpath])
 
-        # ==== TASK DISPATCH ====
-        # =======================
+            RANDOM_HEIGHT = get_random_height_cmd(config["set_height"])
 
-        sphinx = BackgroundTask(
-            "sphinx {} {} {} {}".format(world_fpath, GZ_DRONE, GZ_SUBJECT, GZ_PEDS),
-            log=False, wait=5
-        )
+            # ==== TASK DISPATCH ====
+            # =======================
 
-        bebop_driver = BackgroundTask(
-            "roslaunch bebop_driver bebop_node.launch",
-            log=False, wait=10
-        )
-        
-        RunTask("rostopic pub --once /bebop/takeoff std_msgs/Empty", wait=5)
+            print("Dispatching background tasks.")
 
-        if RANDOM_HEIGHT != "":
-            for i in range(MOVE_RNG):
-                RunTask(MOVE_UP_DRONE.format(RANDOM_HEIGHT), wait=4)
+            sphinx = BackgroundTask(
+                "sphinx {} {} {} {}".format(world_fpath, GZ_DRONE, GZ_SUBJECT, GZ_PEDS),
+                log=False, wait=10
+            )
 
-        teleop = BackgroundTask(
-            "terminator -e 'rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/bebop/cmd_vel'",
-            shell=True, wait=0.5
-        )
+            # RunTask("roslaunch bebop_driver bebop_node.launch", wait=5)
+            # KeLeFollen("roslaunch bebop_driver bebop_node.launch")
 
-        # Run while teleop is active
-        data_logger = MasterNode(CONFIG, teleop)
-        data_logger.start()
+            bebop_driver = BackgroundTask(
+                "roslaunch bebop_driver bebop_node.launch",
+                log=False, shell=False, wait=12
+            )
+            
+            print("Drone taking off!")
+            RunTask("rostopic pub --once /bebop/takeoff std_msgs/Empty", wait=4)
 
-        # ==== WAIT UNTIL EXPERT POLICY RECORDING IS FINISHED ====
-        # ========================================================
-        teleop.wait()
+            if RANDOM_HEIGHT != "":
+                print("Tweaking the drone altitude! hehe.")
+                for i in range(MOVE_RNG):
+                    RunTask(MOVE_UP_DRONE.format(RANDOM_HEIGHT), wait=10)
 
-        data_logger.stop()  # saves-closes the .CSV when finished
+            teleop = BackgroundTask(
+                "bash -e 'rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/bebop/cmd_vel'",
+                shell=False, wait=0
+            )
+
+            # Run while teleop is active
+            print("Starting to log data :D")
+
+            data_logger = DataLogger(config, objects)
+            data_logger.start()
+
+            # ==== WAIT UNTIL EXPERT POLICY RECORDING IS FINISHED ====
+            # ========================================================
+            teleop.wait()
+
+            data_logger.stop()  # saves-closes the .CSV when finished
+            bebop_driver.kill()
+            sphinx.kill()
+            os.system("pkill gzserver")
+
+        roscore.kill()  # kills roscore after ALL runs
+
+    except KeyboardInterrupt:
+        print("\n ============")
+        print("Sorry! We cannot exit this loop. Wait until it finishes :)")
+        print("============\n")
         bebop_driver.kill()
+        data_logger.stop()
         sphinx.kill()
-
-    roscore.kill()  # kills roscore after ALL runs
+        os.system("pkill ros")
+        os.system("pkill gzserver")
 
 
 # ==== MAIN FLOW ====

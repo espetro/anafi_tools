@@ -33,7 +33,6 @@ diagnostic-common-diagnostics==1.9.3
 diagnostic-updater==1.9.3
 docutils==0.15.2
 dynamic-reconfigure==1.5.50
-ecdsa==0.13
 empy==3.3.2
 entrypoints==0.3
 enum34==1.1.2
@@ -81,11 +80,9 @@ osrf-pycommon==0.1.8
 PAM==0.4.2
 pandas==0.23.0
 pandocfilters==1.4.2
-paramiko==1.16.0
 pathlib2==2.3.5
 pexpect==4.7.0
 pickleshare==0.7.5
-Pillow==3.1.2
 pluginlib==1.11.3
 prometheus-client==0.7.1
 prompt-toolkit==1.0.16
@@ -93,7 +90,6 @@ psutil==5.6.3
 ptyprocess==0.6.0
 pyasn1==0.1.9
 pyasn1-modules==0.0.7
-pycrypto==2.6.1
 pydot==1.0.29
 pyflakes==1.1.0
 pygame==1.9.6
@@ -101,7 +97,6 @@ Pygments==2.1
 pygobject==3.20.0
 pykerberos==1.1.5
 PyOpenGL==3.0.2
-pyOpenSSL==0.15.1
 pyparsing==2.4.2
 pyrsistent==0.15.4
 pyserial==3.0.1
@@ -110,7 +105,6 @@ python-dateutil==2.8.0
 python-qt-binding==0.3.4
 python-snappy==0.5
 pytz==2014.10
-PyYAML==3.11
 pyzmq==18.1.0
 qt-dotgraph==0.3.11
 qt-gui==0.3.11
@@ -214,7 +208,6 @@ topic-tools==1.12.14
 tornado==5.1.1
 traitlets==4.3.2
 trollius==2.0.1
-Twisted==16.0.0
 txaio==1.0.0
 unique-id==1.0.5
 unity-lens-photos==1.0

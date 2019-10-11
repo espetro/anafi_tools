@@ -15,10 +15,10 @@ class CubeShape(object):
         """
         self.name = "Cube"
         self.oid = oid
-        self.pose = np.array([float(p) for p in pose])
+        self.pose = [float(p) for p in pose]
         self.orient = orient
         self.dims = [float(x) for x in dims]
-        self.rads = no.array(self.dims) / 2
+        self.rads = np.array(self.dims) / 2
 
     def __str__(self):
         """Writes the object information"""
@@ -53,7 +53,7 @@ class CubeShape(object):
             of the bottom face
         """
         if low_center:
-            pose = self.pose + np.array([0,0, self.dims[0,2]])
+            pose = np.array(self.pose) + np.array([0,0, self.dims[0,2]])
 
         pt = np.array([float(p) for p in point])
 

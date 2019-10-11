@@ -6,6 +6,7 @@ class TreeCanopyShape(object):
     model = "model://tree_canopy"
 
     def __init__(self, oid, pose, rad="1.0"):
+        self.name = "TreeCanopy"
         self.oid = oid
         self.pose = pose
         self.radius = float(rad)

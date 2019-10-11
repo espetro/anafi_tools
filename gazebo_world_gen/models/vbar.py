@@ -9,6 +9,7 @@ class VerticalBarShape(object):
         """
         :param oid: Object ID
         """
+        self.name = "VerticalBar"
         self.oid = oid
         self.pose = pose
         self.radius = float(rad)

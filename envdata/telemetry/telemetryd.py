@@ -7,9 +7,13 @@ import optparse
 import signal
 import threading
 
-# Add parrot-specific libs
+# PLEASE PROVIDE THE PARROT GROUNDSDK COMMON DIRECTORY
 PARROT_COMMON = "/Documents/parrot/groundsdk/packages/common"
 # PARROT_COMMON = "/Documents/code/parrot-groundsdk/packages/common"
+
+
+#===============================================================================
+#===============================================================================
 POMP_LIB = os.path.expanduser("~") + PARROT_COMMON + "/libpomp/python"
 TELEMETRYD_LIB = os.path.expanduser("~") + PARROT_COMMON + "/telemetry/tools"
 
@@ -18,7 +22,7 @@ sys.path.append(TELEMETRYD_LIB)
 
 import pomp
 
-from tlmb_parser import TlmbSection
+from tlmb_parser import TlmbSection, TlmbSample
 
 GNDCTRL_PROTOCOL_VERSION = 1
 
@@ -56,11 +60,14 @@ _USAGE = (
 #===============================================================================
 #===============================================================================
 class GndCtrlItf(object):
-    def __init__(self, app, name, ctrlAddr="inet:127.0.0.1:9060", dataPort=5000):
+    """Creates a TCP connection interface with the telemetry daemon"""
+    def __init__(self, app, name, ctrlAddr, dataPort, rate):
         self.app = app
         self.name = name
         self.ctrlAddr = ctrlAddr
         self.dataPort = dataPort
+        self.rate = rate
+
         self.ctrlCtx = pomp.Context(GndCtrlItf._CtrlEventHandler(self))
         self.dataCtx = pomp.Context(GndCtrlItf._DataEventHandler(self))
         self.sections = {}
@@ -80,32 +87,28 @@ class GndCtrlItf(object):
             dec = pomp.Decoder()
             dec.init(msg)
             status = dec.readU32()
-            count = dec.readU32()
-            # logging.info("Connected: status=%d", status)
-            for _ in range(0, count):
-                key = dec.readStr()
-                val = dec.readStr()
-                # logging.info("%s='%s'", key, val)
+            print("Connected: status={}".format(status))
+            
         elif msg.msgid == GNDCTRL_MSG_SECTION_ADDED:
             (sectionId, sectionName) = msg.read("%u%s")
             section = TlmbSection(sectionId, sectionName)
             self.sections[sectionId] = section
-            # logging.info("Section added: %s(%d)", sectionName, sectionId)
+
         elif msg.msgid == GNDCTRL_MSG_SECTION_REMOVED:
             (sectionId, ) = msg.read("%u")
             section = self.sections.get(sectionId, None)
             if section is not None:
-                # logging.info("Section removed: %s(%d)", section.sectionName, sectionId)
                 self.app.sectionRemoved(section.sectionName)
                 del self.sections[sectionId]
+
         elif msg.msgid == GNDCTRL_MSG_SECTION_CHANGED:
             (sectionId, buf) = msg.read("%u%p")
             section = self.sections.get(sectionId, None)
             if section is not None:
                 newSection = TlmbSection(sectionId, section.sectionName)
                 newSection.readHeader(buf)
-                # logging.info("Section changed: %s(%d)", section.sectionName, sectionId)
                 self.sections[sectionId] = newSection
+                
         elif msg.msgid == GNDCTRL_MSG_SECTION_SAMPLE:
             # Only if client is configured to receive samples on the control channel
             (sectionId, sec, nsec, buf) = msg.read("%u%u%u%p")
@@ -120,8 +123,7 @@ class GndCtrlItf(object):
         section = self.sections.get(sectionId, None)
         if section is None:
             return
-        # logging.debug("Sample: %s(%d) %d.%06d", section.sectionName, sectionId,
-        #         timestamp[0], timestamp[1] // 1000)
+
         varOff = 0
         for varId in range(0, len(section.varDescs)):
             varDesc = section.varDescs[varId]
@@ -130,7 +132,19 @@ class GndCtrlItf(object):
                 break
             varBuf = buf[varOff:varOff+varLen]
 
-            self.app.sample(sectionId, timestamp, varId, varDesc, varBuf)
+            quantity = TlmbSample.extractQuantity(varDesc, varBuf)
+            full_name = varDesc.getFullName()
+            spaces = full_name.split(".")
+
+            data = {
+                "ts": timestamp[0],
+                "topic": full_name,
+                "namespace": spaces[0],
+                "coord": spaces[-1],
+                "value": float(quantity),
+                "pid": spaces[0][-1]  # for peds
+            }
+            self.app.sample(data)
 
             varOff += varLen
 
@@ -141,10 +155,10 @@ class GndCtrlItf(object):
             # Send connection request
             conn.send(GNDCTRL_MSG_CONN_REQ, "%u%s%u%u%u",
                      GNDCTRL_PROTOCOL_VERSION, self.itf.name, self.itf.dataPort,
-                     SAMPLE_RATE, MSG_RATE)
+                     self.itf.rate, self.itf.rate)
         def onDisconnected(self, ctx, conn):
             # Clear internal state
-            # logging.info("Disconnected")
+            print("Disconnected")
             self.sections = {}
         def recvMessage(self, ctx, conn, msg):
             self.itf.recvCtrlMsg(msg)
@@ -159,14 +173,18 @@ class GndCtrlItf(object):
         def recvMessage(self, ctx, conn, msg):
             self.itf.recvDataMsg(msg)
 
+
 class App():
-    def __init__(self, args):
+    """Wraps tkgndcntrl in a separate Thread"""
+    def __init__(self, proc_name, sample_fun, rate=1000, ctrladdr="inet:127.0.0.1:9060", dataport="5000"):
         self.sock_family = None
         self.sock_addr = None
         self.running = False
         self.thread = None
-        self.itf = GndCtrlItf(self, "example", args[0], int(args[1]))
-        self.file = open(args[2], "w+")
+        
+        self.sample = sample_fun
+
+        self.itf = GndCtrlItf(self, proc_name, ctrladdr, int(dataport), rate)
 
         signal.signal(signal.SIGINT,
                       lambda signal, frame: self._signal_handler())
@@ -188,7 +206,6 @@ class App():
         self.thread.start()
 
     def stop(self):
-        self.file.close()
         self.running = False
         self.thread.join()
 
@@ -209,84 +226,46 @@ class App():
     def sectionRemoved(self, sectionName):
         pass
 
+#===============================================================================
+#===============================================================================
+
+class SampleFun:
+    def __init__(self, fname):
+        self.ffile = open(fname, "w+")
+        self.timestamp = None
+
     def sample(self, sectionId, timestamp, varId, varDesc, buf):
-        if not self.file.closed:
+        self.timestamp = timestamp
+
+        if not self.ffile.closed:
             _str = "{} {} {} {}\n".format(sectionId, timestamp, varId, varDesc)
-            self.file.write(_str)
+            self.ffile.write(_str)
 
-#===============================================================================
-#===============================================================================
-class DefaultOpts:
-    def __init__(self):
-        self.quiet = False
-        self.verbose = False
 
-#===============================================================================
-#===============================================================================
-def parseArgs():
-    # Setup parser
-    parser = optparse.OptionParser(usage=_USAGE)
-
-    parser.add_option("-q", "--quiet",
-        dest="quiet",
-        action="store_true",
-        default=False,
-        help="be quiet")
-
-    parser.add_option("-v", "--verbose",
-        dest="verbose",
-        action="store_true",
-        default=False,
-        help="verbose output")
-
-    # Parse arguments
-    (options, args) = parser.parse_args()
-    if len(args) != 2:
-        parser.error("Bad number or arguments")
-    return (options, args)
-
-#===============================================================================
-#===============================================================================
-# def setupLog(options):
-#     logging.basicConfig(
-#         level=logging.INFO,
-#         format="[%(levelname)s][%(asctime)s] %(message)s",
-#         datefmt="%Y-%m-%d %H:%M:%S",
-#         stream=sys.stderr)
-#     logging.addLevelName(logging.CRITICAL, "C")
-#     logging.addLevelName(logging.ERROR, "E")
-#     logging.addLevelName(logging.WARNING, "W")
-#     logging.addLevelName(logging.INFO, "I")
-#     logging.addLevelName(logging.DEBUG, "D")
-
-#     # Setup log level
-#     if options.quiet == True:
-#         logging.getLogger().setLevel(logging.CRITICAL)
-#     elif options.verbose:
-#         logging.getLogger().setLevel(logging.DEBUG)
-
-#===============================================================================
-#===============================================================================
 if __name__ == "__main__":
     fdir = "/home/pachacho/Documents/anafi_tools/data/train"
     # (options, args) = parseArgs()
     # setupLog(options)
     # setupLog(DefaultOpts())
 
+    args = [
+        "inet:127.0.0.1:9060",
+        5000
+    ]
+
     for i in range(5):
         print("Run no {}".format(i))
+        proc_name = "run{}".format(i)
 
-        args = [
-            "inet:127.0.0.1:9060",
-            5000,
-            "{}/example{}.log".format(
-                fdir,
-                datetime.now().strftime("%y%m%d_%H%M%S")
-            )
-        ]
+        fname = "{}/example{}.log".format(
+            fdir,
+            datetime.now().strftime("%y%m%d_%H%M%S")
+        )
+
+        obj = SampleFun(fname)
 
         try:
-            app = App(args)
+            app = App(proc_name, obj.sample, 1000, args[0], args[1])
             app.start()
             print("Sleeping 10s (like running other tasks e.g. joining teleop)")
             sleep(10)
@@ -294,5 +273,8 @@ if __name__ == "__main__":
             app.stop()
         finally:
             app.stop()
+
+        print("ts: {}".format(obj.timestamp))
+        obj.ffile.close()
 
     sys.exit(0)
