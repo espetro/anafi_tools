@@ -49,16 +49,25 @@ SUBJECT_TOPICS = [
 
 class DataBag:
     """Manages the data received by the sensors"""
-    def __init__(self, no_peds, objs):
+    def __init__(self, no_peds=0, objs=None):
         self.drone = DroneModel()
         self.subject = SubjectModel()
-        self.peds = {str(i): PedestrianModel() for i in range(no_peds)}
+        
+        # Bear in mind some simulations cannot contain neither peds nor objs
+        if no_peds > 0:
+            self.peds = {str(i): PedestrianModel() for i in range(no_peds)}
+        else:
+            self.peds = None
+        
         self.objs = objs
 
     def is_full(self):
-        return self.drone.complete() and \
-            self.subject.complete() and \
-            all([p.complete() for p in self.peds.values()])
+        # Bear in mind some simulations cannot contain neither peds nor objs
+        core_full = self.drone.complete() and self.subject.complete()
+        if self.peds is None:
+            return core_full
+        else:
+            return core_full and all([p.complete() for p in self.peds.values()])
 
     def get_data(self):
         return {
@@ -87,15 +96,19 @@ class DataLogger:
         self.file = open(fname, "w+")
         self.csv_writer = csv.writer(self.file, delimiter=",")
 
-        peds_titles = ["pedestrian{}_pos".format(n) for n in range(config["final_peds"])]
-        objs_titles = ["{}_pos".format(model.oid) for model in objs]
-        # for m in objs:
-        #     objs_titles += [m.oid, ]
+        peds_titles = []
+        if config["final_peds"] > 0:
+            peds_titles = ["pedestrian{}_pos".format(n) for n in range(config["final_peds"])]
 
-        self.csv_writer.writerow([
-            "ts", "dr_pos", "dr_vel", "dr_acc", "sub_pos",
-            "force_goal", "force_ped", "force_obj"
-        ] + peds_titles + objs_titles)
+        objs_titles = []
+        if objs is not None:
+            objs_titles = ["{}_pos".format(model.oid) for model in objs]
+
+        print("\nPed titles: ", peds_titles)
+        print("\nObj titles: ", objs_titles)
+
+        titles = ["ts", "dr_pos", "dr_vel", "dr_acc", "sub_pos", "force_goal", "force_ped", "force_obj"] + peds_titles + objs_titles
+        self.csv_writer.writerow(titles)
 
         # Configure data store and topics to watch
         self.PEDESTRIAN_TOPICS = DataLogger.get_ped_topics(config["final_peds"])
@@ -114,7 +127,8 @@ class DataLogger:
     def store_in_bag(self, data):
         """Store data samples sent in multiple batches"""
         if random() > 0.99999:
-            print(data["topic"])
+            print("Telemetry data: ", data["topic"])
+            print("Bag data: ", self.bag.print_data())
             
         if data["topic"] in DRONE_POS_TOPICS:
             self.bag.drone.set_pos_val(data["ts"], data["coord"], data["value"])
@@ -133,24 +147,35 @@ class DataLogger:
 
         if self.bag.is_full():
             # Ensure that all data have the same timestamp and are not None
+            print("BAG DATA FULL")
+
             data = self.bag.get_data()
             self.on_full(data)
 
     def on_full(self, bag_data):
         """Do computations when multiple samples with equal timestamp are received"""
         # bag_data is a dict {ts, drone, subject, peds, objs}
+        # Bear in mind some simulations cannot contain neither peds nor objs
         dr_pos, dr_vel, dr_acc = bag_data["drone"].get_data()
         subj_pos = bag_data["subject"].get_pos()
-        peds_poses = [p.get_pos() for p in bag_data["peds"].values()]
-        objs_poses = [m.pose for m in bag_data["objs"]]
 
+        peds_poses = []
+        if bag_data["peds"] is not None:
+            peds_poses = [p.get_pos() for p in bag_data["peds"].values()]
+        objs_poses = []
+        if bag_data["objs"] is not None:
+            objs_poses = [m.pose for m in bag_data["objs"]]
+
+        # Bear in mind some simulations cannot contain neither peds nor objs
+        # (ped and obj force would be 0.0)
         forces = [0,0,0]
 
         if not self.file.closed:
-            self.csv_writer.writerow([
-                bag_data["ts"], dr_pos, dr_vel, dr_acc, subj_pos,
-                forces[0], forces[1], forces[2],
-            ] + peds_poses + objs_poses)
+            rowdata = [ 
+                bag_data["ts"], dr_pos, dr_vel, dr_acc, subj_pos, forces[0], forces[1], forces[2]
+            ] + peds_poses + objs_poses
+
+            self.csv_writer.writerow(rowdata)
 
     @staticmethod
     def get_ped_topics(n_peds):

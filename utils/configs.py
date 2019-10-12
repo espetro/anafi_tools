@@ -46,6 +46,11 @@ A_CONFIG = {
     "num_peds": (0,0),  # between 0 and 0 peds (varies within each config)
     "peds_loop": True,
 
+    # controller options
+    # (65, 0.2) recommended for beginners
+    "speed": 65,
+    "refresh": 0.2,
+
     # data-logger options
     "sample_rate": 1000,  # 1000 ms
     "samples_per_s": 1,  # 1 sample per 1s

@@ -84,7 +84,7 @@ def simulate(config):
             # Create drone and joystick and randomly vary drone height
             # around 5s creating both
             drone = olympe.Drone(JoystickTeleop.SIMULATED_IP, loglevel=0)
-            teleop = JoystickTeleop(drone)
+            teleop = JoystickTeleop(drone, config["speed"], config["refresh"])
             
             vary_anafi_height(teleop, config["set_height"], MOVE_RNG)
 
@@ -104,7 +104,7 @@ def simulate(config):
 
             print("\n\nKilling processes!")
             sphinx.kill(); os.system("pkill gzserver")
-            print("Halo")
+            # print("Halo")
             data_logger.stop()  # saves-closes the .CSV when finished
 
 

@@ -21,13 +21,13 @@ class JoystickTeleop:
     PHYSICAL_IP = "192.168.42.1"
     SIMULATED_IP = "10.202.0.1"
     LAND_TAKEOFF_TIME = 4.0
-    MOVE_TIME = 0.1
-    MOVE_STRENGTH = 65  # [0:100] ints
 
-    def __init__(self, drone=None):
+    def __init__(self, drone=None, speed=65, refresh_move=0.1):
         """"""
         try:
             self._quit_pressed = None
+            self.drone_speed = min([speed, 100])
+            self.drone_mtime = min([refresh_move, 1]) # move time
 
             pygame.init()
             self.joy = pygame.joystick.Joystick(0)  
@@ -112,12 +112,12 @@ class JoystickTeleop:
         """
         # movements must be in [-100:100]
         left_right, front_back, turning, up_down = [
-            int(j * JoystickTeleop.MOVE_STRENGTH) for j in joy_values
+            int(j * self.drone_speed) for j in joy_values
         ]
 
         self.drone.piloting_pcmd(
             left_right, -front_back, turning, -up_down,
-            0.3
+            self.drone_mtime
         )
 
     def start(self):
