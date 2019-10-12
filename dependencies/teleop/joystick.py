@@ -42,14 +42,8 @@ class JoystickTeleop:
     def _get_joy_values(self):
         pygame.event.pump()
 
-        out_joys = []
         #Read input from the two joysticks and take only the ones we need
-        for i in [0,1,3,4]:
-            val = self.joy.get_axis(i)
-            if val > 0.2:
-                out_joys.append(val)
-            else:
-                out_joys.append(0.0)
+        out_joys = [self.joy.get_axis(i) for i in [0,1,3,4]]
 
         return out_joys
 
@@ -64,25 +58,27 @@ class JoystickTeleop:
 
     def _mainloop(self):
         """"""
-        while not self._quit_pressed:            
+        while not self._quit_pressed:
+            sleep(0.2)
             joy_values = self._get_joy_values()
             
             if self._is_takeoff_pressed():
                 print("Pressed takeoff button!")
                 self._takeoff()
-                sleep(JoystickTeleop.LAND_TAKEOFF_TIME)
             elif self._is_landed_pressed():
                 print("Pressed landing button!")
                 self._land()
-                sleep(JoystickTeleop.LAND_TAKEOFF_TIME)
             else:
                 print(joy_values)
                 self.move(joy_values)
-                sleep(JoystickTeleop.MOVE_TIME)
             
             self._check_quit_pressed()
 
+        print("\n============")
         print("Pressed QUIT button (X)")
+        print("============\n")
+        self._land()
+        self._close_conn()  # closes the connection
 
     def _takeoff(self):
         """"""
@@ -91,11 +87,11 @@ class JoystickTeleop:
             FlyingStateChanged(state="hovering", _policy="check")
             | FlyingStateChanged(state="flying", _policy="check")
             | (
-                GPSFixStateChanged(fixed=1, _timeout=10, _policy="check_wait")
+                GPSFixStateChanged(fixed=1, _timeout=5, _policy="check_wait")
                 >> (
                     TakeOff(_no_expect=True)
                     & FlyingStateChanged(
-                        state="hovering", _timeout=10, _policy="check_wait")
+                        state="hovering", _timeout=5, _policy="check_wait")
                 )
             )
         ).wait()
@@ -117,7 +113,7 @@ class JoystickTeleop:
         left_right, front_back, turning, up_down = [int(j * 50) for j in joy_values]
 
         self.drone.piloting_pcmd(
-            -int(left_right), int(front_back), int(turning), int(up_down),
+            left_right, -front_back, turning, -up_down,
             1
         )
 
@@ -126,14 +122,12 @@ class JoystickTeleop:
         print("Initialized Joystick: {}".format(self.joy.get_name()))
         
         self.drone.start_piloting()
-
-        self.thread = threading.Thread(target=self._mainloop)
-        self.thread.start()
+        self._mainloop()
 
     def stop(self):
         self._quit_pressed = True
-        self.thread.join()
 
+    def _close_conn(self):
         self.drone.stop_piloting()
         self.drone.disconnection()
 
@@ -141,10 +135,12 @@ class JoystickTeleop:
 if __name__ == "__main__":
     drone = olympe.Drone(JoystickTeleop.SIMULATED_IP, loglevel=0)
 
-    x = JoystickTeleop(drone)
-    x.start()
+    try:
+        x = JoystickTeleop(drone)
+        x.start()
+    except KeyboardInterrupt:
+        x.stop()
+        x._close_conn()
 
-    while x.thread.is_alive():
-        x = 1
-
+    print("Teleoperating stopped\n")
     sys.exit(0)
