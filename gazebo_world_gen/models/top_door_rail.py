@@ -1,6 +1,6 @@
 
-# from streaming.sim_objs.cube import CubeShape
-from cube import CubeShape
+from __future__ import print_function, absolute_import
+from models.cube import CubeShape
 
 class TopDoorRailShape(CubeShape):
     model = "model://top_door_rail"

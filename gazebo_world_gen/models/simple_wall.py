@@ -1,6 +1,6 @@
 
-# from streaming.sim_objs.cube import CubeShape
-from cube import CubeShape
+from __future__ import print_function, absolute_import
+from models.cube import CubeShape
 
 class SimpleWallShape(CubeShape):
     model = "model://simple_wall"

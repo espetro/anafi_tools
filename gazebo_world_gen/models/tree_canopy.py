@@ -1,4 +1,4 @@
-
+from __future__ import print_function, absolute_import
 from numpy.linalg import norm as euclidean
 from numpy import array
 

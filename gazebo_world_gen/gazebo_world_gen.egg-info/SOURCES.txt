@@ -1,5 +1,6 @@
 MANIFEST.in
 README.md
+setup.py
 example/tmp12QhIR.path
 example/tmpBXsMv8.world
 example/tmpvGsKxl.path
@@ -16,3 +17,4 @@ generators/list2path.py
 generators/path_finder.py
 generators/random_world.py
 generators/templates.py
+generators/world_builder.py

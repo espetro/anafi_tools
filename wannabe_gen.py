@@ -2,20 +2,20 @@
 # -*- coding: utf-8 -*-
 # How the simulation generation should go
 
-from __future__ import print_function
+from __future__ import print_function, absolute_import
 from utils.utils import RunTask, BackgroundTask, print_start, print_error, setupRun, get_random_height_cmd
 from generators.world_builder import WorldBuilder
 from utils.configs import A_CONFIG
+from random import random
 
 import os
 import sys
+import shutil
 
 sys.path.append("/home/pachacho/Documents/anafi_tools/envdata/aggregate")
 sys.path.append("/home/pachacho/Documents/anafi_tools/envdata/telemetry")
 
 # pip install -e gazebo... to get changes updated
-
-
 # from master2 import MasterNode
 from data_logger import DataLogger
 
@@ -26,14 +26,14 @@ from threading import Thread
 from subprocess import call
 from time import sleep
 
-class KeLeFollen:
+class IlloKeWapo:
     def __init__(self, cmd, wait=5):
         self.cmd = cmd
         sleep(wait)
         self.thread = Thread(target=self.start_cmd)
 
     def start_cmd(self):
-        call(self.cmd, shell=False)
+        call(self.cmd, shell=True)
 
 
 def simulate(config):
@@ -43,14 +43,15 @@ def simulate(config):
     ACTOR = SPHINX_ROOT + "/actors/pedestrian.actor::name={}::path={}"
     GZ_DRONE = SPHINX_ROOT + "/drones/local_bebop2.drone"
 
-    # ROScore doesnt need to be restarted each run
-    roscore = BackgroundTask("roscore", log=False, wait=5)
     MOVE_UP_DRONE = "rostopic pub --once /bebop/cmd_vel geometry_msgs/Twist {}"
     MOVE_RNG = 5  # moves the drone in the Z axis by 0.5 or -0.5
 
+    # ROScore doesnt need to be restarted each run
+    roscore = BackgroundTask("roscore", log=False, wait=5)
 
     try:
         for i in range(config["reps"]):
+
             print("\nRun no {}. Initial wait: {}".format(i, config["delay_start"]))
             config["run_name"] = "run{}".format(i)
 
@@ -82,7 +83,7 @@ def simulate(config):
             )
 
             # RunTask("roslaunch bebop_driver bebop_node.launch", wait=5)
-            # KeLeFollen("roslaunch bebop_driver bebop_node.launch")
+            # IlloKeWapo("roslaunch bebop_driver bebop_node.launch")
 
             bebop_driver = BackgroundTask(
                 "roslaunch bebop_driver bebop_node.launch",
@@ -92,12 +93,13 @@ def simulate(config):
             print("Drone taking off!")
             RunTask("rostopic pub --once /bebop/takeoff std_msgs/Empty", wait=4)
 
-            if RANDOM_HEIGHT != "":
-                print("Tweaking the drone altitude! hehe.")
-                for i in range(MOVE_RNG):
-                    RunTask(MOVE_UP_DRONE.format(RANDOM_HEIGHT), wait=10)
+            # if RANDOM_HEIGHT != "":
+            #     print("Tweaking the drone altitude! hehe.")
+            #     for i in range(MOVE_RNG):
+            #         RunTask(MOVE_UP_DRONE.format(RANDOM_HEIGHT), wait=10)
 
             teleop = BackgroundTask(
+                # "bash",
                 "bash -e 'rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/bebop/cmd_vel'",
                 shell=False, wait=0
             )
@@ -113,11 +115,18 @@ def simulate(config):
             teleop.wait()
 
             data_logger.stop()  # saves-closes the .CSV when finished
-            bebop_driver.kill()
+            # bebop_driver.kill()
             sphinx.kill()
             os.system("pkill gzserver")
 
-        roscore.kill()  # kills roscore after ALL runs
+
+        # every once in a while delete ~/.parrot-sphinx logs
+        # these files can get really big
+        if random() > 0.9:
+            _HOME = os.getenv("HOME")
+            shutil.rmtree(_HOME + "/.parrot-sphinx")
+
+        # roscore.kill()  # kills roscore after ALL runs
 
     except KeyboardInterrupt:
         print("\n ============")

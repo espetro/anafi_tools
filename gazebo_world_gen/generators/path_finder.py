@@ -1,4 +1,4 @@
-from __future__ import print_function
+from __future__ import print_function, absolute_import
 
 class PathNode:
     def __init__(self, parent=None, position=None, cell_type="", weight=0):
@@ -43,7 +43,7 @@ class PathFinder:
         max_X, max_Y = grid.shape
         my_X, my_Y = curr_node.pos
         # Drops the 4 diagonal surrounding tiles
-        area = list(map(lambda (a,b): (a + my_X, b + my_Y), [(-1,0), (1,0), (0,-1), (0,1)]))
+        area = [(a + my_X, b + my_Y) for (a,b) in [(-1,0), (1,0), (0,-1), (0,1)]]
 
         within_range = (p for p in area if (p[0] in range(max_X) and p[1] in range(max_Y)))
         cell_types = (PathFinder.check_type(grid, cell) for cell in within_range)
@@ -97,8 +97,13 @@ class PathFinder:
         while len(opened) > 0:
             # print("[0]: {} | [C]: {}".format(len(opened), len(closed)))
             # Get the node with smallest F cost
-            costs = map(lambda p: p.f, opened)
-            curr_node, curr_idx = [(n,i) for i, (n, f) in enumerate(zip(opened, costs)) if f == min(costs)][0]
+            minimal_cost = min([n.f for n in opened])
+            curr_node, curr_idx = None, None
+
+            for (idx, node) in enumerate(opened):
+                if node.f == minimal_cost:
+                    curr_node, curr_idx = node, idx
+                    break
             
             # Switch it to 'closed'
             closed.append(curr_node)

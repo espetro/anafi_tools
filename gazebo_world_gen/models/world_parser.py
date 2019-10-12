@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
+from __future__ import print_function, absolute_import
 from models.simple_wall import SimpleWallShape
 from models.top_door_rail import TopDoorRailShape
 from models.vbar import VerticalBarShape
