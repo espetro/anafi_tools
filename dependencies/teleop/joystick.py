@@ -1,52 +1,88 @@
 
-import pygame
+from __future__ import print_function, absolute_import
+from random import random
+from time import sleep
 
-from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveBy
-from olympe.messages.ardrone3.PilotingState import FlyingStateChanged
-from olympe.messages.ardrone3.GPSSettingsState import GPSFixStateChanged
+import threading
+import pygame
+import sys
+
+try:
+    from olympe.messages.ardrone3.GPSSettingsState import GPSFixStateChanged
+    from olympe.messages.ardrone3.Piloting import TakeOff, Landing
+    from olympe.messages.ardrone3.PilotingState import FlyingStateChanged
+    import olympe
+except ImportError:
+    print("Olympe has not been loaded yet! Cannot run the app", file=sys.__stderr__)
+    sys.exit(0)
+
 
 class JoystickTeleop:
+    PHYSICAL_IP = "192.168.42.1"
+    SIMULATED_IP = "10.202.0.1"
+    LAND_TAKEOFF_TIME = 4.0
+    MOVE_TIME = 0.1
 
-    def __init__(self, drone):
+    def __init__(self, drone=None):
         """"""
-        pygame.init()
+        try:
+            self._quit_pressed = None
+            self.thread = None
 
-        self.drone = drone
-        # throws an error if no joystick is connected
-        self.joy = pygame.joystick.Joystick(0)  
+            pygame.init()
+            self.joy = pygame.joystick.Joystick(0)  
 
-    def _get_values(self):
+            self.drone = drone
+            self.drone.connection()
+        except pygame.error as e:
+            print(e)
+            print("\n(There is no joystick connected to the system)")
+            sys.exit(0)
+
+    def _get_joy_values(self):
         pygame.event.pump()
 
+        out_joys = []
         #Read input from the two joysticks and take only the ones we need
-        out_joys = [self.joy.get_axis(i) for i in [0,1,3,4]]
-        self.joy_values = out_joys
+        for i in [0,1,3,4]:
+            val = self.joy.get_axis(i)
+            if val > 0.2:
+                out_joys.append(val)
+            else:
+                out_joys.append(0.0)
 
-    def _takeoff_pressed(self):
+        return out_joys
+
+    def _is_takeoff_pressed(self):
         return self.joy.get_button(3) == 1
 
-    def _landed_pressed(self):
+    def _is_landed_pressed(self):
         return self.joy.get_button(0) == 1
 
-    def _quit_pressed(self):
-        """
-        Checks if the 'Select' button from the XBox Game Controller is pressed.
-        If using other gamepads, please add your configuration or edit it if it
-        breaks the current one.
-        """
-        return self.joy.get_button(8) == 1
+    def _check_quit_pressed(self):
+        self._quit_pressed = self.joy.get_button(8) == 1
 
     def _mainloop(self):
         """"""
-        while not self._quit_pressed():
-            self._get_values()
+        while not self._quit_pressed:            
+            joy_values = self._get_joy_values()
             
-            if self._takeoff_pressed():
+            if self._is_takeoff_pressed():
+                print("Pressed takeoff button!")
                 self._takeoff()
-            elif self._landed_pressed():
+                sleep(JoystickTeleop.LAND_TAKEOFF_TIME)
+            elif self._is_landed_pressed():
+                print("Pressed landing button!")
                 self._land()
+                sleep(JoystickTeleop.LAND_TAKEOFF_TIME)
             else:
-                self._move()
+                print(joy_values)
+                self.move(joy_values)
+                sleep(JoystickTeleop.MOVE_TIME)
+            
+            self._check_quit_pressed()
+
+        print("Pressed QUIT button (X)")
 
     def _takeoff(self):
         """"""
@@ -71,39 +107,44 @@ class JoystickTeleop:
             Landing()
             >> FlyingStateChanged(state="landed", _timeout=5)
         ).wait()
-        
-        self._stop()
 
-    def _move(self):
+    def move(self, joy_values):
         """
         Move in the desired direction given the (normalized) Joystick values:
         [LeftThumbXAxis, LeftThumbYAxis, RightThumbXAxis, RightThumbYAxis, Select/Quit]
         """
-        left_right, front_back, turning, up_down = self.joy_values
-        THRESHOLD = 0.15
+        # movements must be in [-100:100]
+        left_right, front_back, turning, up_down = [int(j * 50) for j in joy_values]
 
-        if round(abs(left_right), 2) < THRESHOLD:
-            left_right = 0.0
-        if round(abs(front_back), 2) < THRESHOLD:
-            front_back = 0.0
-        if round(abs(turning), 2) < THRESHOLD:
-            turning = 0.0
-        if round(abs(up_down), 2) < THRESHOLD:
-            up_down = 0.0
+        self.drone.piloting_pcmd(
+            -int(left_right), int(front_back), int(turning), int(up_down),
+            1
+        )
 
-        # self.drone.piloting_pcmd(-int(front_back), int(left_right), int(up_down), int(turning), 5)
-
-        self.drone(moveBy(-front_back, left_right, up_down, turning,_timeout=1))
-            # .wait() \
-            # .success()
-
-    def enable(self):
+    def start(self):
         self.joy.init()
         print("Initialized Joystick: {}".format(self.joy.get_name()))
+        
+        self.drone.start_piloting()
 
-        self._mainloop()
+        self.thread = threading.Thread(target=self._mainloop)
+        self.thread.start()
+
+    def stop(self):
+        self._quit_pressed = True
+        self.thread.join()
+
+        self.drone.stop_piloting()
+        self.drone.disconnection()
 
 
-# if __name__ == "__main__":
-#     x = JoystickTeleop()
-#     x.enable()
+if __name__ == "__main__":
+    drone = olympe.Drone(JoystickTeleop.SIMULATED_IP, loglevel=0)
+
+    x = JoystickTeleop(drone)
+    x.start()
+
+    while x.thread.is_alive():
+        x = 1
+
+    sys.exit(0)
