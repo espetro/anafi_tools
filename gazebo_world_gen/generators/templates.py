@@ -13,17 +13,21 @@ WORLD_TEMPLATE_START = """<?xml version="1.0"?>
 <sdf version='1.5'>
   <world name='default'>
 
-    <gui fullscreen='0'>
-      <camera name='user_camera'>
-        <pose frame=''>2.70464 -1.54753 3.05779 0 0.339643 2.2362</pose>
-        <view_controller>orbit</view_controller>
-        <projection_type>perspective</projection_type>
+    <gui>
+      <camera name="user_camera">
+        <pose>-8.89210033416748 -14.332916259765625 12.970638275146484 -1.14898530199e-08 0.580895932339 0.849395903498</pose>
+        <track_visual>
+          <static>true</static>
+          <use_model_frame>true</use_model_frame>
+          <xyz>-3 0 1</xyz>
+          <inherit_yaw>true</inherit_yaw>
+        </track_visual>
       </camera>
     </gui>
-
+    
     <spherical_coordinates>
-      <latitude_deg>46.414296</latitude_deg>
-      <longitude_deg>6.928084</longitude_deg>
+      <latitude_deg>48.878922</latitude_deg>
+      <longitude_deg>2.367782</longitude_deg>
     </spherical_coordinates>
 
     <physics type="ode">

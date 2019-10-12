@@ -20,6 +20,10 @@ class WorldBuilder:
         self.peds = randint(min_peds, max_peds)
         self.max_objs = config["maximum_objects"]
         self.sj2gl = config["subj_to_goal_dist"]
+        
+        max_dist = (self.shape[0] * 2) - 2  # given Manhattan distance
+        if self.sj2gl > max_dist:
+            self.sj2gl = max_dist
 
         self.world = RandomWorld(
             self.shape, self.sj2gl, self.peds, self.probs, self.max_objs
@@ -30,7 +34,7 @@ class WorldBuilder:
         )
         self.path = path_model.a_star()
 
-        (self.world_fpath, self.subj_fpath, self.peds_fpath) = self._gen2file(config["delay_start"])
+        self.world_fpath, self.subj_fpath, self.peds_fpath = self._gen2file(config["delay_start"])
 
     def get_num_peds(self):
         return self.peds

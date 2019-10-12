@@ -22,18 +22,19 @@ class JoystickTeleop:
     SIMULATED_IP = "10.202.0.1"
     LAND_TAKEOFF_TIME = 4.0
     MOVE_TIME = 0.1
+    MOVE_STRENGTH = 65  # [0:100] ints
 
     def __init__(self, drone=None):
         """"""
         try:
             self._quit_pressed = None
-            self.thread = None
 
             pygame.init()
             self.joy = pygame.joystick.Joystick(0)  
 
             self.drone = drone
             self.drone.connection()
+            self.drone.start_piloting()
         except pygame.error as e:
             print(e)
             print("\n(There is no joystick connected to the system)")
@@ -69,7 +70,7 @@ class JoystickTeleop:
                 print("Pressed landing button!")
                 self._land()
             else:
-                print(joy_values)
+                # print(joy_values)
                 self.move(joy_values)
             
             self._check_quit_pressed()
@@ -110,18 +111,18 @@ class JoystickTeleop:
         [LeftThumbXAxis, LeftThumbYAxis, RightThumbXAxis, RightThumbYAxis, Select/Quit]
         """
         # movements must be in [-100:100]
-        left_right, front_back, turning, up_down = [int(j * 50) for j in joy_values]
+        left_right, front_back, turning, up_down = [
+            int(j * JoystickTeleop.MOVE_STRENGTH) for j in joy_values
+        ]
 
         self.drone.piloting_pcmd(
             left_right, -front_back, turning, -up_down,
-            1
+            0.3
         )
 
     def start(self):
         self.joy.init()
         print("Initialized Joystick: {}".format(self.joy.get_name()))
-        
-        self.drone.start_piloting()
         self._mainloop()
 
     def stop(self):
@@ -140,7 +141,6 @@ if __name__ == "__main__":
         x.start()
     except KeyboardInterrupt:
         x.stop()
-        x._close_conn()
 
     print("Teleoperating stopped\n")
     sys.exit(0)

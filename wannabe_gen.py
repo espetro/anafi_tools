@@ -3,37 +3,36 @@
 # How the simulation generation should go
 
 from __future__ import print_function, absolute_import
-from utils.utils import RunTask, BackgroundTask, print_start, print_error, setupRun, get_random_height_cmd
+from utils.utils import RunTask, BackgroundTask, print_start, print_error, setupRun
 from generators.world_builder import WorldBuilder
 from utils.configs import A_CONFIG
-from random import random
+from random import random, randint
+from time import time
 
 import os
 import sys
 import shutil
 
-sys.path.append("/home/pachacho/Documents/anafi_tools/envdata/aggregate")
-sys.path.append("/home/pachacho/Documents/anafi_tools/envdata/telemetry")
+try:
+    import olympe
+except ImportError:
+    print("Olympe has not been loaded yet! Cannot run the app", file=sys.__stderr__)
+    sys.exit(0)
 
-# pip install -e gazebo... to get changes updated
-# from master2 import MasterNode
-from data_logger import DataLogger
+sys.path.append("/home/pachacho/Documents/anafi_tools/control")
+sys.path.append("/home/pachacho/Documents/anafi_tools/envdata")
+from telemetry.data_logger import DataLogger
+from teleop.joystick import JoystickTeleop
 
 
 # ==== FUNCTIONS =======
 # ====================
-from threading import Thread
-from subprocess import call
-from time import sleep
 
-class IlloKeWapo:
-    def __init__(self, cmd, wait=5):
-        self.cmd = cmd
-        sleep(wait)
-        self.thread = Thread(target=self.start_cmd)
-
-    def start_cmd(self):
-        call(self.cmd, shell=True)
+def vary_anafi_height(ctrl, u_sure, times):
+    if u_sure:
+        val = [0.5, -0.5][randint(0,1)]
+        for _ in range(times):
+            ctrl.move(0, 0, 0, val)
 
 
 def simulate(config):
@@ -41,15 +40,13 @@ def simulate(config):
 
     SPHINX_ROOT = os.getenv("SPHINX_ROOT")
     ACTOR = SPHINX_ROOT + "/actors/pedestrian.actor::name={}::path={}"
-    GZ_DRONE = SPHINX_ROOT + "/drones/local_bebop2.drone"
+    GZ_DRONE = SPHINX_ROOT + "/drones/local_anafi4k.drone"
 
-    MOVE_UP_DRONE = "rostopic pub --once /bebop/cmd_vel geometry_msgs/Twist {}"
     MOVE_RNG = 5  # moves the drone in the Z axis by 0.5 or -0.5
 
-    # ROScore doesnt need to be restarted each run
-    roscore = BackgroundTask("roscore", log=False, wait=5)
-
     try:
+        teleop, sphinx, data_logger = None, None, None
+
         for i in range(config["reps"]):
 
             print("\nRun no {}. Initial wait: {}".format(i, config["delay_start"]))
@@ -58,19 +55,21 @@ def simulate(config):
             # ==== PER-RUN SETUP ====        
             # =======================
 
-            # Generate world files
+            # Generate world files (depends on the grid size)
             print("Generating new world.")
+            tstart = time()
 
             world = WorldBuilder(config)
             objects = world.get_object_models()
             (world_fpath, subj_fpath, peds_fpath) = world.get_paths()
             config["final_peds"] = world.get_num_peds()
 
+            print("{} seconds to generate a world".format(int(time() - tstart)))
+
             # nm[-1] gives the pedestrian number; nm ~= P1, P0, ..
             GZ_SUBJECT = ACTOR.format("subject", subj_fpath)
             GZ_PEDS = " ".join([ACTOR.format(nm[-1], txt) for (nm, txt) in peds_fpath])
 
-            RANDOM_HEIGHT = get_random_height_cmd(config["set_height"])
 
             # ==== TASK DISPATCH ====
             # =======================
@@ -79,45 +78,34 @@ def simulate(config):
 
             sphinx = BackgroundTask(
                 "sphinx {} {} {} {}".format(world_fpath, GZ_DRONE, GZ_SUBJECT, GZ_PEDS),
-                log=False, wait=10
+                log=False, wait=8
             )
 
-            # RunTask("roslaunch bebop_driver bebop_node.launch", wait=5)
-            # IlloKeWapo("roslaunch bebop_driver bebop_node.launch")
-
-            bebop_driver = BackgroundTask(
-                "roslaunch bebop_driver bebop_node.launch",
-                log=False, shell=False, wait=12
-            )
+            # Create drone and joystick and randomly vary drone height
+            # around 5s creating both
+            drone = olympe.Drone(JoystickTeleop.SIMULATED_IP, loglevel=0)
+            teleop = JoystickTeleop(drone)
             
+            vary_anafi_height(teleop, config["set_height"], MOVE_RNG)
+
             print("Drone taking off!")
-            RunTask("rostopic pub --once /bebop/takeoff std_msgs/Empty", wait=4)
+            # about 4s
+            teleop._takeoff()
 
-            # if RANDOM_HEIGHT != "":
-            #     print("Tweaking the drone altitude! hehe.")
-            #     for i in range(MOVE_RNG):
-            #         RunTask(MOVE_UP_DRONE.format(RANDOM_HEIGHT), wait=10)
-
-            teleop = BackgroundTask(
-                # "bash",
-                "bash -e 'rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/bebop/cmd_vel'",
-                shell=False, wait=0
-            )
-
-            # Run while teleop is active
             print("Starting to log data :D")
-
+            # about 4s
             data_logger = DataLogger(config, objects)
             data_logger.start()
 
             # ==== WAIT UNTIL EXPERT POLICY RECORDING IS FINISHED ====
             # ========================================================
-            teleop.wait()
+            # Control the drone :D
+            teleop.start()
 
+            print("\n\nKilling processes!")
+            sphinx.kill(); os.system("pkill gzserver")
+            print("Halo")
             data_logger.stop()  # saves-closes the .CSV when finished
-            # bebop_driver.kill()
-            sphinx.kill()
-            os.system("pkill gzserver")
 
 
         # every once in a while delete ~/.parrot-sphinx logs
@@ -129,18 +117,20 @@ def simulate(config):
         # roscore.kill()  # kills roscore after ALL runs
 
     except KeyboardInterrupt:
-        print("\n ============")
-        print("Sorry! We cannot exit this loop. Wait until it finishes :)")
-        print("============\n")
-        bebop_driver.kill()
-        data_logger.stop()
-        sphinx.kill()
-        os.system("pkill ros")
-        os.system("pkill gzserver")
+        print("\nStopping the whole simulation :(")
+        if teleop is not None:
+            teleop.stop()
+        if data_logger is not None:
+            data_logger.stop()
+        if sphinx is not None:
+            sphinx.kill(); os.system("pkill gzserver")
 
 
 # ==== MAIN FLOW ====
 # ===================
 
 if __name__ == "__main__":
-    simulate(A_CONFIG)
+    cnf = A_CONFIG
+
+    simulate(cnf)
+    RunTask("nautilus {} &".format(cnf["datapath"]))

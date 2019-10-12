@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
-from drone_model import DroneModel
-from subject_model import SubjectModel
-from pedestrian_model import PedestrianModel
+from __future__ import print_function, absolute_import
+from telemetry.pedestrian_model import PedestrianModel
+from telemetry.subject_model import SubjectModel
+from telemetry.drone_model import DroneModel
+from telemetry.telemetryd import App
 from random import randint, random
 from datetime import datetime
-from telemetryd import App
 
 import csv
 import signal
@@ -113,7 +113,7 @@ class DataLogger:
         
     def store_in_bag(self, data):
         """Store data samples sent in multiple batches"""
-        if random > 0.9999:
+        if random() > 0.99999:
             print(data["topic"])
             
         if data["topic"] in DRONE_POS_TOPICS:

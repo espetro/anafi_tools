@@ -29,19 +29,20 @@
 #     "logfile": random_log_file(DATA_DIR, "csv")
 # }
 
+# ~2s to generate a (10,10) world with dist=10
 
 A_CONFIG = {
     # general options
     "name": "envA",
     "reps": 1,
-    "delay_start": 42,  # take into account if the drone's height is setup
+    "delay_start": 20,  # take into account if the drone's height is setup
     "set_height": False,
     
     # world-generation options
-    "world_shape": (5,5),
+    "world_shape": (10,10),  # (MxM)
     "object_probs": {"tree": 0.0, "door": 0.0, "wall": 0.0},
     "maximum_objects": 5,
-    "subj_to_goal_dist": 4,
+    "subj_to_goal_dist": 10,  # maximum is (Mx2)-2, minimum is M
     "num_peds": (0,0),  # between 0 and 0 peds (varies within each config)
     "peds_loop": True,
 
