@@ -3,79 +3,74 @@ from __future__ import print_function, absolute_import
 from random import random
 from time import sleep
 
+import threading
 import pygame
 import sys
 
-class JoystickTeleop:
+class JoystickTeleop():
 
     def __init__(self):
         """"""
-        pygame.init()
+        self._quit_pressed = False
+        self.thread = None
 
+        pygame.init()
         # throws an error if no joystick is connected
         self.joy = pygame.joystick.Joystick(0)  
 
-    def _get_values(self):
+    def _get_joy_values(self):
         pygame.event.pump()
-
-        if random() > 0.9999:
-            print("Axes")
-            print([self.joy.get_axis(k) for k in self.joy.get_numaxes()])
-            print("Buttons")
-            print([self.joy.get_button(k) for k in self.joy.get_numbuttons()])
-            sleep(0.3)
 
         #Read input from the two joysticks and take only the ones we need
         out_joys = [self.joy.get_axis(i) for i in [0,1,3,4]]
-        self.joy_values = out_joys
+        return out_joys
 
-    def _takeoff_pressed(self):
+    def _is_takeoff_pressed(self):
         return self.joy.get_button(3) == 1
 
-    def _landed_pressed(self):
+    def _is_landed_pressed(self):
         return self.joy.get_button(0) == 1
 
-    def _quit_pressed(self):
-        """
-        Checks if the 'Select' button from the XBox Game Controller is pressed.
-        If using other gamepads, please add your configuration or edit it if it
-        breaks the current one.
-        """
-        return self.joy.get_button(8) == 1
+    def _check_quit_pressed(self):
+        self._quit_pressed = self.joy.get_button(8) == 1
 
     def _mainloop(self):
         """"""
-        while not self._quit_pressed():
-            if random() > 0.99999:
-                print("Disconnecting! Bye bye")
-                sleep(3.0)
-                break
+        while not self._quit_pressed:            
+            joy_values = self._get_joy_values()
             
-            self._get_values()
-            
-            if self._takeoff_pressed():
+            if self._is_takeoff_pressed():
                 print("Pressed takeoff button!")
                 sleep(0.5)
-            elif self._landed_pressed():
+            elif self._is_landed_pressed():
                 print("Pressed landing button!")
                 sleep(0.5)
             else:
-                print(self.joy_values)
+                print(joy_values)
                 sleep(0.2)
+            
+            self._check_quit_pressed()
+
         print("Pressed out button (X)")
 
-    def enable(self):
+    def start(self):
         self.joy.init()
         print("Initialized Joystick: {}".format(self.joy.get_name()))
 
-        self._mainloop()
+        self.thread = threading.Thread(target=self._mainloop)
+        self.thread.start()
+
+    def stop(self):
+        self._quit_pressed = True
+        self.thread.join()
 
 
 if __name__ == "__main__":
     x = JoystickTeleop()
-    x.enable()
+    x.start()
 
-    if random() > 0.9999:
-        print("Disconnecting! Bye bye")
-        sleep(3.0)
-        sys.exit(0)
+    while x.thread.is_alive():
+        sleep(2)
+        print("Illo")
+
+    sys.exit(0)
