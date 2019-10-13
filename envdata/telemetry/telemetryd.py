@@ -1,4 +1,5 @@
 from time import sleep
+from random import random
 from datetime import datetime
 
 import sys, os
@@ -138,6 +139,7 @@ class GndCtrlItf(object):
 
             data = {
                 "ts": timestamp[0],
+                "tnanos": timestamp[1] // 1000,
                 "topic": full_name,
                 "namespace": spaces[0],
                 "coord": spaces[-1],
@@ -186,13 +188,11 @@ class App():
 
         self.itf = GndCtrlItf(self, proc_name, ctrladdr, int(dataport), rate)
 
-        # signal.signal(signal.SIGINT,
-        #               lambda signal, frame: self._signal_handler())
-        # signal.signal(signal.SIGTERM,
-        #               lambda signal, frame: self._signal_handler())
+        signal.signal(signal.SIGINT, self._signal_handler)
+        signal.signal(signal.SIGTERM, self._signal_handler)
 
-    def _signal_handler(self):
-        print("Signal handler")
+    def _signal_handler(self, sig, frame):
+        print("\nSignal handler")
         self.stop()
 
     def __del__(self):
@@ -234,10 +234,11 @@ class SampleFun:
         self.timestamp = None
 
     def sample(self, data):            
-        self.timestamp = data["ts"]
+        self.timestamp = (data["ts"], data["tnanos"])
 
         if not self.ffile.closed:
-            print(self.timestamp)
+            if random() > 0.99:
+                print(self.timestamp)
             
             _str = "{} {} {} {}\n".format(
                 data["topic"],
@@ -259,7 +260,7 @@ if __name__ == "__main__":
         5000
     ]
 
-    for i in range(5):
+    for i in range(1):
         print("Run no {}".format(i))
         proc_name = "run{}".format(i)
 
@@ -270,15 +271,13 @@ if __name__ == "__main__":
 
         obj = SampleFun(fname)
 
-        try:
-            app = App(proc_name, obj.sample, 1000, args[0], args[1])
-            app.start()
-            print("Sleeping 10s (like running other tasks e.g. joining teleop)")
-            sleep(10)
-        except KeyboardInterrupt:
-            app.stop()
-        finally:
-            app.stop()
+        app = App(proc_name, obj.sample, 1000, args[0], args[1])
+        app.start()
+        
+        print("Sleeping 10s (like running other tasks e.g. joining teleop)")
+        sleep(10)
+        
+        app.stop()
 
         print("ts: {}".format(obj.timestamp))
         obj.ffile.close()

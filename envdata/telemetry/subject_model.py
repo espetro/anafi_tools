@@ -3,7 +3,8 @@ from numpy.linalg import norm as euclidean
 from numpy import array
 
 class SubjectModel:
-    def __init__(self, pose_x=None, pose_y=None, pose_z=None, rad=0.6, height=1.7):
+    def __init__(self, num_s_samples, 
+        pose_x=None, pose_y=None, pose_z=None, rad=0.6, height=1.7):
         """
         Height is defined in $SPHINX_ROOT/actors/pedestrian.actor
         Radius is checked by placing the pedestrian in a cylinder in the simulation.
@@ -24,6 +25,12 @@ class SubjectModel:
     def __repr__(self):
         return "(Subject ({},{},{}))".format(self.x[1], self.y[1], self.z[1])
 
+    def reset(self):
+        """Resets the model to default values"""
+        self.x = (-1, None)
+        self.y = (-1, None)
+        self.z = (-1, None)
+
     def set_val(self, ts, uid, val):
         if uid == "x":
             self.x = (ts, val)
@@ -31,6 +38,10 @@ class SubjectModel:
             self.y = (ts, val)
         elif uid == "z":
             self.z = (ts, val)
+
+    def check_if_pos(self, uid):
+        val = {"x": self.x[1], "y": self.y[1], "z": self.z[1]}.get(uid)
+        return val == None
 
     def get_pos(self):
         """A nice way to implement it would be checking timestamp on 3 coords"""
@@ -44,7 +55,7 @@ class SubjectModel:
         (t1, x) = self.x
         (t2, y) = self.y
         (t3, z) = self.z
-        return (t1 == t2 and t2 == t3) and all([t is not None for t in [x,y,z]])
+        return ((-1) != t1 == t2 == t3) and all([t is not None for t in [x,y,z]])
 
     def distance_to(self, point):
         """

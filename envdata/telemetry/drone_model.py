@@ -1,7 +1,7 @@
 from __future__ import print_function, absolute_import
 
 class DroneModel:
-    def __init__(self,
+    def __init__(self, num_s_samples,
         pose_x=None, pose_y=None, pose_z=None,
         vel_x=None, vel_y=None, vel_z=None,
         acc_x=None, acc_y=None, acc_z=None):
@@ -15,6 +15,12 @@ class DroneModel:
             self.get_pos(), self.get_vel(), self.get_acc()
         )
 
+    def reset(self):
+        """Resets the model to default values"""
+        self.pos = [(-1, None), (-1, None), (-1, None)]
+        self.vel = [(-1, None), (-1, None), (-1, None)]
+        self.acc = [(-1, None), (-1, None), (-1, None)]
+
     def set_pos_val(self, ts, uid, val):
         if uid == "x":
             self.pos[0] = (ts, val)
@@ -22,6 +28,10 @@ class DroneModel:
             self.pos[1] = (ts, val)
         elif uid == "z":
             self.pos[2] = (ts, val)
+
+    def check_if_pos(self, uid):
+        val = {"x": self.pos[0][1], "y": self.pos[1][1], "z": self.pos[2][1]}.get(uid)
+        return val == None
 
     def set_vel_val(self, ts, uid, val):
         if uid == "x":
@@ -31,6 +41,10 @@ class DroneModel:
         elif uid == "z":
             self.vel[2] = (ts, val)
 
+    def check_if_vel(self, uid):
+        val = {"x": self.vel[0][1], "y": self.vel[1][1], "z": self.vel[2][1]}.get(uid)
+        return val == None
+
     def set_acc_val(self, ts, uid, val):
         if uid == "x":
             self.acc[0] = (ts, val)
@@ -38,6 +52,10 @@ class DroneModel:
             self.acc[1] = (ts, val)
         elif uid == "z":
             self.acc[2] = (ts, val)
+
+    def check_if_acc(self, uid):
+        val = {"x": self.acc[0][1], "y": self.acc[1][1], "z": self.acc[2][1]}.get(uid)
+        return val == None
 
     def get_pos(self):
         """A nice way to implement it would be checking timestamp on 3 coords"""
@@ -60,7 +78,7 @@ class DroneModel:
         the same and the data is not empty.
         """
         (t1, x), (t2, y), (t3, z) = three
-        return (t1 == t2 == t3) and all([t is not None for t in [x,y,z]])
+        return ((-1) != t1 == t2 == t3) and all([t is not None for t in [x,y,z]])
 
     def complete(self):
         """

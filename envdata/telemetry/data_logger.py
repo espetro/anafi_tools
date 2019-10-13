@@ -12,6 +12,8 @@ import csv
 import signal
 import threading
 
+# NB: If it doesn't work at SOME time it's because a telemetry TCP socket is still
+# open. This may be bc of early stop (CTRL+C). Do a 'pkill telem'.
 
 # ==== GLOBAL CONSTANTS AND SETUP ====
 # ====================================
@@ -49,19 +51,61 @@ SUBJECT_TOPICS = [
 
 class DataBag:
     """Manages the data received by the sensors"""
-    def __init__(self, no_peds=0, objs=None):
-        self.drone = DroneModel()
-        self.subject = SubjectModel()
+    def __init__(self, no_peds=0, peds_topics=[], num_s_samples=1, objs=None):
+        self.global_ts = -1
+        self.PEDESTRIAN_TOPICS = peds_topics
+
+        self.drone = DroneModel(num_s_samples)
+        self.subject = SubjectModel(num_s_samples)
         
         # Bear in mind some simulations cannot contain neither peds nor objs
         if no_peds > 0:
-            self.peds = {str(i): PedestrianModel() for i in range(no_peds)}
+            self.peds = {
+                str(i): PedestrianModel(num_s_samples) for i in range(no_peds)
+            }
         else:
             self.peds = None
         
         self.objs = objs
 
+    def is_coord_empty(self, data):
+        """Check if the given data is not filled already in the bag"""
+        check = False  # guess it's already filled
+        if data["topic"] in DRONE_POS_TOPICS:
+            check = self.drone.check_if_pos(data["coord"])
+        elif data["topic"] in DRONE_VEL_TOPICS:
+            check = self.drone.check_if_vel(data["coord"])
+        elif data["topic"] in DRONE_ACC_TOPICS:
+            check = self.drone.check_if_acc(data["coord"])
+        elif data["topic"] in SUBJECT_TOPICS:
+            check = self.subject.check_if_pos(data["coord"])
+        elif data["topic"] in self.PEDESTRIAN_TOPICS:
+            check = self.peds[data["pid"]].check_if_pos(data["coord"])
+        return check
+
+    def add(self, data):
+        """Stores the given data"""
+        if data["topic"] in DRONE_POS_TOPICS:
+            self.drone.set_pos_val(data["ts"], data["coord"], data["value"])
+
+        elif data["topic"] in DRONE_VEL_TOPICS:
+            self.drone.set_vel_val(data["ts"], data["coord"], data["value"])
+
+        elif data["topic"] in DRONE_ACC_TOPICS:
+            self.drone.set_acc_val(data["ts"], data["coord"], data["value"])
+
+        elif data["topic"] in SUBJECT_TOPICS:
+            self.subject.set_val(data["ts"], data["coord"], data["value"])
+
+        elif data["topic"] in self.PEDESTRIAN_TOPICS:
+            self.peds[data["pid"]].set_val(data["ts"], data["coord"], data["value"])
+
     def is_full(self):
+        """
+        Checks if drone, subject and pedestrian is complete given that its
+        timestamp is different (+1) than the previously stored in the bag.
+        At start, bag's timestamp is -1.
+        """
         # Bear in mind some simulations cannot contain neither peds nor objs
         core_full = self.drone.complete() and self.subject.complete()
         if self.peds is None:
@@ -70,13 +114,22 @@ class DataBag:
             return core_full and all([p.complete() for p in self.peds.values()])
 
     def get_data(self):
-        return {
+        """Flushes the stored data and empties the bag"""
+        data = {
             "ts": self.drone.pos[0][0],  # get the drone timestamp
             "drone": self.drone,
             "subject": self.subject,
-            "peds": self.peds,
-            "objs": self.objs
+            "peds": self.peds,  # can be None
+            "objs": self.objs   # can be None
         }
+
+        self.drone.reset()
+        self.subject.reset()
+        if self.peds is not None:
+            for _, model in self.peds.items():
+                model.reset()
+
+        return data
 
     def print_data(self):
         data = self.get_data()
@@ -110,9 +163,16 @@ class DataLogger:
         titles = ["ts", "dr_pos", "dr_vel", "dr_acc", "sub_pos", "force_goal", "force_ped", "force_obj"] + peds_titles + objs_titles
         self.csv_writer.writerow(titles)
 
-        # Configure data store and topics to watch
-        self.PEDESTRIAN_TOPICS = DataLogger.get_ped_topics(config["final_peds"])
-        self.bag = DataBag(config["final_peds"], objs)
+        # Configure pedestrian topics to watch
+        ped_topics = DataLogger.get_ped_topics(config["final_peds"])
+
+        # Configure data (temporal) bag
+        self.bag = DataBag(
+            config["final_peds"],
+            ped_topics,
+            config["samples_per_s"],
+            objs
+        )
 
         # Setup the daemon
         self.daemon = App(config["run_name"], self.store_in_bag, config["sample_rate"])  
@@ -127,31 +187,25 @@ class DataLogger:
         
     def store_in_bag(self, data):
         """Store data samples sent in multiple batches"""
-        # print("Bag logging")
+        # timestamp is (s, nanos): data["ts"], data["tnanos"]
 
-        if random() > 0.9999:
-            print("Telemetry data: ", data["topic"])
-            print("Bag data: ", self.bag.print_data())
-            
-        if data["topic"] in DRONE_POS_TOPICS:
-            self.bag.drone.set_pos_val(data["ts"], data["coord"], data["value"])
+        # If there's a new sample whose ts is more recent, overwrite the bag ts
+        if self.bag.global_ts < data["ts"]:
+            self.bag.global_ts = data["ts"]
+            self.bag.add(data)
+        # Otherwise if using the current ts, check if the data "cell" is empty
+        else:
+            if self.bag.is_coord_empty(data):
+                self.bag.add(data)
 
-        elif data["topic"] in DRONE_VEL_TOPICS:
-            self.bag.drone.set_vel_val(data["ts"], data["coord"], data["value"])
-
-        elif data["topic"] in DRONE_ACC_TOPICS:
-            self.bag.drone.set_acc_val(data["ts"], data["coord"], data["value"])
-
-        elif data["topic"] in SUBJECT_TOPICS:
-            self.bag.subject.set_val(data["ts"], data["coord"], data["value"])
-
-        elif data["topic"] in self.PEDESTRIAN_TOPICS:
-            self.bag.peds[data["pid"]].set_val(data["ts"], data["coord"], data["value"])
-
+        # Ensure that all data have the same timestamp and are not None
+        # Also there can't be more than a sample per second.
         if self.bag.is_full():
-            # Ensure that all data have the same timestamp and are not None
-            print("BAG DATA FULL")
+            if random() > 0.99999:
+                print("Telemetry data: ", data["topic"])
+                print("Bag data: ", self.bag.print_data())
 
+            # Then flush the data to process it and empty the bag
             data = self.bag.get_data()
             self.on_full(data)
 
@@ -178,6 +232,7 @@ class DataLogger:
                 bag_data["ts"], dr_pos, dr_vel, dr_acc, subj_pos, forces[0], forces[1], forces[2]
             ] + peds_poses + objs_poses
 
+            print("\n\nROWDATA: ", rowdata, "\n\n")
             self.csv_writer.writerow(rowdata)
 
     @staticmethod

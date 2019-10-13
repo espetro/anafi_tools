@@ -40,6 +40,18 @@ class JoystickTeleop:
             print("\n(There is no joystick connected to the system)")
             sys.exit(0)
 
+    def start(self):
+        self.joy.init()
+        print("Initialized Joystick: {}".format(self.joy.get_name()))
+        self._mainloop()
+
+    def stop(self):
+        self._quit_pressed = True
+
+    def _close_conn(self):
+        self.drone.stop_piloting()
+        self.drone.disconnection()
+        
     def _get_joy_values(self):
         pygame.event.pump()
 
@@ -119,18 +131,6 @@ class JoystickTeleop:
             left_right, -front_back, turning, -up_down,
             self.drone_mtime
         )
-
-    def start(self):
-        self.joy.init()
-        print("Initialized Joystick: {}".format(self.joy.get_name()))
-        self._mainloop()
-
-    def stop(self):
-        self._quit_pressed = True
-
-    def _close_conn(self):
-        self.drone.stop_piloting()
-        self.drone.disconnection()
 
 
 if __name__ == "__main__":

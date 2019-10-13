@@ -47,13 +47,13 @@ A_CONFIG = {
     "peds_loop": True,
 
     # controller options
-    # (65, 0.2) recommended for beginners
+    # (50, 0.3) recommended for beginners
     "speed": 70,
-    "refresh": 0.2,
+    "refresh": 0.25,
 
     # data-logger options
     "sample_rate": 1000,  # 1000 ms
-    "samples_per_s": 1,  # 1 sample per 1s
+    "samples_per_s": 3,  # 1 sample per 1s
     "datapath": "/home/pachacho/Documents/anafi_tools/data/train/A",  # make sure it exists!
     
     # overwritten by the runtime
