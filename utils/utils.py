@@ -35,7 +35,7 @@ def get_random_height_cmd(wanting_it):
 
 class BackgroundTask:
     """Launch a non-blocking task in the background"""
-    def __init__(self, cmd, shell=False, log=False, stdout=False, daemon=False, log_file=None, wait=0):
+    def __init__(self, cmd, shell=False, log=False, stdout=False, log_file=None, wait=0):
         
         self.log = log
 
@@ -44,7 +44,7 @@ class BackgroundTask:
         elif stdout is True:
             self.out = STDOUT
         else:
-            self.out = PIPE
+            self.out = None  # or PIPE if willing to process it real-time
 
         self.cmd = {
             True: cmd,

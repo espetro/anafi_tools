@@ -186,15 +186,14 @@ class App():
 
         self.itf = GndCtrlItf(self, proc_name, ctrladdr, int(dataport), rate)
 
-        signal.signal(signal.SIGINT,
-                      lambda signal, frame: self._signal_handler())
-        signal.signal(signal.SIGTERM,
-                      lambda signal, frame: self._signal_handler())
+        # signal.signal(signal.SIGINT,
+        #               lambda signal, frame: self._signal_handler())
+        # signal.signal(signal.SIGTERM,
+        #               lambda signal, frame: self._signal_handler())
 
     def _signal_handler(self):
-        print("Pressed CTRL+C!")
+        print("Signal handler")
         self.stop()
-        # self.running = False
 
     def __del__(self):
         if self.running:
@@ -234,11 +233,18 @@ class SampleFun:
         self.ffile = open(fname, "w+")
         self.timestamp = None
 
-    def sample(self, sectionId, timestamp, varId, varDesc, buf):
-        self.timestamp = timestamp
+    def sample(self, data):            
+        self.timestamp = data["ts"]
 
         if not self.ffile.closed:
-            _str = "{} {} {} {}\n".format(sectionId, timestamp, varId, varDesc)
+            print(self.timestamp)
+            
+            _str = "{} {} {} {}\n".format(
+                data["topic"],
+                data["namespace"],
+                data["coord"],
+                data["value"]
+            )
             self.ffile.write(_str)
 
 

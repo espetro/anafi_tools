@@ -35,7 +35,7 @@ A_CONFIG = {
     # general options
     "name": "envA",
     "reps": 1,
-    "delay_start": 20,  # take into account if the drone's height is setup
+    "delay_start": 16,  # take into account if the drone's height is setup
     "set_height": False,
     
     # world-generation options
@@ -48,7 +48,7 @@ A_CONFIG = {
 
     # controller options
     # (65, 0.2) recommended for beginners
-    "speed": 65,
+    "speed": 70,
     "refresh": 0.2,
 
     # data-logger options

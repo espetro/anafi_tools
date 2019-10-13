@@ -7,7 +7,7 @@ from utils.utils import RunTask, BackgroundTask, print_start, print_error, setup
 from generators.world_builder import WorldBuilder
 from utils.configs import A_CONFIG
 from random import random, randint
-from time import time
+from time import time, sleep
 
 import os
 import sys
@@ -76,9 +76,10 @@ def simulate(config):
 
             print("Dispatching background tasks.")
 
+            sphinx_fname = config["datapath"] + "/sphinx{}.log".format(i)
             sphinx = BackgroundTask(
-                "sphinx {} {} {} {}".format(world_fpath, GZ_DRONE, GZ_SUBJECT, GZ_PEDS),
-                log=False, wait=8
+                "sphinx --datalog {} {} {} {}".format(world_fpath, GZ_DRONE, GZ_SUBJECT, GZ_PEDS),
+                log=True, log_file=sphinx_fname, wait=8
             )
 
             # Create drone and joystick and randomly vary drone height

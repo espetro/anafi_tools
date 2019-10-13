@@ -23,20 +23,20 @@ PED_TEMPL_TOPICS = [
 
 DRONE_POS_TOPICS = [
     "omniscient_bebop2.worldPosition.x", "omniscient_bebop2.worldPosition.y",
-    "omniscient_bebop2.worldPosition.z", "omniscient_anafi.worldPosition.x",
-    "omniscient_anafi.worldPosition.y", "omniscient_anafi.worldPosition.z"
+    "omniscient_bebop2.worldPosition.z", "omniscient_anafi4k.worldPosition.x",
+    "omniscient_anafi4k.worldPosition.y", "omniscient_anafi4k.worldPosition.z"
 ]
 
 DRONE_VEL_TOPICS = [
     "omniscient_bebop2.relativeLinearVelocity.x", "omniscient_bebop2.relativeLinearVelocity.y",
-    "omniscient_bebop2.relativeLinearVelocity.z", "omniscient_anafi.relativeLinearVelocity.x",
-    "omniscient_anafi.relativeLinearVelocity.y", "omniscient_anafi.relativeLinearVelocity.z"
+    "omniscient_bebop2.relativeLinearVelocity.z", "omniscient_anafi4k.relativeLinearVelocity.x",
+    "omniscient_anafi4k.relativeLinearVelocity.y", "omniscient_anafi4k.relativeLinearVelocity.z"
 ]
 
 DRONE_ACC_TOPICS = [
     "omniscient_bebop2.relativeLinearAcceleration.x", "omniscient_bebop2.relativeLinearAcceleration.y",
-    "omniscient_bebop2.relativeLinearAcceleration.z", "omniscient_anafi.relativeLinearAcceleration.x",
-    "omniscient_anafi.relativeLinearAcceleration.y", "omniscient_anafi.relativeLinearAcceleration.z"
+    "omniscient_bebop2.relativeLinearAcceleration.z", "omniscient_anafi4k.relativeLinearAcceleration.x",
+    "omniscient_anafi4k.relativeLinearAcceleration.y", "omniscient_anafi4k.relativeLinearAcceleration.z"
 ]
 
 SUBJECT_TOPICS = [
@@ -118,6 +118,7 @@ class DataLogger:
         self.daemon = App(config["run_name"], self.store_in_bag, config["sample_rate"])  
         
     def start(self):
+        print("\nStarting daemon!")
         self.daemon.start()
 
     def stop(self):
@@ -126,7 +127,9 @@ class DataLogger:
         
     def store_in_bag(self, data):
         """Store data samples sent in multiple batches"""
-        if random() > 0.99999:
+        # print("Bag logging")
+
+        if random() > 0.9999:
             print("Telemetry data: ", data["topic"])
             print("Bag data: ", self.bag.print_data())
             

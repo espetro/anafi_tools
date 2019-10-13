@@ -29,9 +29,11 @@ class WorldBuilder:
             self.shape, self.sj2gl, self.peds, self.probs, self.max_objs
         )
 
+        print("Finding a path for the subject")
         path_model = PathFinder(
             self.world.grid, self.world.subj_pos, self.world.goal_pos
         )
+        print("Path found")
         self.path = path_model.a_star()
 
         self.world_fpath, self.subj_fpath, self.peds_fpath = self._gen2file(config["delay_start"])
