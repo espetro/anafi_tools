@@ -47,6 +47,10 @@ SUBJECT_TOPICS = [
     "omniscient_subject.worldPosition.z"
 ]
 
+class Forces:
+    def __init__(self, env_data):
+        pass
+    
 # ==== DATA LOGGER CLASS DEFINITIONS ====
 # =======================================
 
