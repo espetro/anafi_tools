@@ -15,6 +15,11 @@ class DroneModel:
             self.get_pos(), self.get_vel(), self.get_acc()
         )
 
+    def reset(self):
+        self.pos = [(-1, None), (-1, None), (-1, None)]
+        self.vel = [(-1, None), (-1, None), (-1, None)]
+        self.acc = [(-1, None), (-1, None), (-1, None)]
+
     def set_pos_val(self, ts, uid, val):
         if uid == "x":
             self.pos[0] = (ts, val)

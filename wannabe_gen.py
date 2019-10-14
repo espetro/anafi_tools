@@ -49,6 +49,8 @@ def simulate(config):
 
         for i in range(config["reps"]):
 
+            os.system("pkill telem")  # HIGHLY DISCOURAGED
+
             print("\nRun no {}. Initial wait: {}".format(i, config["delay_start"]))
             config["run_name"] = "run{}".format(i)
 

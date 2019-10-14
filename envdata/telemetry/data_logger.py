@@ -7,10 +7,13 @@ from telemetry.drone_model import DroneModel
 from telemetry.telemetryd import App
 from random import randint, random
 from datetime import datetime
+from io import StringIO
 
 import csv
 import signal
+import shutil
 import threading
+import pandas as pd
 
 
 # ==== GLOBAL CONSTANTS AND SETUP ====
@@ -50,6 +53,7 @@ SUBJECT_TOPICS = [
 class DataBag:
     """Manages the data received by the sensors"""
     def __init__(self, no_peds=0, objs=None):
+        self.stop_flag = False
         self.drone = DroneModel()
         self.subject = SubjectModel()
         
@@ -62,12 +66,21 @@ class DataBag:
         self.objs = objs
 
     def is_full(self):
-        # Bear in mind some simulations cannot contain neither peds nor objs
-        core_full = self.drone.complete() and self.subject.complete()
-        if self.peds is None:
-            return core_full
-        else:
-            return core_full and all([p.complete() for p in self.peds.values()])
+        if not self.stop_flag:
+            # Bear in mind some simulations cannot contain neither peds nor objs
+            core_full = self.drone.complete() and self.subject.complete()
+            if self.peds is None:
+                return core_full
+            else:
+                return core_full and all([p.complete() for p in self.peds.values()])
+        return False
+
+    def reset(self):
+        self.drone.reset()
+        self.subject.reset()
+        if self.peds is not None:
+            for _, model in self.peds.items():
+                model.reset()
 
     def get_data(self):
         return {
@@ -77,6 +90,8 @@ class DataBag:
             "peds": self.peds,
             "objs": self.objs
         }
+
+        self.reset()
 
     def print_data(self):
         data = self.get_data()
@@ -88,12 +103,13 @@ class DataLogger:
     """Establishes the connection rules with the telemetry daemon"""
     def __init__(self, config, objs=None):
         # Configure data logging in .csv
-        fname = "{}/{}{}.csv".format(
+        self.fname = "{}/{}{}.csv".format(
             config["datapath"],
             config["name"],
             datetime.now().strftime("%y%m%d_%H%M%S")
         )
-        self.file = open(fname, "w+")
+        # Opens an in-memory file to do later processing
+        self.file = StringIO()
         self.csv_writer = csv.writer(self.file, delimiter=",")
 
         peds_titles = []
@@ -122,6 +138,10 @@ class DataLogger:
         self.daemon.start()
 
     def stop(self):
+        self.bag.reset()
+        self.bag.stop_flag = True
+
+        self._preproc_file()
         self.file.close()
         self.daemon.stop()
         
@@ -148,9 +168,9 @@ class DataLogger:
         elif data["topic"] in self.PEDESTRIAN_TOPICS:
             self.bag.peds[data["pid"]].set_val(data["ts"], data["coord"], data["value"])
 
-        if self.bag.is_full():
+        if self.bag.is_full():  # dude this is wrong, it even writes None data if no telem proc is killed
             # Ensure that all data have the same timestamp and are not None
-            print("BAG DATA FULL")
+            # print("BAG DATA FULL")
 
             data = self.bag.get_data()
             self.on_full(data)
@@ -179,6 +199,20 @@ class DataLogger:
             ] + peds_poses + objs_poses
 
             self.csv_writer.writerow(rowdata)
+
+    def _preproc_file(self):
+        """Shrinks considerably the generated data to hold a unique row for each second"""
+        self.file.seek(0)
+
+        df = pd.read_csv(self.file, sep=",")
+        df.drop_duplicates(subset=["ts"], inplace=True)
+        df.reset_index(drop=True, inplace=True)
+        df.to_csv(self.fname, sep=",", encoding="utf-8", index=False)
+
+        # don't need it but dude it's good sauce
+        # with open(self.fname, "w") as f:
+        #     self.file.seek(0)
+        #     shutil.copyfileobj(self.file, f, -1)
 
     @staticmethod
     def get_ped_topics(n_peds):

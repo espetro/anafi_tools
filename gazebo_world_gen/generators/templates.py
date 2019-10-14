@@ -15,7 +15,7 @@ WORLD_TEMPLATE_START = """<?xml version="1.0"?>
 
     <gui>
       <camera name="user_camera">
-        <pose>-8.89210033416748 -14.332916259765625 12.970638275146484 -1.14898530199e-08 0.580895932339 0.849395903498</pose>
+        <pose>-7.67 1.63 2.5 0.00 0.143 -0.327</pose>
         <track_visual>
           <static>true</static>
           <use_model_frame>true</use_model_frame>

@@ -25,6 +25,9 @@ class PedestrianModel(object):
     def __repr__(self):
         return "(Pedestrian ({},{},{}))".format(self.x[1], self.y[1], self.z[1])
 
+    def reset(self):
+        self.x, self.y, self.z = [(-1, None), (-1, None), (-1, None)]
+        
     def set_val(self, ts, uid, val):
         if uid == "x":
             self.x = (ts, val)
