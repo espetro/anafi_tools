@@ -21,6 +21,10 @@ class WorldBuilder:
         self.max_objs = config["maximum_objects"]
         self.sj2gl = config["subj_to_goal_dist"]
         
+        # this way if it doesnt exist, defaults to 1
+        self.subj_vel = config.get("subject_vel") or 1.0
+        self.pdes_vel = 1.0
+        
         max_dist = (self.shape[0] * 2) - 2  # given Manhattan distance
         if self.sj2gl > max_dist:
             self.sj2gl = max_dist
@@ -46,7 +50,7 @@ class WorldBuilder:
         self.fdir = mkdtemp(prefix="sphinx_", suffix="_worldconf")
 
         # Matches to ((x,y), type, vel, stop_duration)
-        path_points = [(point, ctype, 1.0, 0.0) for (point, ctype) in self.path]
+        path_points = [(point, ctype, self.subj_vel, 0.0) for (point, ctype) in self.path]
 
         tree_locs = [tuple(val["pos"]) for val in self.world.trees.values()]
         door_locs = [door["pos"] for door in self.world.doors.values()]
@@ -63,7 +67,7 @@ class WorldBuilder:
         peds_fpath = []
 
         for (name, data) in self.world.peds.items():
-            points = [(p, "P", 1.0, 0.0) for p in data["pos"][0]]
+            points = [(p, "P", self.peds_vel, 0.0) for p in data["pos"][0]]
             generator = PathGen(
                 self.fdir, points, loop=True, delay_start=0.0, is_ped=True
             )

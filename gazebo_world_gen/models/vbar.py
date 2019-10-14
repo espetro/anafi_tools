@@ -12,7 +12,7 @@ class VerticalBarShape(object):
         """
         self.name = "VerticalBar"
         self.oid = oid
-        self.pose = pose
+        self.pose = [float(p) for p in pose]
         self.radius = float(rad)
         self.height = float(height)
 

@@ -43,13 +43,14 @@ A_CONFIG = {
     "object_probs": {"tree": 0.0, "door": 0.0, "wall": 0.0},
     "maximum_objects": 5,
     "subj_to_goal_dist": 10,  # maximum is (Mx2)-2, minimum is M
+    "subject_vel": 0.6,  # defaults to 1.0
     "num_peds": (0,0),  # between 0 and 0 peds (varies within each config)
     "peds_loop": True,
 
     # controller options
     # (65, 0.2) recommended for beginners
-    "speed": 70,
-    "refresh": 0.2,
+    "speed": 60,
+    "refresh": 0.25,
 
     # data-logger options
     "sample_rate": 1000,  # 1000 ms

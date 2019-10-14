@@ -8,7 +8,7 @@ class TreeCanopyShape(object):
     def __init__(self, oid, pose, rad="1.0"):
         self.name = "TreeCanopy"
         self.oid = oid
-        self.pose = pose
+        self.pose = [float(p) for p in pose]
         self.radius = float(rad)
 
     def __str__(self):

@@ -13,6 +13,7 @@ import csv
 import signal
 import shutil
 import threading
+import numpy as np
 import pandas as pd
 
 
@@ -47,10 +48,61 @@ SUBJECT_TOPICS = [
     "omniscient_subject.worldPosition.z"
 ]
 
+DEFAULT_FORCE_CONFIG = {
+    "Ar,o": 1.0,
+    "Br,o": 1.0,
+    "dR,o": 0.0,
+    "Ar,h": 1.0,
+    "Br,h": 1.0,
+    "dR,h": 0.0,
+}  # this way the constant multiplier is 1.0
+
 class Forces:
-    def __init__(self, env_data):
-        pass
-    
+    def __init__(self, drone, subject, peds, objs, config=DEFAULT_FORCE_CONFIG, engine=None):
+        # env_data is a dict {ts, drone, subject, peds, objs}
+        self.config = config
+        self.force_obj_cnt = config["Ar,o"] * np.exp(config["dR,o"] / config["Br,o"])
+        self.force_ped_cnt = config["Ar,h"] * np.exp(config["dR,h"] / config["Br,h"])
+        
+        dr_pos = drone.get_pos()
+        self.comp_attr_force = subject.distance_to(dr_pos)
+        self.goal_attr_force = self.predict_goal_force(dr_pos, subject, engine)
+
+        self.ped_rep_force, self.obj_rep_force = 0, 0
+        if peds is not None:
+            self.ped_rep_force = self.get_peds_force(dr_pos, peds)
+        if objs is not None:
+            self.obj_rep_force = self.get_objs_force(dr_pos, objs)
+
+    def predict_goal_force(self, drone_pos, subject, engine):
+        force = 0.0
+        if engine is None:
+            pass
+        else:
+            nxt_pos = engine.fit(subject.get_pos())
+            force = SubjectModel(*nxt_pos).distance_to(drone_pos)
+        return force
+
+    def get_peds_force(self, dr_pos, peds):
+        acc = 0
+        norm_dr_pos = np.array(dr_pos) / np.linalg.norm(dr_pos)
+        for (_, model) in peds.items():
+            norm_obj_pose = np.array(model.pose) / np.linalg.norm(model.pose)
+            acc += np.linalg.norm(norm_obj_pose - norm_dr_pos) * self.force_ped_cnt
+        return acc
+
+    def get_objs_force(self, dr_pos, objs):
+        acc = 0
+        norm_dr_pos = np.array(dr_pos) / np.linalg.norm(dr_pos)
+        for o in objs:
+            norm_obj_pose = np.array(o.pose) / np.linalg.norm(o.pose)
+            acc += np.linalg.norm(norm_obj_pose - norm_dr_pos) * self.force_obj_cnt
+        return acc
+
+    def get_forces(self):
+        return (self.goal_attr_force, self.comp_attr_force,
+            self.ped_rep_force, self.obj_rep_force)
+
 # ==== DATA LOGGER CLASS DEFINITIONS ====
 # =======================================
 
@@ -127,7 +179,11 @@ class DataLogger:
         print("\nPed titles: ", peds_titles)
         print("\nObj titles: ", objs_titles)
 
-        titles = ["ts", "dr_pos", "dr_vel", "dr_acc", "sub_pos", "force_goal", "force_ped", "force_obj"] + peds_titles + objs_titles
+        titles = [
+            "ts", "dr_pos", "dr_vel", "dr_acc", "sub_pos",
+            "goal_force", "subj_force", "ped_force", "obj_force"
+        ] + peds_titles + objs_titles
+
         self.csv_writer.writerow(titles)
 
         # Configure data store and topics to watch
@@ -195,11 +251,20 @@ class DataLogger:
 
         # Bear in mind some simulations cannot contain neither peds nor objs
         # (ped and obj force would be 0.0)
-        forces = [0,0,0]
+        # computing_node = Forces(
+        #     bag_data["drone"],
+        #     bag_data["subject"],
+        #     bag_data["peds"],
+        #     bag_data["objs"]
+        # )
+
+        # goal_force, subj_force, ped_force, obj_force = computing_node.get_forces()
+        goal_force, subj_force, ped_force, obj_force = [0.0, 0.0, 0.0, 0.0]
 
         if not self.file.closed:
             rowdata = [ 
-                bag_data["ts"], dr_pos, dr_vel, dr_acc, subj_pos, forces[0], forces[1], forces[2]
+                bag_data["ts"], dr_pos, dr_vel, dr_acc, subj_pos,+
+                goal_force, subj_force, ped_force, obj_force
             ] + peds_poses + objs_poses
 
             self.csv_writer.writerow(rowdata)
