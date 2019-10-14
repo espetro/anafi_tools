@@ -1,15 +1,17 @@
 #!/usr/bin/env python3.5
+# -*- coding: utf-8 -*-
 
 # === Instructions to bridge ROS1 topics to ROS2 topics ===
+# before running this script, source both ROS2 and Olympe
+# run "load_olympe" and once inside, "load_ros2"
+
 # (Or playback with rosbag)
 # 1. Run roscore and the node or rosbag (with loop, -l)
 # 2. Run 'ros2 run ros1_bridge dynamic_bridge --bridge-all-1to2-topics'.
 #    a warning message will show up (dismatch between /clock and /Time).
 #    This warning only happens when playing a rosbag.
 # 3. Check 'ros2 topic list'
-
-# before running this script, source both ROS2 and Olympe
-# run "load_olympe" and once inside, "load_ros2"
+# =========================================================
 
 import rclpy
 
@@ -23,7 +25,7 @@ from rclpy.node import Node
 class OptiTrackConsumer(Node):
 
     def __init__(self):
-        """"""
+        """Creates subscription points to the OptiTrack stream within a ROS2 node"""
         super().__init__("listener")
         self.pose_drone = self.create_subscription(
             PoseStamped,
@@ -73,7 +75,7 @@ class OptiTrackConsumer(Node):
         }
 
     def drone_cb(self, msg):
-        """"""
+        """Process data received from an OptiTrack drone sample"""
         inf = OptiTrackConsumer._Header2dict(msg.header)
         pos = OptiTrackConsumer._Point2list(msg.pose.position)
         ori = OptiTrackConsumer._Quaternion2list(msg.pose.orientation)
@@ -84,9 +86,18 @@ class OptiTrackConsumer(Node):
         )
 
     def subj_cb(self, msg):
-        """"""
+        """Process data received from an OptiTrack subject sample"""
         pass
 
+    def obj_cb(self, msg):
+        """Process data received from an OptiTrack object sample"""
+        pass
+
+    def ped_cb(self, msg):
+        """Process data received from an OptiTrack pedestrian sample"""
+        pass
+
+# Uncomment this to try it
 # if __name__ == "__main__":
 #     # x = PoseStamped()
 #     # print(x)

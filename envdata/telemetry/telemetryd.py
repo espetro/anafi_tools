@@ -73,16 +73,19 @@ class GndCtrlItf(object):
         self.sections = {}
 
     def start(self):
+        """Binds the TCP sockets"""
         (family, addr) = pomp.parseAddr(self.ctrlAddr)
         self.ctrlCtx.connect(family, addr)
         (family, addr) = pomp.parseAddr("inet:0.0.0.0:%u" % self.dataPort)
         self.dataCtx.bind(family, addr)
 
     def stop(self):
+        """Detach the sockets"""
         self.ctrlCtx.stop()
         self.dataCtx.stop()
 
     def recvCtrlMsg(self, msg):
+        """Process a control message"""
         if msg.msgid == GNDCTRL_MSG_CONN_RESP:
             dec = pomp.Decoder()
             dec.init(msg)
@@ -115,11 +118,13 @@ class GndCtrlItf(object):
             self.recvSample(sectionId, (sec, nsec), buf)
 
     def recvDataMsg(self, msg):
+        """Process a data message"""
         if msg.msgid == GNDCTRL_MSG_SECTION_SAMPLE:
             (sectionId, sec, nsec, buf) = msg.read("%u%u%u%p")
             self.recvSample(sectionId, (sec, nsec), buf)
 
     def recvSample(self, sectionId, timestamp, buf):
+        """Process a data sample"""
         section = self.sections.get(sectionId, None)
         if section is None:
             return
@@ -131,6 +136,11 @@ class GndCtrlItf(object):
             if varOff + varLen > len(buf):
                 break
             varBuf = buf[varOff:varOff+varLen]
+
+            # =================================================================
+            # Here we pre-process the sample data to wrap it into more
+            # readable, useful data. Check out the telemetryd docs to expand it.
+            # =================================================================
 
             quantity = TlmbSample.extractQuantity(varDesc, varBuf)
             full_name = varDesc.getFullName()
@@ -144,32 +154,42 @@ class GndCtrlItf(object):
                 "value": float(quantity),
                 "pid": spaces[0][-1]  # for peds
             }
+            
+            # The provided sample callback function is called
             self.app.sample(data)
 
             varOff += varLen
 
     class _CtrlEventHandler(pomp.EventHandler):
+        """A control event handler"""
         def __init__(self, itf):
             self.itf = itf
+
         def onConnected(self, ctx, conn):
             # Send connection request
             conn.send(GNDCTRL_MSG_CONN_REQ, "%u%s%u%u%u",
                      GNDCTRL_PROTOCOL_VERSION, self.itf.name, self.itf.dataPort,
                      self.itf.rate, self.itf.rate)
+
         def onDisconnected(self, ctx, conn):
             # Clear internal state
             print("Disconnected")
             self.sections = {}
+
         def recvMessage(self, ctx, conn, msg):
             self.itf.recvCtrlMsg(msg)
 
     class _DataEventHandler(pomp.EventHandler):
+        """A data event handler"""
         def __init__(self, itf):
             self.itf = itf
+
         def onConnected(self, ctx, conn):
             pass
+        
         def onDisconnected(self, ctx, conn):
             pass
+
         def recvMessage(self, ctx, conn, msg):
             self.itf.recvDataMsg(msg)
 
@@ -177,6 +197,7 @@ class GndCtrlItf(object):
 class App():
     """Wraps tkgndcntrl in a separate Thread"""
     def __init__(self, proc_name, sample_fun, rate=1000, ctrladdr="inet:127.0.0.1:9060", dataport="5000"):
+        """Setups a Threaded telemetryd wrapper with default configuration"""
         self.sock_family = None
         self.sock_addr = None
         self.running = False
@@ -186,29 +207,23 @@ class App():
 
         self.itf = GndCtrlItf(self, proc_name, ctrladdr, int(dataport), rate)
 
-        # signal.signal(signal.SIGINT,
-        #               lambda signal, frame: self._signal_handler())
-        # signal.signal(signal.SIGTERM,
-        #               lambda signal, frame: self._signal_handler())
-
-    def _signal_handler(self):
-        print("Signal handler")
-        self.stop()
-
     def __del__(self):
         if self.running:
             self.stop()
 
     def start(self):
+        """Starts the threaded loop"""
         self.running = True
         self.thread = threading.Thread(target=self.worker)
         self.thread.start()
 
     def stop(self):
+        """Stops the threaded loop"""
         self.running = False
         self.thread.join()
 
     def worker(self):
+        """Continuously call the pomp loop queue to dispatch new telemetry events."""
         # setup loop for main thread
         pomp.looper.prepareLoop()
 
@@ -228,59 +243,61 @@ class App():
 #===============================================================================
 #===============================================================================
 
-class SampleFun:
-    def __init__(self, fname):
-        self.ffile = open(fname, "w+")
-        self.timestamp = None
+# This script is intended to be ran alone
+# Uncomment this to try it
 
-    def sample(self, data):            
-        self.timestamp = data["ts"]
+# class SampleFun:
+#     def __init__(self, fname):
+#         self.ffile = open(fname, "w+")
+#         self.timestamp = None
 
-        if not self.ffile.closed:
-            print(self.timestamp)
+#     def sample(self, data):            
+#         self.timestamp = data["ts"]
+
+#         if not self.ffile.closed:
+#             print(self.timestamp)
             
-            _str = "{} {} {} {}\n".format(
-                data["topic"],
-                data["namespace"],
-                data["coord"],
-                data["value"]
-            )
-            self.ffile.write(_str)
+#             _str = "{} {} {} {}\n".format(
+#                 data["topic"],
+#                 data["namespace"],
+#                 data["coord"],
+#                 data["value"]
+#             )
+#             self.ffile.write(_str)
+# 
+# if __name__ == "__main__":
+#     fdir = "/home/pachacho/Documents/anafi_tools/data/train"
+#     # (options, args) = parseArgs()
+#     # setupLog(options)
+#     # setupLog(DefaultOpts())
 
+#     args = [
+#         "inet:127.0.0.1:9060",
+#         5000
+#     ]
 
-if __name__ == "__main__":
-    fdir = "/home/pachacho/Documents/anafi_tools/data/train"
-    # (options, args) = parseArgs()
-    # setupLog(options)
-    # setupLog(DefaultOpts())
+#     for i in range(5):
+#         print("Run no {}".format(i))
+#         proc_name = "run{}".format(i)
 
-    args = [
-        "inet:127.0.0.1:9060",
-        5000
-    ]
+#         fname = "{}/example{}.log".format(
+#             fdir,
+#             datetime.now().strftime("%y%m%d_%H%M%S")
+#         )
 
-    for i in range(5):
-        print("Run no {}".format(i))
-        proc_name = "run{}".format(i)
+#         obj = SampleFun(fname)
 
-        fname = "{}/example{}.log".format(
-            fdir,
-            datetime.now().strftime("%y%m%d_%H%M%S")
-        )
+#         try:
+#             app = App(proc_name, obj.sample, 1000, args[0], args[1])
+#             app.start()
+#             print("Sleeping 10s (like running other tasks e.g. joining teleop)")
+#             sleep(10)
+#         except KeyboardInterrupt:
+#             app.stop()
+#         finally:
+#             app.stop()
 
-        obj = SampleFun(fname)
+#         print("ts: {}".format(obj.timestamp))
+#         obj.ffile.close()
 
-        try:
-            app = App(proc_name, obj.sample, 1000, args[0], args[1])
-            app.start()
-            print("Sleeping 10s (like running other tasks e.g. joining teleop)")
-            sleep(10)
-        except KeyboardInterrupt:
-            app.stop()
-        finally:
-            app.stop()
-
-        print("ts: {}".format(obj.timestamp))
-        obj.ffile.close()
-
-    sys.exit(0)
+#     sys.exit(0)

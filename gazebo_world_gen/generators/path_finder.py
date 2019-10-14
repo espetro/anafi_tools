@@ -1,6 +1,7 @@
 from __future__ import print_function, absolute_import
 
 class PathNode:
+    """A node structure used for A* path finding"""
     def __init__(self, parent=None, position=None, cell_type="", weight=0):
         self.parent = parent
         self.pos = position
@@ -23,6 +24,7 @@ class PathNode:
 # =====================
 
 class PathFinder:
+    """A class to wrap an A* path-finding algorithm"""
     def __init__(self, grid, init, end):
         """
         :param grid:
@@ -38,16 +40,26 @@ class PathFinder:
         
     @staticmethod
     def walkable_node_neighbors(grid, curr_node, rad=1):
-        """Gets the set of surrounding tiles given a tile and its set radius"""
+        """
+        Gets the set of surrounding tiles given a tile and its set radius.
+        Drops the 4 diagonal surrounding tiles so not to move in diagonal.
+        """
         
         max_X, max_Y = grid.shape
         my_X, my_Y = curr_node.pos
-        # Drops the 4 diagonal surrounding tiles
         area = [(a + my_X, b + my_Y) for (a,b) in [(-1,0), (1,0), (0,-1), (0,1)]]
 
-        within_range = (p for p in area if (p[0] in range(max_X) and p[1] in range(max_Y)))
-        cell_types = (PathFinder.check_type(grid, cell) for cell in within_range)
-        return [PathNode(curr_node, pos, ctype, weight) for (pos, walkable, weight, ctype) in cell_types if walkable]
+        within_range = (
+            p for p in area if (p[0] in range(max_X) and p[1] in range(max_Y))
+        )
+        cell_types = (
+            PathFinder.check_type(grid, cell) for cell in within_range
+        )
+
+        return [
+            PathNode(curr_node, pos, ctype, weight) for
+                (pos, walkable, weight, ctype) in cell_types if walkable
+        ]
         
     @staticmethod
     def check_type(grid, cell):
@@ -58,13 +70,12 @@ class PathFinder:
         :param cell: A tuple (x,y)
         :returns: A tuple (is_traversable, weight)
         """
-        
         if "P" in grid[cell]:
             cell_info = (cell, True, 0, "P")
         else:
             cell_info = {
-                "T": (cell, True, 0, "T"),
-                "D": (cell, True, 2, "D"),
+                "T": (cell, True, 0.5, "T"),
+                "D": (cell, True, 1.5, "D"),
                 "S": (cell, False, None, "S"),
                 "G": (cell, True, 0, "G"),
                 "": (cell, True, 0, ""),
@@ -94,9 +105,8 @@ class PathFinder:
         
         opened, closed = [node0], []
         
+        # Get the node with smallest F cost
         while len(opened) > 0:
-            # print("[0]: {} | [C]: {}".format(len(opened), len(closed)))
-            # Get the node with smallest F cost
             minimal_cost = min([n.f for n in opened])
             curr_node, curr_idx = None, None
 
@@ -110,15 +120,11 @@ class PathFinder:
             opened.pop(curr_idx)
             
             if curr_node == nodeX:
-                # The path has been found!
-                # print(curr_node)
-                
+                # The path has been found
                 path = PathFinder.get_path_from(curr_node)
-                # print("A path has been found!\n{}".format(self.path))
                 return path
                 
-            # Looks at the neighbor cells who are within grid range and are walkable (no walls).
-            # Also cast each into a node
+            # Create new neighbor cell nodes and check if they're walkable (in range, no walls)
             block = PathFinder.walkable_node_neighbors(self.grid, curr_node, rad=1)
             
             # If the cell is not already closed and is walkable, proceed
@@ -126,12 +132,14 @@ class PathFinder:
                 if node not in closed:
                     node.g = curr_node.g + 1
                     # Euclidean distance used as metric (+ cell type weight)
-                    node.h = sum([(a - b)**2 for (a,b) in zip(node.pos, curr_node.pos)]) + node.weight
+                    node.h = node.weight + sum([
+                        (a - b)**2 for (a,b) in zip(node.pos, curr_node.pos)
+                    ])
                     node.f = node.g + node.h
                     
                     # If the node is in the "open" list and its new weight
                     # is more than the prev one, discard it
                     # here's the opposed case: there's no node like that
-                    if [nopen for nopen in opened if (nopen == node and node.g > nopen.g)] == []:                            
+                    if [nopen for nopen in opened if (nopen == node and node.g > nopen.g)] == []:
                         opened.append(node)
         return []

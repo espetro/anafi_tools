@@ -1,14 +1,10 @@
+# -*- coding: utf-8 -*-
 from __future__ import print_function, absolute_import
 
 class DroneModel:
-    def __init__(self,
-        pose_x=None, pose_y=None, pose_z=None,
-        vel_x=None, vel_y=None, vel_z=None,
-        acc_x=None, acc_y=None, acc_z=None):
-
-        self.pos = [(-1, pose_x), (-1, pose_y), (-1, pose_z)]
-        self.vel = [(-1, vel_x), (-1, vel_y), (-1, vel_z)]
-        self.acc = [(-1, acc_x), (-1, acc_y), (-1, acc_z)]
+    def __init__(self):
+        self.ts = -1
+        self.reset()
 
     def __repr__(self):
         return "(Drone in {} at speed {}, {})".format(
@@ -16,55 +12,41 @@ class DroneModel:
         )
 
     def reset(self):
-        self.pos = [(-1, None), (-1, None), (-1, None)]
-        self.vel = [(-1, None), (-1, None), (-1, None)]
-        self.acc = [(-1, None), (-1, None), (-1, None)]
+        self.pos = {"x": (-1, None), "y": (-1, None), "z": (-1, None)}
+        self.vel = {"x": (-1, None), "y": (-1, None), "z": (-1, None)}
+        self.acc = {"x": (-1, None), "y": (-1, None), "z": (-1, None)}
 
     def set_pos_val(self, ts, uid, val):
-        if uid == "x":
-            self.pos[0] = (ts, val)
-        elif uid == "y":
-            self.pos[1] = (ts, val)
-        elif uid == "z":
-            self.pos[2] = (ts, val)
+        self.ts = ts
+        self.pos.update({uid: (ts, val)})
 
     def set_vel_val(self, ts, uid, val):
-        if uid == "x":
-            self.vel[0] = (ts, val)
-        elif uid == "y":
-            self.vel[1] = (ts, val)
-        elif uid == "z":
-            self.vel[2] = (ts, val)
+        self.ts = ts
+        self.vel.update({uid: (ts, val)})
 
     def set_acc_val(self, ts, uid, val):
-        if uid == "x":
-            self.acc[0] = (ts, val)
-        elif uid == "y":
-            self.acc[1] = (ts, val)
-        elif uid == "z":
-            self.acc[2] = (ts, val)
+        self.ts = ts
+        self.acc.update({uid: (ts, val)})
 
     def get_pos(self):
-        """A nice way to implement it would be checking timestamp on 3 coords"""
-        # cannot be reassigned within a tuple
-        return tuple([x for (_,x) in self.pos])
-
-    def get_acc(self):
-        return tuple([a for (_,a) in self.acc])
+        return [val for (_, (_, val)) in self.pos.items()]
 
     def get_vel(self):
-        return tuple([v for (_,v) in self.vel])
+        return [val for (_, (_, val)) in self.vel.items()]
+
+    def get_acc(self):
+        return [val for (_, (_, val)) in self.acc.items()]
 
     def get_data(self):
         return (self.get_pos(), self.get_vel(), self.get_acc())
 
     @staticmethod
-    def _tuple_complete(three):
+    def _is_complete(vdict):
         """
-        Checks if the tuple data is right, i.e., all the timestamps are
+        Checks if the dict data is right, i.e., all the timestamps are
         the same and the data is not empty.
         """
-        (t1, x), (t2, y), (t3, z) = three
+        (t1, x), (t2, y), (t3, z) = [tpl for (_, tpl) in vdict.items()]
         return (t1 == t2 == t3) and all([t is not None for t in [x,y,z]])
 
     def complete(self):
@@ -72,7 +54,7 @@ class DroneModel:
         Checks if the tuple data is right, i.e., all the timestamps are
         the same and the data is not empty.
         """
-        return DroneModel._tuple_complete(self.pos) and \
-            DroneModel._tuple_complete(self.vel) and \
-            DroneModel._tuple_complete(self.acc)
+        return DroneModel._is_complete(self.pos) and \
+            DroneModel._is_complete(self.vel) and \
+            DroneModel._is_complete(self.acc)
     

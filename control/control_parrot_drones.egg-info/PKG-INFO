@@ -1,0 +1,14 @@
+Metadata-Version: 1.1
+Name: control-parrot-drones
+Version: 0.0.1
+Summary: A package to easily control Parrot Bebop2 and Anafi drones
+Home-page: https://github.com/espetro/anafi_tools
+Author: Joaquin Terrasa Moya
+Author-email: quino.terrasa+dev@gmail.com
+License: BSD 3-Clause Revised
+Description: UNKNOWN
+Keywords: gazebo python numpy scipy
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Topic :: Software Development
+Classifier: License :: OSI Approved :: BSD License

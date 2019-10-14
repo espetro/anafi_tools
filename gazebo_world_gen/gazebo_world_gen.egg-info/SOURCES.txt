@@ -1,6 +1,7 @@
 MANIFEST.in
 README.md
 setup.py
+example/gps.sock
 example/tmp12QhIR.path
 example/tmpBXsMv8.world
 example/tmpvGsKxl.path

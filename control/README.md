@@ -1,0 +1,1 @@
+This package allows to use a joystick pad and keyboard controllers to move a Parrot Anafi and Parrot Bebop 2 drones.

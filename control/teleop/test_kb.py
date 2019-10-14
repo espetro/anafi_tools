@@ -8,18 +8,32 @@ import pygame
 import sys
 
 class KeyboardTeleop:
+    _USAGE = """
+    Reading from the keyboard  and Publishing to Twist!
+    ---------------------------
+    Moving around:
+    u    i    o
+    j    k    l
+    m    ,    .
 
+    t : up (+z)
+    b : down (-z)
+
+    CTRL-C to quit
+    """
     def __init__(self):
-        """"""
+        """Starts a new PyGame session"""
         pygame.init()
 
-        # throws an error if no joystick is connected
         self.kb = pygame.event
         self.my_keys = [
             K_u, K_i, K_o, K_j, K_k, K_l, K_m, K_COMMA, K_PERIOD, K_t, K_b
         ]
 
+        print(KeyboardTeleop._USAGE)
+
     def _get_values(self):
+        """Obtains the values of the current pressed keys."""
         pressed = self.kb.get()
         print(pressed)
         return [k for k in pressed if k in self.my_keys]
@@ -40,7 +54,7 @@ class KeyboardTeleop:
         return self.kb.get() == K_q
 
     def _mainloop(self):
-        """"""
+        """Indefinitely checks for keyboard input"""
         while not self._quit_pressed():
             if random() > 0.999999:
                 print("Disconnecting! Bye bye")
@@ -63,15 +77,17 @@ class KeyboardTeleop:
         print("Pressed out button (X)")
 
     def enable(self):
+        """Starts the keyboard controller loop"""
         print("Initialized main Keyboard!")
         self._mainloop()
 
 
-if __name__ == "__main__":
-    x = KeyboardTeleop()
-    x.enable()
+# Uncomment this to try it
+# if __name__ == "__main__":
+#     x = KeyboardTeleop()
+#     x.enable()
 
-    if random() > 0.9999:
-        print("Disconnecting! Bye bye")
-        sleep(3.0)
-        sys.exit(0)
+#     if random() > 0.9999:
+#         print("Disconnecting! Bye bye")
+#         sleep(3.0)
+#         sys.exit(0)

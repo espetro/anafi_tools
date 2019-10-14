@@ -18,12 +18,13 @@ except ImportError:
 
 
 class JoystickTeleop:
+    """Creates a Joystick controller for the Parrot Anafi"""
     PHYSICAL_IP = "192.168.42.1"
     SIMULATED_IP = "10.202.0.1"
     LAND_TAKEOFF_TIME = 4.0
 
     def __init__(self, drone=None, speed=65, refresh_move=0.1):
-        """"""
+        """Starts a PyGame session and a Parrot Anafi remote connection"""
         try:
             self._quit_pressed = None
             self.drone_speed = min([speed, 100])
@@ -58,7 +59,7 @@ class JoystickTeleop:
         self._quit_pressed = self.joy.get_button(8) == 1
 
     def _mainloop(self):
-        """"""
+        """Checks for pad controller button values and apply actions to the drone"""
         while not self._quit_pressed:
             sleep(0.2)
             joy_values = self._get_joy_values()
@@ -82,7 +83,7 @@ class JoystickTeleop:
         self._close_conn()  # closes the connection
 
     def _takeoff(self):
-        """"""
+        """Performs a drone takeoff"""
         print("Takeoff if necessary...")
         self.drone(
             FlyingStateChanged(state="hovering", _policy="check")
@@ -98,7 +99,7 @@ class JoystickTeleop:
         ).wait()
 
     def _land(self):
-        """Lands the drone"""
+        """Performs a drone landing"""
         print("Landing...")
         self.drone(
             Landing()
@@ -108,7 +109,9 @@ class JoystickTeleop:
     def move(self, joy_values):
         """
         Move in the desired direction given the (normalized) Joystick values:
-        [LeftThumbXAxis, LeftThumbYAxis, RightThumbXAxis, RightThumbYAxis, Select/Quit]
+        
+        :param joy_values: A list of the current joystick values in the next order:
+            [LeftThumbXAxis, LeftThumbYAxis, RightThumbXAxis, RightThumbYAxis]
         """
         # movements must be in [-100:100]
         left_right, front_back, turning, up_down = [
@@ -121,26 +124,30 @@ class JoystickTeleop:
         )
 
     def start(self):
+        """Runs the controller loop"""
         self.joy.init()
         print("Initialized Joystick: {}".format(self.joy.get_name()))
         self._mainloop()
 
     def stop(self):
+        """Exits the loop"""
         self._quit_pressed = True
 
     def _close_conn(self):
+        """Closes the drone connection"""
         self.drone.stop_piloting()
         self.drone.disconnection()
 
 
-if __name__ == "__main__":
-    drone = olympe.Drone(JoystickTeleop.SIMULATED_IP, loglevel=0)
+# Uncomment this to try it
+# if __name__ == "__main__":
+#     drone = olympe.Drone(JoystickTeleop.SIMULATED_IP, loglevel=0)
 
-    try:
-        x = JoystickTeleop(drone)
-        x.start()
-    except KeyboardInterrupt:
-        x.stop()
+#     try:
+#         x = JoystickTeleop(drone)
+#         x.start()
+#     except KeyboardInterrupt:
+#         x.stop()
 
-    print("Teleoperating stopped\n")
-    sys.exit(0)
+#     print("Teleoperating stopped\n")
+#     sys.exit(0)

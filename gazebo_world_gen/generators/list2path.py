@@ -17,7 +17,9 @@ class PathGen:
         :param auto_start: If True, the path is started right after the delay
         :param is_ped:
         """
-        self.f = NamedTemporaryFile(mode="w", suffix=".path", dir=fdir, delete=False)
+        self.f = NamedTemporaryFile(
+            mode="w", suffix=".path", dir=fdir, delete=False
+        )
         
         self.points = points
         self.auto_start = str(auto_start).lower()
@@ -27,10 +29,6 @@ class PathGen:
         self.is_ped = is_ped
         
         self.write_to_template()
-
-    def _point_tag(self):
-        """Returns a point tag"""
-        return self.point_tag
 
     def _waypoint_tag(self, vel, point, stop=0.0):
         """
@@ -53,18 +51,21 @@ class PathGen:
         </waypoint>""".format(txt, vel, point, stop)
 
     def get_point_tag(self, point):
+        """Returns the formatted position tag for the path point"""
         if self.track_models:
             return "<model>{}</model>".format(point)
         else:
             return "<xy>{} {}</xy>".format(point[0], point[1])
         
     def get_move_dir(self, p1, p2):
+        """Defines the movement direction on behalf of the two vectors given"""
         if abs(p1[0] - p2[0]) == 1:
             return "N"
         elif abs(p1[1] - p2[1]) == 1:
             return "W"
         
     def make_turn_by(self, dist, prev_point, vel, point, stop):
+        """Allows to make a slight turn given the movement direction"""
         move_dir = self.get_move_dir(prev_point, point)
         dist *= [-1,1][(randint(0,1))]
         if move_dir == "N":
@@ -74,7 +75,7 @@ class PathGen:
         return self._waypoint_tag(vel, self.get_point_tag(p), stop)
     
     def write_to_template(self):
-        """Writes the input data to the file template"""
+        """Writes the generated data into the template in the temporary file"""
         waypoints = []
 
         for (i, (point, ctype, vel, stop)) in enumerate(self.points):
@@ -82,10 +83,14 @@ class PathGen:
             
             if ctype == "T":
                 # first and last cells are not "T" (trees)
-                waypoint_tag = self.make_turn_by(0.5, self.points[i-1][0], float(vel), point, float(stop))
+                waypoint_tag = self.make_turn_by(
+                    0.5, self.points[i-1][0], float(vel), point, float(stop)
+                )
                 waypoints.append(waypoint_tag)
             else:
-                waypoint_tag = self._waypoint_tag(float(vel), point_tag, float(stop))
+                waypoint_tag = self._waypoint_tag(
+                    float(vel), point_tag, float(stop)
+                )
                 waypoints.append(waypoint_tag)
 
         if self.is_ped:
@@ -104,6 +109,6 @@ class PathGen:
         self.f.close()
 
     def get_path(self):
-        """Returns the filepath of the path file."""
+        """Returns the filepath of the temporary file."""
         return self.f.name
 

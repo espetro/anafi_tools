@@ -1,7 +1,14 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python3.5
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 from setuptools import setup
+
+import sys
+
+try:
+    import olympe
+except ImportError:
+    sys.exit("Sorry, you are not using Parrot Olympe Python 3.5 runtime. Please load it before installing the package.")
 
 setup(
     name = "control_parrot_drones",
@@ -12,9 +19,11 @@ setup(
     license = "BSD 3-Clause Revised",
     keywords = "gazebo python numpy scipy",
     url = "https://github.com/espetro/anafi_tools",
-    packages=['anafi', 'bebop', 'ros1', 'parrot-olympe'],
+    packages=['drone', 'teleop'],
     include_package_data=True,
-    install_requires = [],
+    install_requires = [
+        "pygame>=1.9.6",  # olympe is also required but can't be installed via pypi/wheels
+    ],
     zip_safe=False,
     classifiers=[
         "Development Status :: 3 - Alpha",

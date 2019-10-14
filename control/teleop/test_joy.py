@@ -10,7 +10,7 @@ import sys
 class JoystickTeleop():
 
     def __init__(self):
-        """"""
+        """Starts a pygame session"""
         self._quit_pressed = False
         self.thread = None
 
@@ -19,6 +19,7 @@ class JoystickTeleop():
         self.joy = pygame.joystick.Joystick(0)  
 
     def _get_joy_values(self):
+        """Returns controller values for left, right joystick pads"""
         pygame.event.pump()
 
         #Read input from the two joysticks and take only the ones we need
@@ -35,7 +36,7 @@ class JoystickTeleop():
         self._quit_pressed = self.joy.get_button(8) == 1
 
     def _mainloop(self):
-        """"""
+        """Infinite loop that checks for joystick, A, Y or Guide XBOX button values"""
         while not self._quit_pressed:            
             joy_values = self._get_joy_values()
             
@@ -54,6 +55,7 @@ class JoystickTeleop():
         print("Pressed out button (X)")
 
     def start(self):
+        """Runs the controller loop on a child thread"""
         self.joy.init()
         print("Initialized Joystick: {}".format(self.joy.get_name()))
 
@@ -61,16 +63,18 @@ class JoystickTeleop():
         self.thread.start()
 
     def stop(self):
+        """Exits the child thread"""
         self._quit_pressed = True
         self.thread.join()
 
 
-if __name__ == "__main__":
-    x = JoystickTeleop()
-    x.start()
+# Uncomment this to try it
+# if __name__ == "__main__":
+#     x = JoystickTeleop()
+#     x.start()
 
-    while x.thread.is_alive():
-        sleep(2)
-        print("Illo")
+#     while x.thread.is_alive():
+#         sleep(2)
+#         print("Illo")
 
-    sys.exit(0)
+#     sys.exit(0)

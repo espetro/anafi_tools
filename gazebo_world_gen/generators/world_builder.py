@@ -11,7 +11,7 @@ from models.world_parser import WorldParser
 class WorldBuilder:
     def __init__(self, config):
         """
-        Builds a new world given the configuration dictionary
+        Builds a new world given the project configuration dictionary
         """
         min_peds, max_peds = config["num_peds"]
 
@@ -23,7 +23,7 @@ class WorldBuilder:
         
         # this way if it doesnt exist, defaults to 1
         self.subj_vel = config.get("subject_vel") or 1.0
-        self.pdes_vel = 1.0
+        self.peds_vel = 1.0
         
         max_dist = (self.shape[0] * 2) - 2  # given Manhattan distance
         if self.sj2gl > max_dist:
@@ -40,7 +40,9 @@ class WorldBuilder:
         print("Path found")
         self.path = path_model.a_star()
 
-        self.world_fpath, self.subj_fpath, self.peds_fpath = self._gen2file(config["delay_start"])
+        self.world_fpath, self.subj_fpath, self.peds_fpath = self._gen2file(
+            config["delay_start"]
+        )
 
     def get_num_peds(self):
         return self.peds

@@ -1,0 +1,1 @@
+Data generated throughout the development process. This data is not strictly useful, but helps me to debug some recurrent situations, like the data streaming network overflow or the wrong data temporal storing / processing.

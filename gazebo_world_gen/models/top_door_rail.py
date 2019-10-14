@@ -16,7 +16,3 @@ class TopDoorRailShape(CubeShape):
         super(TopDoorRailShape, self).__init__(oid, pose, orient, dims)
         self.name = "TopDoorRail"
         
-
-# from streaming.sim_objs.top_door_rail import TopDoorRailShape
-# x = TopDoorRailShape(123, [1,1,1], [1,1,1], ["10","10","10"])
-# x.distance_to([0,0,0])
