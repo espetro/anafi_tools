@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from __future__ import print_function, absolute_import
 from telemetry.pedestrian_model import PedestrianModel
 from telemetry.subject_model import SubjectModel
@@ -10,39 +9,46 @@ from datetime import datetime
 
 import csv
 import signal
-import threading
-
-# NB: If it doesn't work at SOME time it's because a telemetry TCP socket is still
-# open. This may be bc of early stop (CTRL+C). Do a 'pkill telem'.
 
 # ==== GLOBAL CONSTANTS AND SETUP ====
 # ====================================
 
 PED_TEMPL_TOPICS = [
-    "omniscient_pedestrian{}.worldPosition.x", "omniscient_pedestrian{}.worldPosition.y",
+    "omniscient_pedestrian{}.worldPosition.x",
+    "omniscient_pedestrian{}.worldPosition.y",
     "omniscient_pedestrian{}.worldPosition.z",
 ]
 
 DRONE_POS_TOPICS = [
-    "omniscient_bebop2.worldPosition.x", "omniscient_bebop2.worldPosition.y",
-    "omniscient_bebop2.worldPosition.z", "omniscient_anafi4k.worldPosition.x",
-    "omniscient_anafi4k.worldPosition.y", "omniscient_anafi4k.worldPosition.z"
+    "omniscient_bebop2.worldPosition.x",
+    "omniscient_bebop2.worldPosition.y",
+    "omniscient_bebop2.worldPosition.z",
+    "omniscient_anafi4k.worldPosition.x",
+    "omniscient_anafi4k.worldPosition.y",
+    "omniscient_anafi4k.worldPosition.z"
 ]
 
 DRONE_VEL_TOPICS = [
-    "omniscient_bebop2.relativeLinearVelocity.x", "omniscient_bebop2.relativeLinearVelocity.y",
-    "omniscient_bebop2.relativeLinearVelocity.z", "omniscient_anafi4k.relativeLinearVelocity.x",
-    "omniscient_anafi4k.relativeLinearVelocity.y", "omniscient_anafi4k.relativeLinearVelocity.z"
+    "omniscient_bebop2.relativeLinearVelocity.x",
+    "omniscient_bebop2.relativeLinearVelocity.y",
+    "omniscient_bebop2.relativeLinearVelocity.z",
+    "omniscient_anafi4k.relativeLinearVelocity.x",
+    "omniscient_anafi4k.relativeLinearVelocity.y",
+    "omniscient_anafi4k.relativeLinearVelocity.z"
 ]
 
 DRONE_ACC_TOPICS = [
-    "omniscient_bebop2.relativeLinearAcceleration.x", "omniscient_bebop2.relativeLinearAcceleration.y",
-    "omniscient_bebop2.relativeLinearAcceleration.z", "omniscient_anafi4k.relativeLinearAcceleration.x",
-    "omniscient_anafi4k.relativeLinearAcceleration.y", "omniscient_anafi4k.relativeLinearAcceleration.z"
+    "omniscient_bebop2.relativeLinearAcceleration.x",
+    "omniscient_bebop2.relativeLinearAcceleration.y",
+    "omniscient_bebop2.relativeLinearAcceleration.z",
+    "omniscient_anafi4k.relativeLinearAcceleration.x",
+    "omniscient_anafi4k.relativeLinearAcceleration.y",
+    "omniscient_anafi4k.relativeLinearAcceleration.z"
 ]
 
 SUBJECT_TOPICS = [
-    "omniscient_subject.worldPosition.x", "omniscient_subject.worldPosition.y",
+    "omniscient_subject.worldPosition.x",
+    "omniscient_subject.worldPosition.y",
     "omniscient_subject.worldPosition.z"
 ]
 
@@ -52,13 +58,13 @@ SUBJECT_TOPICS = [
 class DataBag:
     """Manages the data received by the sensors"""
     def __init__(self, no_peds=0, peds_topics=[], num_s_samples=1, objs=None):
+        """Bear in mind some simulations cannot contain neither peds nor objs"""
         self.global_ts = -1
         self.PEDESTRIAN_TOPICS = peds_topics
 
         self.drone = DroneModel(num_s_samples)
         self.subject = SubjectModel(num_s_samples)
         
-        # Bear in mind some simulations cannot contain neither peds nor objs
         if no_peds > 0:
             self.peds = {
                 str(i): PedestrianModel(num_s_samples) for i in range(no_peds)
@@ -70,7 +76,7 @@ class DataBag:
 
     def is_coord_empty(self, data):
         """Check if the given data is not filled already in the bag"""
-        check = False  # guess it's already filled
+        check = False
         if data["topic"] in DRONE_POS_TOPICS:
             check = self.drone.check_if_pos(data["coord"])
         elif data["topic"] in DRONE_VEL_TOPICS:
@@ -87,48 +93,41 @@ class DataBag:
         """Stores the given data"""
         if data["topic"] in DRONE_POS_TOPICS:
             self.drone.set_pos_val(data["ts"], data["coord"], data["value"])
-
         elif data["topic"] in DRONE_VEL_TOPICS:
             self.drone.set_vel_val(data["ts"], data["coord"], data["value"])
-
         elif data["topic"] in DRONE_ACC_TOPICS:
             self.drone.set_acc_val(data["ts"], data["coord"], data["value"])
-
         elif data["topic"] in SUBJECT_TOPICS:
             self.subject.set_val(data["ts"], data["coord"], data["value"])
-
         elif data["topic"] in self.PEDESTRIAN_TOPICS:
             self.peds[data["pid"]].set_val(data["ts"], data["coord"], data["value"])
 
     def is_full(self):
-        """
-        Checks if drone, subject and pedestrian is complete given that its
-        timestamp is different (+1) than the previously stored in the bag.
-        At start, bag's timestamp is -1.
-        """
-        # Bear in mind some simulations cannot contain neither peds nor objs
+        """Check if all models stored are complete for the given timestamp."""
         core_full = self.drone.complete() and self.subject.complete()
         if self.peds is None:
             return core_full
         else:
             return core_full and all([p.complete() for p in self.peds.values()])
 
+    def empty_bag(self):
+        """Empties the models within the bag"""
+        if self.peds is not None:
+            for _, model in self.peds.items():
+                model.reset()
+        self.drone.reset()
+        self.subject.reset()
+
     def get_data(self):
-        """Flushes the stored data and empties the bag"""
+        """Flushes the stored data and empties the bag. Use the drone ts"""
         data = {
-            "ts": self.drone.pos[0][0],  # get the drone timestamp
+            "ts": self.drone.pos[0][0],
             "drone": self.drone,
             "subject": self.subject,
             "peds": self.peds,  # can be None
             "objs": self.objs   # can be None
         }
-
-        self.drone.reset()
-        self.subject.reset()
-        if self.peds is not None:
-            for _, model in self.peds.items():
-                model.reset()
-
+        self.empty_bag()
         return data
 
     def print_data(self):
@@ -136,6 +135,9 @@ class DataBag:
         for (k,v) in data.items():
             print(k, v)
 
+
+# ======================================================
+# ======================================================
 
 class DataLogger:
     """Establishes the connection rules with the telemetry daemon"""
@@ -189,14 +191,7 @@ class DataLogger:
         """Store data samples sent in multiple batches"""
         # timestamp is (s, nanos): data["ts"], data["tnanos"]
 
-        # If there's a new sample whose ts is more recent, overwrite the bag ts
-        if self.bag.global_ts < data["ts"]:
-            self.bag.global_ts = data["ts"]
-            self.bag.add(data)
-        # Otherwise if using the current ts, check if the data "cell" is empty
-        else:
-            if self.bag.is_coord_empty(data):
-                self.bag.add(data)
+        self.bag.add(data)
 
         # Ensure that all data have the same timestamp and are not None
         # Also there can't be more than a sample per second.
@@ -232,7 +227,7 @@ class DataLogger:
                 bag_data["ts"], dr_pos, dr_vel, dr_acc, subj_pos, forces[0], forces[1], forces[2]
             ] + peds_poses + objs_poses
 
-            print("\n\nROWDATA: ", rowdata, "\n\n")
+            # print("\n\nROWDATA: ", rowdata, "\n\n")
             self.csv_writer.writerow(rowdata)
 
     @staticmethod

@@ -16,7 +16,7 @@ setup(
     packages=['generators'],
     include_package_data=True,
     install_requires = [
-        "numpy==1.11.0"
+        "numpy==1.16.0"
     ],
     zip_safe=False,
     classifiers=[
