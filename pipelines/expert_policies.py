@@ -85,6 +85,9 @@ class Simulator:
     def _mainloop(self, config):
         """"""
         while self.num_iters < config["reps"]:
+            Simulator.kill_telemetry_orphans()
+            Simulator.del_sphinx_logs()
+            
             try:
                 self.teleop, self.sphinx, self.data_logger = [None, None, None]
 
