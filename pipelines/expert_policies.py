@@ -11,6 +11,7 @@ from time import time, sleep
 
 import os
 import sys
+import signal
 import shutil
 
 # Not needed if control and envdata packages are pip-installed
@@ -30,112 +31,140 @@ except ImportError:
 # ==== FUNCTIONS =======
 # ====================
 
-def vary_anafi_height(ctrl, u_sure, times):
-    if u_sure:
-        val = [0.5, -0.5][randint(0,1)]
-        for _ in range(times):
-            ctrl.move(0, 0, 0, val)
+class Simulator:
 
+    def __init__(self, config):
+        """Runs a simulation given the configuration dictionary"""
+        signal.signal(signal.SIGTERM, self._killall)
+        self.MOVE_RNG = 5
 
-def simulate(config):
-    """Runs a simulation given the configuration dictionary"""    
+        self.SPHINXRT = os.getenv("SPHINX_ROOT")
+        self.ACTOR = self.SPHINXRT + "/actors/pedestrian.actor::name={}::path={}"
+        self.GZ_DRONE = self.SPHINXRT + "/drones/local_anafi4k.drone"
 
-    SPHINX_ROOT = os.getenv("SPHINX_ROOT")
-    ACTOR = SPHINX_ROOT + "/actors/pedestrian.actor::name={}::path={}"
-    GZ_DRONE = SPHINX_ROOT + "/drones/local_anafi4k.drone"
+        self.teleop, self.sphinx, self.data_logger = [None, None, None]
+        self.num_early_stops = 0
+        self.num_iters = 0
+        
+        self.config = config
 
-    MOVE_RNG = 5  # moves the drone in the Z axis by 0.5 or -0.5
+    def start(self):
+        self._mainloop(self.config)
 
-    try:
-        teleop, sphinx, data_logger = None, None, None
+    def vary_anafi_height(self, u_sure):
+        if u_sure:
+            val = [0.5, -0.5][randint(0,1)]
+            for _ in range(self.MOVE_RNG):
+                self.teleop.move(0, 0, 0, val)
 
-        for i in range(config["reps"]):
+    def _killall(self, sig, frame):
+        print("Stopping the whole simulation")
+        self._kill_if_open()
+        sys.exit(0)
 
-            os.system("pkill telem")  # HIGHLY DISCOURAGED
+    def _kill_if_open(self):
+        if self.teleop is not None:
+            self.teleop.stop()
+        if self.data_logger is not None:
+            self.data_logger.stop()
+        if self.sphinx is not None:
+            self.sphinx.kill(); os.system("pkill gzserver")
 
-            print("\nRun no {}. Initial wait: {}".format(i, config["delay_start"]))
-            config["run_name"] = "run{}".format(i)
-
-            # ==== PER-RUN SETUP ====        
-            # =======================
-
-            # Generate world files (depends on the grid size)
-            print("Generating new world.")
-            tstart = time()
-
-            world = WorldBuilder(config)
-            objects = world.get_object_models()
-            (world_fpath, subj_fpath, peds_fpath) = world.get_paths()
-            config["final_peds"] = world.get_num_peds()
-
-            print("{} seconds to generate a world".format(int(time() - tstart)))
-
-            # nm[-1] gives the pedestrian number; nm ~= P1, P0, ..
-            GZ_SUBJECT = ACTOR.format("subject", subj_fpath)
-            GZ_PEDS = " ".join([ACTOR.format(nm[-1], txt) for (nm, txt) in peds_fpath])
-
-
-            # ==== TASK DISPATCH ====
-            # =======================
-
-            print("Dispatching background tasks.")
-
-            sphinx_fname = config["datapath"] + "/sphinx{}.log".format(i)
-            sphinx = BackgroundTask(
-                "sphinx --datalog {} {} {} {}".format(world_fpath, GZ_DRONE, GZ_SUBJECT, GZ_PEDS),
-                log=True, log_file=sphinx_fname, wait=8
-            )
-
-            # Create drone and joystick and randomly vary drone height
-            # around 5s creating both
-            drone = olympe.Drone(JoystickTeleop.SIMULATED_IP, loglevel=0)
-            teleop = JoystickTeleop(drone, config["speed"], config["refresh"])
-            
-            vary_anafi_height(teleop, config["set_height"], MOVE_RNG)
-
-            print("Drone taking off!")
-            # about 4s
-            teleop._takeoff()
-
-            print("Starting to log data :D")
-            # about 4s
-            data_logger = DataLogger(config, objects)
-            data_logger.start()
-
-            # ==== WAIT UNTIL EXPERT POLICY RECORDING IS FINISHED ====
-            # ========================================================
-            # Control the drone :D
-            teleop.start()
-
-            print("\n\nKilling processes!")
-            sphinx.kill(); os.system("pkill gzserver")
-            # print("Halo")
-            data_logger.stop()  # saves-closes the .CSV when finished
-
-
-        # every once in a while delete ~/.parrot-sphinx logs
-        # these files can get really big
-        if random() > 0.9:
+    @staticmethod
+    def del_sphinx_logs():
+        """Periodically delete ~/.parrot-sphinx logs"""
+        if random() > 0.95:
             _HOME = os.getenv("HOME")
             shutil.rmtree(_HOME + "/.parrot-sphinx")
+            
+    @staticmethod
+    def kill_telemetry_orphans():
+        """Remove telemetry daemons left as orphans in the exec. queue"""
+        os.system("pkill telem")
 
-        # roscore.kill()  # kills roscore after ALL runs
+    def _mainloop(self, config):
+        """"""
+        while self.num_iters < config["reps"]:
+            try:
+                self.teleop, self.sphinx, self.data_logger = [None, None, None]
 
-    except KeyboardInterrupt:
-        print("\nStopping the whole simulation :(")
-        if teleop is not None:
-            teleop.stop()
-        if data_logger is not None:
-            data_logger.stop()
-        if sphinx is not None:
-            sphinx.kill(); os.system("pkill gzserver")
+                config["run_name"] = "run{}".format(self.num_iters)
+                print("\nRun {}. Initial wait: {}s. Early stop at {}s".format(
+                    self.num_iters, config["delay_start"], config["early_stop"]
+                ))
+
+
+                print("Generating a random world and setting a path")
+                world = WorldBuilder(config)
+                objects = world.get_object_models()
+                (world_fpath, subj_fpath, peds_fpath) = world.get_paths()
+                config["final_peds"] = world.get_num_peds()
+
+
+                if world.path2list() != []:
+                    GZ_SUBJECT = self.ACTOR.format("subject", subj_fpath)
+                    GZ_PEDS = " ".join([
+                        self.ACTOR.format(nm[-1], txt) for (nm, txt) in peds_fpath
+                    ])
+
+
+                    print("Launching Parrot Sphinx.")
+                    sphinx_fname = config["datapath"] + "/sphinx{}.log".format(
+                        self.num_iters
+                    )
+                    sph_str = "sphinx --datalog {} {} {} {}".format(
+                        world_fpath, self.GZ_DRONE, GZ_SUBJECT, GZ_PEDS
+                    )
+                    self.sphinx = BackgroundTask(
+                        sph_str,
+                        log=True, log_file=sphinx_fname, wait=8
+                    )
+
+
+                    print("Seting up the teleop")
+                    self.teleop = JoystickTeleop(
+                        olympe.Drone(JoystickTeleop.SIMULATED_IP, loglevel=0),
+                        config["speed"],
+                        config["refresh"]
+                    )
+                    self.vary_anafi_height(config["set_height"])
+                    self.teleop._takeoff()
+
+
+                    print("Running the data logger store")
+                    self.data_logger = DataLogger(config, objects)
+                    self.data_logger.start()
+
+
+                    print("Starting the teleop")
+                    self.teleop.start()
+
+                    print("Sleepin'")
+                    sleep(3)
+
+                    print("\nNICE RUN!\n")
+                    self._kill_if_open()
+                    self.num_iters += 1             
+                else:
+                    print("This run was early-stopped")
+                    self.num_early_stops += 1
+                    print("Total early stops: {}".format(self.num_early_stops))
+                    print("Running an extra iteration")
+
+
+            except KeyboardInterrupt:
+                print("\nKeyboardInterruption! Running an extra iteration\n")
+                self._kill_if_open()
+                continue
+
+        print("Opening an explorer window")        
+        RunTask("nautilus {} &".format(config["datapath"]))
+
 
 
 # ==== MAIN FLOW ====
 # ===================
 
 if __name__ == "__main__":
-    cnf = A_CONFIG
-
-    simulate(cnf)
-    RunTask("nautilus {} &".format(cnf["datapath"]))
+    sim = Simulator(A_CONFIG)
+    sim.start()

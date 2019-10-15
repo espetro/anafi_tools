@@ -99,7 +99,7 @@ class Forces:
         """Predicts the goal force given the drone and subject poses"""
         force = 0.0
         if engine is None:
-            pass
+            force = -1.0
         else:
             nxt_pos = engine.fit(subject.get_pos())
             force = SubjectModel(*nxt_pos).distance_to(drone_pos)
@@ -285,7 +285,7 @@ class DataLogger:
 
         :param data: A dictionary with keys {ts, topic, namespace, coord, value, pid}
         """
-        if random() > 0.99999:
+        if random() > 0.999999:
             # check the incoming data once in a while
             print("Telemetry data: ", data["topic"])
             print("Bag data: ", self.bag.print_data())
@@ -345,6 +345,9 @@ class DataLogger:
         self.file.seek(0)
 
         df = pd.read_csv(self.file, sep=",")
+        print(list(df.columns))
+        
+        df.rename({df.columns[0]: "ts"}, axis="columns", inplace=True)
         df.drop_duplicates(subset=["ts"], inplace=True)
         df.reset_index(drop=True, inplace=True)
         df.to_csv(self.fname, sep=",", encoding="utf-8", index=False)

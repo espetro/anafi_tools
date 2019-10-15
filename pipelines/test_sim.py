@@ -52,18 +52,18 @@
 
 #             BackgroundTask("roscore", log=True, log_file="", wait=5)
             
-            BackgroundTask(
-                "roslaunch bebop_driver bebop_node.launch",
-                log=True, log_file="", wait=5
-            )
+        #     BackgroundTask(
+        #         "roslaunch bebop_driver bebop_node.launch",
+        #         log=True, log_file="", wait=5
+        #     )
             
-            RunTask("rostopic pub --once /bebop/takeoff std_msgs/Empty", wait=5)
+        #     RunTask("rostopic pub --once /bebop/takeoff std_msgs/Empty", wait=5)
 
-            for i in range(5):
-                RunTask("rostopic pub --once /bebop/cmd_vel geometry_msgs/Twist {}".format(RANDOM_HEIGHT))
+        #     for i in range(5):
+        #         RunTask("rostopic pub --once /bebop/cmd_vel geometry_msgs/Twist {}".format(RANDOM_HEIGHT))
 
-            # Run until CTRL+C is pressed (presumably at the end of the simulation)
-            MasterNode(CONFIG)
+        #     # Run until CTRL+C is pressed (presumably at the end of the simulation)
+        #     MasterNode(CONFIG)
 
-        except KeyboardInterrupt as e:
-            print_error("CTRL+C has been pressed! Exiting")
+        # except KeyboardInterrupt as e:
+        #     print_error("CTRL+C has been pressed! Exiting")

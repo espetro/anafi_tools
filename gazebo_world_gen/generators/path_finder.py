@@ -1,4 +1,9 @@
 from __future__ import print_function, absolute_import
+from random import random
+from time import time
+
+# a clear improvement would be to use IDA* from the pathfinding package
+# https://github.com/brean/python-pathfinding
 
 class PathNode:
     """A node structure used for A* path finding"""
@@ -20,6 +25,10 @@ class PathNode:
     
     def __str__(self):
         return self.__repr__()
+
+    def __hash__(self):
+        """Returns an unique hash for each object instance. Useful for set hashing"""
+        return hash(repr(self))
 
 # =====================
 
@@ -98,30 +107,56 @@ class PathFinder:
             
         return path[::-1]  # same as .reverse()
     
-    def a_star(self):
+    @staticmethod
+    def heuristic_mhd(ptA, ptB):
+        """Uses the Manhattan distance between two 2D points as heuristic"""
+        return sum([abs(a-b) for (a,b) in zip(ptA, ptB)])
+
+    @staticmethod
+    def heuristic_ecd(ptA, ptB):
+        """Uses the Euclidean distance between two 2D points as heuristic"""
+        return sum([(a-b) ** 2 for (a,b) in zip(ptA, ptB)])
+
+    @staticmethod
+    def heuristic_chv(ptA, ptB):
+        """Uses the Chebyshev distance between two 2D points as heuristic"""
+        return max([(a-b) for (a,b) in zip(ptA, ptB)])
+
+    def a_star(self, time_limit):
         """Runs the A* search for the grid setup"""
+        tstart = time()
+
         node0 = PathNode(None, self.init, cell_type="S")
         nodeX = PathNode(None, self.end, cell_type="G")
         
-        opened, closed = [node0], []
+        opened, closed = list(), list()
+        opened.append(node0)
         
-        # Get the node with smallest F cost
-        while len(opened) > 0:
-            minimal_cost = min([n.f for n in opened])
-            curr_node, curr_idx = None, None
+        tdiff = time() - tstart
 
-            for (idx, node) in enumerate(opened):
-                if node.f == minimal_cost:
-                    curr_node, curr_idx = node, idx
-                    break
+        # Get the node with smallest F cost
+        while (time_limit >= tdiff) and len(opened) > 0:
+            if random() > 0.999:
+                print("\r", tdiff)
+
+            if random() > 0.99999:
+                print("\n\n\nOpened set: ", opened)
+                print("\n\n\nClosed set: ", closed)
+
+            minimal_cost = min([n.f for n in opened])
+            curr_node = [node for node in opened if node.f == minimal_cost][0]
             
             # Switch it to 'closed'
-            closed.append(curr_node)
-            opened.pop(curr_idx)
+            try:
+                opened.remove(curr_node)
+                closed.append(curr_node)
+            except ValueError:
+                print("{} not in opened".format(curr_node))
             
             if curr_node == nodeX:
                 # The path has been found
                 path = PathFinder.get_path_from(curr_node)
+                print("The path has been found: ", path)
                 return path
                 
             # Create new neighbor cell nodes and check if they're walkable (in range, no walls)
@@ -132,9 +167,9 @@ class PathFinder:
                 if node not in closed:
                     node.g = curr_node.g + 1
                     # Euclidean distance used as metric (+ cell type weight)
-                    node.h = node.weight + sum([
-                        (a - b)**2 for (a,b) in zip(node.pos, curr_node.pos)
-                    ])
+                    node.h = node.weight + PathFinder.heuristic_mhd(
+                        node.pos, curr_node.pos
+                    )
                     node.f = node.g + node.h
                     
                     # If the node is in the "open" list and its new weight
@@ -142,4 +177,7 @@ class PathFinder:
                     # here's the opposed case: there's no node like that
                     if [nopen for nopen in opened if (nopen == node and node.g > nopen.g)] == []:
                         opened.append(node)
+
+            tdiff = time() - tstart
+
         return []

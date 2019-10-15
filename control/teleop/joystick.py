@@ -69,7 +69,7 @@ class JoystickTeleop:
                 self._takeoff()
             elif self._is_landed_pressed():
                 print("Pressed landing button!")
-                self._land()
+                # self._land()
             else:
                 # print(joy_values)
                 self.move(joy_values)
